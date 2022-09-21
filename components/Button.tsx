@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import classNames from "classnames";
 import { ButtonPropType } from "../types";
 import styles from "./Button.module.scss";

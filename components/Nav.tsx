@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { NavPropType } from "../types";
 import styles from "./Nav.module.scss";

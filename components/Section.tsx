@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { ReactElement, useEffect, useRef } from "react";
 import styles from "./Section.module.scss";
 import SectionHeader from "./SectionHeader";
