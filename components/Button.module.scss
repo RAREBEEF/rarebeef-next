@@ -1,0 +1,79 @@
+.button {
+  border-radius: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background-color: white;
+  border: 1px solid #888;
+  color: #333;
+  padding: {
+    top: 5px;
+    bottom: 5px;
+    left: 10px;
+    right: 10px;
+  }
+  font: {
+    family: "Gowun Dodum", sans-serif;
+    size: 16px;
+  }
+  &:hover {
+    box-shadow: 0px 0px 5px gray;
+    transform: scale(1.01);
+  }
+
+  .icon {
+    height: 25.5px;
+  }
+
+  &.Contact__send-mail {
+    width: 40px;
+    padding: {
+      left: 5px;
+      right: 7px;
+    }
+  }
+
+  &.Home__project-link {
+    border-radius: 5px;
+    padding: 0;
+    overflow: hidden;
+    height: 50px;
+    width: 50px;
+    border: none;
+    background: none;
+    background-color: white;
+    .icon {
+      height: 50px;
+      width: 50px;
+    }
+  }
+
+  &.GuestBook {
+    border-radius: 5px;
+    height: 20px;
+    border: none;
+    color: #767676;
+    background: none;
+    padding: {
+      top: 2.5px;
+      bottom: 2.5px;
+      left: 5px;
+      right: 5px;
+    }
+    font: {
+      size: 14px;
+    }
+  }
+
+  &.CreateGuestBook {
+    border-radius: 5px;
+    flex-shrink: 0;
+    flex-basis: 55px;
+    height: auto;
+    padding: none;
+    white-space: nowrap;
+  }
+}

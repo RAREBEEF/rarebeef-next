@@ -1,0 +1,22 @@
+@import "../components/Section.module.scss";
+
+.container {
+  height: 800vh;
+  display: block;
+}
+
+.content {
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+}
+
+.canvas {
+  pointer-events: none;
+  height: 100vh !important;
+  width: 100vw !important;
+  min-width: 230px !important;
+  margin: {
+    bottom: -10vh;
+  }
+}

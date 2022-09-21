@@ -1,0 +1,45 @@
+.container {
+  position: fixed;
+  bottom: 20px;
+  right: 25px;
+  z-index: 3;
+  height: fit-content;
+  width: 40px;
+  transition: opacity 0.7s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  .icon {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.3s;
+
+    &.icon--to-top {
+      height: 0;
+      pointer-events: none;
+
+      &.show {
+        pointer-events: all;
+        height: 40px;
+      }
+    }
+
+    &:hover {
+      opacity: 0.3 !important;
+      transform: scale(1.1);
+    }
+  }
+
+  &.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .container {
+    right: 10px;
+    bottom: 20px;
+  }
+}

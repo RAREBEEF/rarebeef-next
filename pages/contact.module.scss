@@ -1,0 +1,36 @@
+@import "./about&contact.module.scss";
+
+.container {
+  .content {
+    .section {
+      width: 100%;
+
+      .header-mail-wrapper {
+        display: flex;
+        align-items: center;
+
+        .header-mail {
+          margin: {
+            right: 10px;
+          }
+        }
+
+        .alert-copy {
+          color: rgba(40, 40, 40, 0.5);
+          margin: {
+            bottom: 15px;
+          }
+        }
+      }
+
+      .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin: {
+          // left: 10px;
+        }
+      }
+    }
+  }
+}

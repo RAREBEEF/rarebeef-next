@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:inline;fill:none;stroke:#464646;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#333333;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<g id="레이어_1" class="st0">
+	<path class="st1" d="M172.6,391"/>
+	<polygon class="st1" points="512,0 442.7,488.2 1.4,347.8 	"/>
+	<path class="st1" d="M512,0"/>
+	<polyline class="st1" points="230,512 230,420.6 512,0 154.4,396.5 230,512 512,0 	"/>
+</g>
+<g id="레이어_2">
+	<path class="st2" d="M469.2,47l-56.9,397.2c-0.6,4.3-5,7.1-9.2,5.8l-139.8-44.1l-37.3,67.2L160,373.4L40.8,335.8
+		c-5.7-1.8-6.8-9.3-1.9-12.6l419.2-283C463.3,36.7,470.1,40.9,469.2,47z"/>
+	<polyline class="st2" points="160,373.4 465.6,39.8 225.9,394.1 225.9,473.1 	"/>
+	<line class="st2" x1="225.9" y1="394.1" x2="263.2" y2="405.9"/>
+</g>
+</svg>

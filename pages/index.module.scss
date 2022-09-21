@@ -1,0 +1,24 @@
+.container {
+  opacity: 0;
+  position: relative;
+  min-height: 100vh;
+  min-width: 230px;
+  background-color: white;
+  @supports (-webkit-touch-callout: none) {
+    min-height: -webkit-fill-available;
+  }
+  animation: fadeIn 1s forwards;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .contour {
+    width: 100%;
+    height: 10vh;
+  }
+}

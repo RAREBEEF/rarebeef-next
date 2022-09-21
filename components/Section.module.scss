@@ -1,0 +1,209 @@
+// :root {
+//   --swiper-theme-color: rgb(100, 100, 100, 0.8) !important;
+// }
+
+.container {
+  background-color: white;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 100vh;
+  min-width: 230px;
+  @supports (-webkit-touch-callout: none) {
+    min-height: -webkit-fill-available;
+  }
+  margin: {
+    bottom: 30vh;
+  }
+
+  .content {
+    flex-grow: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .screenshots {
+      opacity: 0;
+      transform: translateY(10vh);
+      transition: all 1s;
+      &.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      position: relative;
+      max-width: 100vw;
+      min-width: 230px;
+      border: none;
+      overflow: hidden;
+      margin: {
+        top: 100px;
+      }
+
+      .swiper__navigation-wrapper {
+        position: absolute;
+        width: 90vw;
+        max-width: 1200px;
+        min-width: 200px;
+        height: 50px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+
+        .swiper__navigation {
+          z-index: 999;
+          width: 7.5vw;
+          display: flex;
+          justify-content: center;
+          transform: translateY(-25%);
+
+          .swiper__arrow {
+            cursor: pointer;
+            transition: opacity 0.3s;
+            &:hover {
+              opacity: 0.5;
+            }
+          }
+
+          &:last-child {
+            .swiper__arrow {
+              transform: rotate(180deg);
+            }
+          }
+        }
+      }
+
+      .swiper__container {
+        max-width: calc(100vw - 20px);
+        min-width: 200px;
+        overflow: visible;
+        display: flex;
+        .swiper__item {
+          align-self: center;
+          margin: {
+            bottom: 20px;
+          }
+          img {
+            width: 90%;
+            max-width: 1000px;
+          }
+        }
+      }
+    }
+
+    .card {
+      background-color: rgba(200, 200, 200, 0.2);
+      padding: {
+        left: 20px;
+        right: 20px;
+        top: 20px;
+        bottom: 20px;
+      }
+      border-radius: 15px;
+      height: fit-content;
+      width: 90vw;
+      max-width: 900px;
+      min-width: 200px;
+      text-align: start;
+      margin: {
+        top: 100px;
+        left: 10px;
+        right: 10px;
+      }
+
+      .card__title {
+        margin: {
+          bottom: 25px;
+        }
+        font: {
+          size: 35px;
+          weight: 700;
+        }
+      }
+
+      .card__content {
+        margin: {
+          left: 20px;
+        }
+        font: {
+          size: 16px;
+        }
+      }
+
+      &.summary {
+        .card__title {
+          margin: {
+            bottom: 35px;
+          }
+        }
+
+        .summary-wrapper {
+          &:not(:last-child) {
+            margin: {
+              bottom: 25px;
+            }
+          }
+        }
+
+        .summary__sub-title {
+          margin: {
+            bottom: 5px;
+            left: 20px;
+          }
+          font: {
+            size: 20px;
+            weight: 700;
+          }
+        }
+
+        .summary__text {
+          margin: {
+            top: 15px;
+            bottom: 10px;
+            left: 30px;
+          }
+        }
+      }
+
+      &.description {
+        .description__text {
+          line-height: 35px;
+          word-break: keep-all;
+          white-space: pre-line;
+        }
+      }
+
+      &.skills {
+        .card__title {
+          margin: {
+            bottom: 40px;
+          }
+        }
+        .skill-icons {
+          display: flex;
+          flex-wrap: wrap;
+          margin: {
+            left: 0;
+            right: 0;
+            top: -20px;
+            bottom: 0;
+          }
+        }
+      }
+
+      &.links {
+        min-width: 200px;
+        .links-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

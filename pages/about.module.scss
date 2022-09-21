@@ -1,0 +1,32 @@
+@import "./about&contact.module.scss";
+
+.container {
+  .content {
+    .section {
+      .sub-header {
+        margin: {
+          // left: 10px;
+          top: 10px;
+        }
+        font: {
+          size: 20px;
+        }
+      }
+
+      .skills__front-end,
+      .skills__design {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 80vw;
+        margin: {
+          // left: 10px;
+          bottom: 10px;
+        }
+
+        &.skills__front-end {
+          justify-content: space-around;
+        }
+      }
+    }
+  }
+}

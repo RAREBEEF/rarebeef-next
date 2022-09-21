@@ -1,0 +1,80 @@
+@import "../components/Section.module.scss";
+
+.container {
+  height: 210vh !important;
+  min-width: 230px;
+  display: block !important;
+  margin: {
+    bottom: 0;
+  }
+
+  .bg {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .content {
+    position: sticky !important;
+    top: 0;
+    display: flex;
+
+    .logo {
+      will-change: transform;
+      width: 60vmin;
+      height: 30vmin;
+    }
+
+    .title {
+      will-change: transform;
+      font: {
+        weight: 700;
+        size: 15vmin;
+      }
+    }
+
+    .sub-title {
+      will-change: transform;
+      font: {
+        weight: 700;
+        size: 10vmin;
+      }
+    }
+
+    .fake,
+    .real {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fake {
+      background-color: black;
+      position: absolute !important;
+      top: 0 !important;
+      width: 100%;
+      height: 100vh;
+      color: white;
+      .logo {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    .real {
+      background-color: white;
+      width: 100%;
+      height: 100vh;
+      .title {
+        z-index: 2;
+      }
+      .sub-title {
+        z-index: 2;
+      }
+      .logo {
+        z-index: 1;
+      }
+    }
+  }
+}

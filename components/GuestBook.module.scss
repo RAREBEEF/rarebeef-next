@@ -1,0 +1,73 @@
+.container {
+  flex-grow: 1;
+  border-radius: 5px;
+  height: fit-content;
+  background-color: rgb(238, 238, 238);
+  padding: 10px;
+
+  .text {
+    width: fit-content;
+
+    &.content {
+      line-height: 23px;
+      margin: {
+        top: 3px;
+        bottom: 14px;
+      }
+    }
+
+    &.name {
+      color: rgb(118, 118, 118);
+      font: {
+        size: 14px;
+      }
+    }
+
+    &.date {
+      color: rgb(118, 118, 118);
+      font: {
+        size: 12px;
+      }
+    }
+  }
+
+  .bottom-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: 15px;
+    row-gap: 10px;
+  }
+
+  .info {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 3px;
+    align-items: center;
+  }
+
+  .form {
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+    .input--check-pw {
+      outline: none;
+      color: rgb(118, 118, 118);
+      border: 1px solid rgb(186, 186, 186);
+      border-radius: 2px;
+      width: 80px;
+      height: 20px;
+      background: none;
+      font: {
+        family: "Gowun Dodum", sans-serif;
+        size: 14px;
+      }
+      padding: {
+        left: 3px;
+      }
+    }
+  }
+}
