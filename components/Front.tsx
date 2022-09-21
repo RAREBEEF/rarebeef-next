@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ReactElement, useEffect, useRef } from "react";
 import styles from "./Front.module.scss";
 import { FrontPropType } from "../types";

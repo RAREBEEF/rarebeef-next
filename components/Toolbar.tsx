@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ReactElement, useCallback, useEffect, useState } from "react";
 import styles from "./Toolbar.module.scss";
 import { ToolbarPropType } from "../types";

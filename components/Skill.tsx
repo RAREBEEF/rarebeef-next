@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { SkillPropType } from "../types";
 import styles from "./Skill.module.scss";
 import React, { useEffect, useRef, useState } from "react";
