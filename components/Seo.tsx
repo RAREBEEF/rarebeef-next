@@ -11,7 +11,7 @@ const Seo: React.FC<Props> = ({
 }) => {
   return (
     <Head>
-      <title>RAREBEEF{title && ` | ${title}`}</title>
+      <title>{`RAREBEEF${title && " │ " + title}`}</title>
       <meta name="description" content={description} />
     </Head>
   );

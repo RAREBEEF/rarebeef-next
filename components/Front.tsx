@@ -69,6 +69,26 @@ const Front: React.FC<FrontPropType> = (): ReactElement => {
       <div className={styles.bg} />
       <main className={styles.content}>
         <div className={styles.fake}>
+          <img
+            className={styles["falling-logo"]}
+            src="/logos/beef.svg"
+            alt="RAREBEEF"
+          />
+          <img
+            className={styles["falling-logo"]}
+            src="/logos/beef.svg"
+            alt="RAREBEEF"
+          />
+          <img
+            className={styles["falling-logo"]}
+            src="/logos/beef.svg"
+            alt="RAREBEEF"
+          />
+          <img
+            className={styles["falling-logo"]}
+            src="/logos/beef.svg"
+            alt="RAREBEEF"
+          />
           <h1
             ref={fakeSubTitleRef}
             className={styles["sub-title"]}

@@ -3,22 +3,10 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { NavPropType } from "../types";
 import styles from "./Nav.module.scss";
 import classNames from "classnames";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 const Nav: React.FC<NavPropType> = (): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (
-      router.pathname !== "/" &&
-      router.pathname !== "/contact" &&
-      router.pathname !== "/about"
-    ) {
-      router.push("/");
-    }
-  }, [router]);
 
   const onMenuClick = (): void => {
     setShowMenu((prev) => !prev);

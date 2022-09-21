@@ -64,15 +64,20 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      // margin: {
-      //   left: 10px;
-      // }
     }
 
     &.plan {
       margin: {
         top: -20px;
       }
+    }
+  }
+}
+
+@media all and (max-width: 500px) {
+  .container {
+    .content {
+      width: 90vw;
     }
   }
 }

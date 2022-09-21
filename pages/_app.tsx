@@ -7,6 +7,7 @@ import "swiper/scss";
 import "swiper/scss/pagination";
 import "swiper/scss/effect-coverflow";
 import Layout from "../components/Layout";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -40,6 +41,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <Layout>
         <Component {...pageProps} />
       </Layout>

@@ -111,8 +111,6 @@ const Document = () => {
           name="msapplication-square310x310logo"
           content="/logos/mstile-310x310.png"
         />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />
         <meta
           name="description"
