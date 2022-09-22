@@ -12,7 +12,7 @@
 }
 
 .canvas {
-  pointer-events: none;
+  pointer-events: none !important;
   height: 100vh !important;
   width: 100vw !important;
   min-width: 230px !important;

@@ -21,14 +21,16 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
       return;
     }
 
-    const currentRef = controlRef.current;
-    currentRef.enableZoom = false;
-    currentRef.enablePan = false;
-    currentRef.enableRotate = false;
-    currentRef.reverseOrbit = false;
-    currentRef.object.position.z = 0;
-    currentRef.object.position.x = -5;
-    currentRef.object.position.y = -1;
+    const control = controlRef.current;
+
+    control.dispose();
+    control.enableZoom = false;
+    control.enablePan = false;
+    control.enableRotate = false;
+    control.reverseOrbit = false;
+    control.object.position.z = 0;
+    control.object.position.x = -5;
+    control.object.position.y = -1;
   }, []);
 
   useEffect(() => {

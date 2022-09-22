@@ -30,6 +30,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
     const control = controlRef.current;
     const beef = beefRef.current;
 
+    control.dispose();
     control.enableZoom = false;
     control.enablePan = false;
     control.enableRotate = false;

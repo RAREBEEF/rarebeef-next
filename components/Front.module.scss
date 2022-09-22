@@ -65,6 +65,7 @@
         pointer-events: none;
         position: absolute;
         top: -100px;
+        opacity: 0;
         filter: brightness(0.5);
         &:first-child {
           animation: falling 10s 3s linear infinite;
@@ -100,6 +101,7 @@
         }
         @keyframes falling {
           0% {
+            opacity: 1;
             transform: rotate(0);
             top: -100px;
           }
