@@ -27,7 +27,11 @@ export interface sectionDataType {
   summary: { name: string; date: string; headCount: number };
   description: string;
   skills: Array<skillType>;
-  links: Array<{ icon: string; href: string }>;
+  links: {
+    github: string;
+    velog: string;
+    project?: { icon: string; href: string };
+  };
 }
 
 export interface SectionPropType {

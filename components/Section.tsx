@@ -1,5 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { ReactElement, useEffect, useRef } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "./Section.module.scss";
 import SectionHeader from "./SectionHeader";
 import Skill from "./Skill";
@@ -8,10 +14,11 @@ import Button from "./Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation, Pagination } from "swiper";
 import { SectionPropType } from "../types";
+import dayjs, { Dayjs } from "dayjs";
 
 const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
   const screenshotsRef = useRef<HTMLDivElement>(null);
-
+  const [latestCommit, setLatestCommit] = useState<any>(null);
   const swiperGeneroator = (): Array<any> => {
     if (!data.imgs) {
       return [];
@@ -38,23 +45,6 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
     });
 
     return skillReturn;
-  };
-
-  const linkGeneroator = (): Array<any> => {
-    const linkReturn: Array<any> = [];
-
-    data.links.forEach((link, i) => {
-      linkReturn.push(
-        <Button
-          key={i}
-          icon={link.icon}
-          href={link.href}
-          classes={["Home__project-link"]}
-        />
-      );
-    });
-
-    return linkReturn;
   };
 
   useEffect(() => {
@@ -89,6 +79,49 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
       window.removeEventListener("scroll", windowScrollListener);
     };
   }, [data.imgs]);
+
+  const getCommits = useCallback(async () => {
+    if (!data.links.github) return;
+
+    const repo = data.links.github.match(
+      /(?<=https:\/\/github.com\/RAREBEEF\/).{1,}$/i
+    );
+
+    if (!repo) return;
+
+    const auth = window.btoa("RAREBEEF:" + process.env.NEXT_PUBLIC_TOKEN);
+
+    await fetch(`https://api.github.com/repos/RAREBEEF/${repo}/commits`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + auth,
+      },
+    })
+      .then((result) => result.json())
+      .then((data) => {
+        setLatestCommit(data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [data.links.github]);
+
+  useEffect(() => {
+    getCommits();
+  }, [getCommits]);
+
+  useEffect(() => {}, [latestCommit]);
+
+  const calcDateDiff = (): string | null => {
+    if (!latestCommit) return null;
+
+    const updateDate: Dayjs = dayjs(latestCommit.commit.committer.date);
+    const today: Dayjs = dayjs();
+    const rtf = new Intl.RelativeTimeFormat("ko", { numeric: "auto" });
+    return rtf.format(-today.diff(updateDate, "day"), "day");
+  };
+
+  console.log(latestCommit);
 
   return (
     <section
@@ -144,9 +177,7 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
           </div>
         )}
         {data.app && <data.app />}
-        <div
-          className={classNames(styles.summary, styles.card, "scroll-fade-in")}
-        >
+        <div className={classNames(styles.summary, styles.card)}>
           <h3 className={styles["card__title"]}>Project summary</h3>
           <div className={styles["summary-wrapper"]}>
             <h4 className={styles["summary__sub-title"]}>프로젝트명</h4>
@@ -182,47 +213,71 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
             </p>
           </div>
         </div>
-        <div
-          className={classNames(
-            styles.description,
-            styles.card,
-            "scroll-fade-in"
-          )}
-        >
+        <div className={classNames(styles.description, styles.card)}>
           <h3 className={styles["card__title"]}>Description</h3>
-          <p
-            className={classNames(
-              styles["description__text"],
-              styles["card__content"]
-            )}
-          >
+          <p className={classNames(styles["card__content"])}>
             {data.description}
           </p>
         </div>
-        <div
-          className={classNames(styles.skills, styles.card, "scroll-fade-in")}
-        >
+        <div className={classNames(styles.skills, styles.card)}>
           <h3 className={styles["card__title"]}>Skills</h3>
-          <ul
-            className={classNames(
-              styles["skill-icons"],
-              styles["card__content"]
-            )}
-          >
+          <ul className={classNames(styles["card__content"])}>
             {skillGeneroator()}
           </ul>
         </div>
-        <div
-          className={classNames(styles.links, styles.card, "scroll-fade-in")}
-        >
+
+        {latestCommit && (
+          <div className={classNames(styles.update, styles.card)}>
+            <hgroup>
+              <h3 className={styles["card__title"]}>Latest update</h3>
+              <h4
+                className={classNames(
+                  styles["update__date-diff"],
+                  styles["card__title"]
+                )}
+              >
+                {calcDateDiff() + " 마지막 커밋"}
+              </h4>
+            </hgroup>
+            <ul className={classNames(styles["card__content"])}>
+              <a href={latestCommit.html_url}>
+                <h5 className={styles["update__message"]}>
+                  {latestCommit.commit.message}
+                </h5>
+                <span className={styles["update__date"]}>
+                  {dayjs(latestCommit.commit.committer.date).format(
+                    "YYYY.MM.DD HH:mm"
+                  )}
+                </span>
+              </a>
+            </ul>
+          </div>
+        )}
+
+        <div className={classNames(styles.links, styles.card)}>
           <h3 className={styles["card__title"]}>Links</h3>
-          <div
-            className={classNames(
-              styles["links-wrapper"],
-              styles["card__content"]
+          <div className={classNames(styles["card__content"])}>
+            {data.links.github && (
+              <Button
+                icon="/icons/github-square-brands.svg"
+                href={data.links.github}
+                classes={["Home__project-link"]}
+              />
             )}
-          >
-            {linkGeneroator()}
+            {data.links.velog && (
+              <Button
+                icon="/icons/velog-square.svg"
+                href={data.links.velog}
+                classes={["Home__project-link"]}
+              />
+            )}
+            {data.links.project && (
+              <Button
+                icon={data.links.project.icon}
+                href={data.links.project.href}
+                classes={["Home__project-link"]}
+              />
+            )}
           </div>
         </div>
       </div>

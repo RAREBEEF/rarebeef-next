@@ -171,7 +171,7 @@
       }
 
       &.description {
-        .description__text {
+        .card__content {
           line-height: 35px;
           word-break: keep-all;
           white-space: pre-line;
@@ -184,7 +184,7 @@
             bottom: 40px;
           }
         }
-        .skill-icons {
+        .card__content {
           display: flex;
           flex-wrap: wrap;
           margin: {
@@ -196,9 +196,56 @@
         }
       }
 
+      &.update {
+        hgroup {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          row-gap: 10px;
+          flex-wrap: wrap;
+          margin-bottom: 25px;
+          .card__title {
+            margin-bottom: 0;
+          }
+          .update__date-diff {
+            color: gray;
+            flex-grow: 1;
+            margin-left: 20px;
+            font: {
+              size: 16px;
+            }
+          }
+        }
+        .card__content {
+          a {
+            border-bottom: 1px solid lightgray;
+            width: fit-content;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            row-gap: 7px;
+            padding-bottom: 5px;
+            .update__message {
+              white-space: pre-line;
+              font: {
+                size: 20px;
+              }
+            }
+            .update__date {
+              color: gray;
+              font: {
+                size: 16px;
+              }
+            }
+          }
+        }
+      }
+
       &.links {
         min-width: 200px;
-        .links-wrapper {
+        .card__content {
           display: flex;
           flex-wrap: wrap;
           gap: 10px;
