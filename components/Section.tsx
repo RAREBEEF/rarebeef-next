@@ -82,10 +82,9 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
 
   const getCommits = useCallback(async () => {
     if (!data.links.github) return;
+
     const githubHref = data.links.github;
-    const repo = githubHref.slice(
-      githubHref.indexOf("https://github.com/RAREBEEF/")
-    );
+    const repo = githubHref.slice(28);
 
     if (!repo) return;
 
@@ -109,8 +108,6 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
   useEffect(() => {
     getCommits();
   }, [getCommits]);
-
-  useEffect(() => {}, [latestCommit]);
 
   const calcDateDiff = (): string | null => {
     if (!latestCommit) return null;
