@@ -82,9 +82,9 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
 
   const getCommits = useCallback(async () => {
     if (!data.links.github) return;
-
-    const repo = data.links.github.match(
-      /(?<=https:\/\/github.com\/RAREBEEF\/).{1,}$/i
+    const githubHref = data.links.github;
+    const repo = githubHref.slice(
+      githubHref.indexOf("https://github.com/RAREBEEF/")
     );
 
     if (!repo) return;
@@ -120,8 +120,6 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
     const rtf = new Intl.RelativeTimeFormat("ko", { numeric: "auto" });
     return rtf.format(-today.diff(updateDate, "day"), "day");
   };
-
-  console.log(latestCommit);
 
   return (
     <section
