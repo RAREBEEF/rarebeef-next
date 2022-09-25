@@ -235,7 +235,7 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
               </h4>
             </hgroup>
             <ul className={classNames(styles["card__content"])}>
-              <a href={latestCommit.html_url}>
+              <a href={latestCommit.html_url} target="_blank" rel="noreferrer">
                 <h5 className={styles["update__message"]}>
                   {latestCommit.commit.message}
                 </h5>
