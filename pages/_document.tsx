@@ -140,7 +140,7 @@ const Document = () => {
           property="twitter:description"
           content="RAREBEEF의 프론트엔드 포트폴리오를 확인해 보세요."
         />
-        <meta property="twitter:image" content="./logo512.png" />
+        <meta property="twitter:image" content="/logos/favicon-512x512.png" />
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
         <base href="/" />

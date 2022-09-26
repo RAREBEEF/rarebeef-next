@@ -3,13 +3,13 @@
   "name": "RAREBEEF's Portfolio",
   "icons": [
     {
-      "src": "/logos/logo192.png",
+      "src": "/logos/favicon-192x192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/logos/logo512.png",
+      "src": "/logos/favicon-512x512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
