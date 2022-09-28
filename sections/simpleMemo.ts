@@ -1,4 +1,7 @@
 import { sectionDataType } from "../types";
+import img1 from "../public/screenshots/simple-memo.png";
+import img2 from "../public/screenshots/simple-memo-memo.png";
+import img3 from "../public/screenshots/simple-memo-write.png";
 
 const data: sectionDataType = {
   name: ["SimpleMemo"],
@@ -6,18 +9,14 @@ const data: sectionDataType = {
     title: ["Simple", "memo"],
     subTitle: ["with", "Local", "storage"],
   },
-  imgs: [
-    "/screenshots/simple-memo.png",
-    "/screenshots/simple-memo-memo.png",
-    "/screenshots/simple-memo-write.png",
-  ],
+  imgs: [img1, img2, img3],
   summary: {
     name: "Simple memo",
     date: "2021.11.23 ~ 12.08",
     headCount: 1,
   },
   description:
-    "메모장 웹 애플리케이션입니다.\n로컬 스토리지를 활용하였고 흔히 볼 수 있는 노란 메모장을 컨셉으로 잡았습니다. 리액트로 진행한 첫 번째 프로젝트이며 라우팅에 대한 이해를 도와준 프로젝트입니다.",
+    "메모장 웹 애플리케이션입니다.\n로컬 스토리지를 활용하였고 주변에서 흔히 볼 수 있는 노란 메모장을 컨셉으로 잡았습니다.\n리액트로 진행한 첫 번째 프로젝트입니다.",
   skills: ["HTML", "JavaScript", "React", "Sass", "Netlify"],
   links: {
     github: "https://github.com/RAREBEEF/Simple-Memo",

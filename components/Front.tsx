@@ -1,9 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 import { ReactElement, useEffect, useRef } from "react";
 import styles from "./Front.module.scss";
 import { FrontPropType } from "../types";
 import classNames from "classnames";
 import gsap from "gsap";
+import Image from "next/image";
+import beefImg from "../public/logos/beef.svg";
 
 const Front: React.FC<FrontPropType> = (): ReactElement => {
   const clipPathRef = useRef<HTMLHeadingElement>(null);
@@ -69,26 +70,6 @@ const Front: React.FC<FrontPropType> = (): ReactElement => {
       <div className={styles.bg} />
       <main className={styles.content}>
         <div className={styles.fake}>
-          <img
-            className={styles["falling-logo"]}
-            src="/logos/beef.svg"
-            alt="RAREBEEF"
-          />
-          <img
-            className={styles["falling-logo"]}
-            src="/logos/beef.svg"
-            alt="RAREBEEF"
-          />
-          <img
-            className={styles["falling-logo"]}
-            src="/logos/beef.svg"
-            alt="RAREBEEF"
-          />
-          <img
-            className={styles["falling-logo"]}
-            src="/logos/beef.svg"
-            alt="RAREBEEF"
-          />
           <h1
             ref={fakeSubTitleRef}
             className={styles["sub-title"]}
@@ -96,11 +77,9 @@ const Front: React.FC<FrontPropType> = (): ReactElement => {
           >
             RAREBEEF&apos;s
           </h1>
-          <img
-            className={classNames(styles.logo)}
-            src="/logos/beef.svg"
-            alt="RARE BEEF"
-          />
+          <div className={styles.logo}>
+            <Image src={beefImg} alt="RARE BEEF" />
+          </div>
           <h1
             ref={fakeTitleRef}
             className={styles.title}
@@ -117,7 +96,9 @@ const Front: React.FC<FrontPropType> = (): ReactElement => {
           <h1 ref={realSubTitleRef} className={styles["sub-title"]}>
             RAREBEEF&apos;s
           </h1>
-          <img className={styles.logo} src="/logos/beef.svg" alt="RARE BEEF" />
+          <div className={styles.logo}>
+            <Image src={beefImg} alt="RARE BEEF" priority />
+          </div>
           <h1 ref={realTitleRef} className={styles.title}>
             Portfolio
           </h1>

@@ -83,14 +83,14 @@
         min-width: 200px;
         overflow: visible;
         display: flex;
+        padding: 10vw;
+
         .swiper__item {
+          position: relative;
           align-self: center;
+          text-align: center;
           margin: {
             bottom: 20px;
-          }
-          img {
-            width: 90%;
-            max-width: 1000px;
           }
         }
       }

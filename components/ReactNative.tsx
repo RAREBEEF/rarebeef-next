@@ -64,7 +64,7 @@ const ReactNative = (): ReactElement => {
           <h3 className={styles["card__title"]}>Description</h3>
           <p className={classNames(styles["card__content"])}>
             {
-              "ToDo와 날씨 모바일 애플리케이션입니다.\nReact Native와 Expo를 사용해 프로젝트를 진행하였습니다. ToDo 앱에는 Drag & Drop, Progress bar 등의 기능을 구현하였고 날씨 앱에는 geoLocation, weather api 등의 기능을 구현하였습니다. 앱을 배포하지 않았기에 3D 모델과 Three.js로 앱의 구동 모습을 대신 표현해 보았습니다."
+              "ToDo와 날씨 모바일 애플리케이션입니다.\nReact Native와 Expo를 사용해 프로젝트를 진행하였습니다. ToDo 앱에는 Drag & Drop, Progress bar 등의 기능을 구현하였고 날씨 앱에는 geoLocation, weather api 등의 기능을 구현하였습니다.\n앱이 배포까지 이뤄지지 못한 대신 3D 모델과 Three.js로 앱의 모습을 대신 표현해 보았습니다."
             }
           </p>
         </div>

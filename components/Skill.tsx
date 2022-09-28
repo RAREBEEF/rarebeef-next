@@ -1,28 +1,42 @@
-/* eslint-disable @next/next/no-img-element */
 import { SkillPropType } from "../types";
 import styles from "./Skill.module.scss";
 import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import Blender from "../public/skills/blender-brands.svg";
+import Three from "../public/skills/three-brands.svg";
+import react from "../public/skills/react-brands.svg";
+import Next from "../public/skills/next-brands.svg";
+import reactNative from "../public/skills/react-native-brands.svg";
+import Redux from "../public/skills/redux-brands.svg";
+import TypeScript from "../public/skills/ts-brands.svg";
+import JavaScript from "../public/skills/js-brands.svg";
+import Firebase from "../public/skills/firebase-brands.svg";
+import Sass from "../public/skills/sass-brands.svg";
+import HTML from "../public/skills/html5-brands.svg";
+import Netlify from "../public/skills/netlify-brands.svg";
+import CSS from "../public/skills/css3-alt-brands.svg";
+import Illustrator from "../public/skills/ai-brands.svg";
+import Image from "next/image";
 
 const Skill: React.FC<SkillPropType> = ({ skill }) => {
   const [showInfoWindow, setShowInfoWindow] = useState<boolean>(false);
   const infoWindowRef = useRef<HTMLDivElement>(null);
 
   const srcs = {
-    "Three.js": "/skills/three-brands.svg",
-    React: "/skills/react-brands.svg",
-    Next: "/skills/next-brands.svg",
-    "React Native": "/skills/react-native-brands.svg",
-    Redux: "/skills/redux-brands.svg",
-    Blender: "/skills/blender-brands.svg",
-    TypeScript: "/skills/ts-brands.svg",
-    Firebase: "/skills/firebase-brands.svg",
-    JavaScript: "/skills/js-brands.svg",
-    Sass: "/skills/sass-brands.svg",
-    HTML: "/skills/html5-brands.svg",
-    CSS: "/skills/css3-alt-brands.svg",
-    Netlify: "/skills/netlify-brands.svg",
-    Illustrator: "/skills/ai-brands.svg",
+    "Three.js": Three,
+    React: react,
+    Next,
+    "React Native": reactNative,
+    Redux,
+    Blender,
+    TypeScript,
+    Firebase,
+    JavaScript,
+    Sass,
+    HTML,
+    CSS,
+    Netlify,
+    Illustrator,
   };
 
   const onMouseEnter = (e: any): void => {
@@ -127,14 +141,15 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
       >
         <span className={styles["info-text"]}>{skill}</span>
       </div>
-      <img
-        className={styles["img--skill"]}
-        src={srcs[skill]}
-        alt={skill}
-        onMouseEnter={onMouseEnter}
-        onTouchStart={onTouch}
-        onMouseLeave={onMouseLeave}
-      />
+      <div className={styles["img--skill"]}>
+        <Image
+          src={srcs[skill]}
+          alt={skill}
+          onMouseEnter={onMouseEnter}
+          onTouchStart={onTouch}
+          onMouseLeave={onMouseLeave}
+        />
+      </div>
     </li>
   );
 };

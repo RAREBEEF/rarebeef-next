@@ -15,6 +15,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation, Pagination } from "swiper";
 import { SectionPropType } from "../types";
 import dayjs, { Dayjs } from "dayjs";
+import Image from "next/image";
 
 const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
   const screenshotsRef = useRef<HTMLDivElement>(null);
@@ -29,7 +30,13 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
     data.imgs.forEach((img, i) => {
       swiperReturn.push(
         <SwiperSlide className={styles["swiper__item"]} key={i}>
-          <img src={img} alt="Screenshot" />
+          <Image
+            src={img}
+            alt="Screenshot"
+            placeholder="blur"
+            layout="responsive"
+            priority={i === 0 ? true : false}
+          />
         </SwiperSlide>
       );
     });

@@ -1,4 +1,9 @@
 import { sectionDataType } from "../types";
+import img1 from "../public/screenshots/diary-calendar.png";
+import img2 from "../public/screenshots/diary-responsive.png";
+import img3 from "../public/screenshots/diary-diary.png";
+import img4 from "../public/screenshots/diary-write.png";
+import img5 from "../public/screenshots/diary-period.png";
 
 const data: sectionDataType = {
   name: ["Diary"],
@@ -6,21 +11,23 @@ const data: sectionDataType = {
     title: ["Diary"],
     subTitle: ["With", "Next.js"],
   },
-  imgs: [
-    "/screenshots/diary-calendar.png",
-    "/screenshots/diary-responsive.png",
-    "/screenshots/diary-diary.png",
-    "/screenshots/diary-write.png",
-    "/screenshots/diary-period.png",
-  ],
+  imgs: [img1, img2, img3, img4, img5],
   summary: {
     name: "Diary",
     date: "2022.08.23 ~ 2022.09.19",
     headCount: 1,
   },
   description:
-    "하루를 기록하는 일기장 웹 애플리케이션입니다.\n설치 가능한 PWA로 개발하였으며 Next.js를 활용한 첫 프로젝트입니다.\n처음 생각과는 다르게 달력 알고리즘을 작성한 부분이 가장 재밌었던 프로젝트입니다.\n달력은 빈 칸을 포함한 최대 칸 수인 42칸(7일*6주 차)을 모두 배열에 저장한 뒤 7개씩 끊어서 <tr><td/></tr> 구조로 반환하여 각 월에 맞게 테이블 구조로 생성하였습니다. 또한 공휴일 api를 통해 공휴일도 구분할 수 있도록 하였습니다.",
-  skills: ["HTML", "TypeScript", "Next", "Redux", "Sass", "Firebase"],
+    "하루를 기록하는 일기장 웹 애플리케이션입니다.\n설치 가능한 PWA로 개발하였으며 Next.js를 활용한 첫 프로젝트입니다.\n처음 생각과는 다르게 달력 알고리즘을 작성한 부분이 가장 재밌었던 프로젝트입니다. 공휴일 API도 활용하여 달력에서 공휴일을 구분할 수 있도록 하였습니다.\n본 프로젝트를 마친 뒤 현재 보고 계시는 포트폴리오 홈페이지도 기존의 React에서 Next.js로 리팩토링 하였습니다.",
+  skills: [
+    "HTML",
+    "TypeScript",
+    "Next",
+    "Redux",
+    "Sass",
+    "Firebase",
+    "Netlify",
+  ],
   links: {
     github: "https://github.com/RAREBEEF/diary",
     velog:

@@ -11,7 +11,7 @@ const data: sectionDataType = {
   summary: { name: "Digital Clock", date: "2022.01.09 ~ 01.19", headCount: 1 },
   description:
     "알람 기능이 있는 디지털 시계입니다.\n평범한 웹의 틀에서 벗어나 새로운 것을 시도해 보고자 진행한 프로젝트이며 리퀴드 크리스탈 폰트를 사용한 디지털 시계를 최대한 비슷한 모습으로 구현해 보았습니다. 시계 상단의 버튼으로 알람을 설정하는 등의 조작이 가능합니다.",
-  skills: ["HTML", "TypeScript", "React", "Sass", "Netlify"],
+  skills: ["HTML", "TypeScript", "React", "Sass"],
   links: {
     github: "https://github.com/RAREBEEF/Clock",
     velog:

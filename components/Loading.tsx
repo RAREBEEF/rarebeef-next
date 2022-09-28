@@ -1,14 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import styles from "./Loading.module.scss";
+import loadingIcon from "../public/icons/loading.svg";
 
 const Loading = () => {
   return (
     <div className={styles.container}>
-      <img
-        className={styles["icon--loading"]}
-        src="/icons/loading.svg"
-        alt="Loading..."
-      />
+      <div className={styles["icon--loading"]}>
+        <Image src={loadingIcon} alt="Loading..." />
+      </div>
     </div>
   );
 };
