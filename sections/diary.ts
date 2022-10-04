@@ -1,9 +1,9 @@
 import { sectionDataType } from "../types";
 import img1 from "../public/screenshots/diary-calendar.png";
-import img2 from "../public/screenshots/diary-responsive.png";
-import img3 from "../public/screenshots/diary-diary.png";
-import img4 from "../public/screenshots/diary-write.png";
-import img5 from "../public/screenshots/diary-period.png";
+import img2 from "../public/screenshots/diary-diary.png";
+import img3 from "../public/screenshots/diary-write.png";
+import img4 from "../public/screenshots/diary-period.png";
+import img5 from "../public/screenshots/diary-responsive.png";
 
 const data: sectionDataType = {
   name: ["Diary"],
@@ -18,7 +18,7 @@ const data: sectionDataType = {
     headCount: 1,
   },
   description:
-    "하루를 기록하는 일기장 웹 애플리케이션입니다.\n설치 가능한 PWA로 개발하였으며 Next.js를 활용한 첫 프로젝트입니다.\n처음 생각과는 다르게 달력 알고리즘을 작성한 부분이 가장 재밌었던 프로젝트입니다. 공휴일 API도 활용하여 달력에서 공휴일을 구분할 수 있도록 하였습니다.\n본 프로젝트를 마친 뒤 현재 보고 계시는 포트폴리오 홈페이지도 기존의 React에서 Next.js로 리팩토링 하였습니다.",
+    "하루를 기록하는 일기장 웹 애플리케이션입니다.\n설치 가능한 PWA로 개발하였으며 Next.js를 활용한 첫 프로젝트입니다.\n처음 생각과는 다르게 달력 알고리즘을 작성한 부분이 가장 재밌었던 프로젝트입니다. 공휴일 API도 활용하여 달력에서 공휴일을 구분할 수 있도록 하였습니다.\n또한 영화 API와 음악 API를 활용해 그 날의 영화와 음악을 검색하여 추가할 수 있도록 하였습니다.",
   skills: [
     "HTML",
     "TypeScript",
