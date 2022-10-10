@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 import "../styles/global.scss";
@@ -11,24 +11,24 @@ import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    const rootEl = document.getElementById("root");
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        this.navigator.serviceWorker.register("/sw.js").then(
+          function (registration) {
+            console.log(
+              "Service Worker registration successfull with scope: ",
+              registration.scope
+            );
+          },
+          function (err) {
+            console.log("Service Worker registration failed: ", err);
+          }
+        );
+      });
+    }
 
-    setTimeout(() => {
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          this.navigator.serviceWorker.register("/sw.js").then(
-            function (registration) {
-              console.log(
-                "Service Worker registration successfull with scope: ",
-                registration.scope
-              );
-            },
-            function (err) {
-              console.log("Service Worker registration failed: ", err);
-            }
-          );
-        });
-      }
+    const loadEnd = setTimeout(() => {
+      const rootEl = document.getElementById("__next");
 
       if (!rootEl) {
         return;
@@ -36,7 +36,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       rootEl.style.height = "auto";
       rootEl.style.overflow = "visible";
-    }, 1000);
+    }, 200);
+
+    return () => {
+      clearTimeout(loadEnd);
+    };
   }, []);
 
   return (
