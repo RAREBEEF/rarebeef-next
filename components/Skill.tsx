@@ -16,6 +16,7 @@ import HTML from "../public/skills/html5-brands.svg";
 import Netlify from "../public/skills/netlify-brands.svg";
 import CSS from "../public/skills/css3-alt-brands.svg";
 import Illustrator from "../public/skills/ai-brands.svg";
+import Tailwindcss from "../public/skills/tailwindcss-brands.svg";
 import Image from "next/image";
 
 const Skill: React.FC<SkillPropType> = ({ skill }) => {
@@ -37,6 +38,7 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
     CSS,
     Netlify,
     Illustrator,
+    Tailwindcss,
   };
 
   const onMouseEnter = (e: any): void => {

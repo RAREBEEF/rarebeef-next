@@ -14,7 +14,7 @@ const About: React.FC<ProfilePropType> = () => {
     const date = new Date();
 
     setAge(
-      date.getMonth() < 10 || (date.getMonth() === 10 && date.getDate() < 6)
+      date.getMonth() < 9 || (date.getMonth() === 9 && date.getDate() < 6)
         ? date.getFullYear() - 1998
         : date.getFullYear() - 1997
     );
@@ -58,6 +58,7 @@ const About: React.FC<ProfilePropType> = () => {
                 <Skill skill="React" />
                 <Skill skill="Next" />
                 <Skill skill="Sass" />
+                <Skill skill="Tailwindcss" />
                 <Skill skill="Redux" />
                 <Skill skill="Three.js" />
                 <Skill skill="Firebase" />

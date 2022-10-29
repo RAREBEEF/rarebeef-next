@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import Nav from "./Nav";
 import Toolbar from "./Toolbar";
 
@@ -7,9 +6,6 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
-
-
-
   return (
     <>
       {children}

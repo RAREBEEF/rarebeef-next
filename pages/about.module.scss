@@ -18,12 +18,20 @@
         display: flex;
         flex-wrap: wrap;
         max-width: 80vw;
+        justify-content: flex-start;
         margin: {
-          // left: 10px;
           bottom: 10px;
         }
+      }
+    }
+  }
+}
 
-        &.skills__front-end {
+@media all and (max-width: 640px) {
+  .container {
+    .content {
+      .section {
+        .skills__front-end {
           justify-content: space-around;
         }
       }

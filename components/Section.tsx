@@ -68,12 +68,12 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
         screenshotsRef.current.getBoundingClientRect().top - window.innerHeight;
 
       if (
-        scrollDegree < 0 &&
+        scrollDegree < 100 &&
         !screenshotsRef.current.classList.contains(styles.active)
       ) {
         screenshotsRef.current.classList.add(styles.active);
       } else if (
-        scrollDegree > 0 &&
+        scrollDegree >= 100 &&
         screenshotsRef.current.classList.contains(styles.active)
       ) {
         screenshotsRef.current.classList.remove(styles.active);

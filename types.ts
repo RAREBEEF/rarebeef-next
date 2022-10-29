@@ -101,7 +101,8 @@ export type skillType =
   | "Firebase"
   | "Netlify"
   | "Illustrator"
-  | "Blender";
+  | "Blender"
+  | "Tailwindcss";
 
 export interface SkillPropType {
   skill: skillType;

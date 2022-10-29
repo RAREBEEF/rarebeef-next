@@ -89,6 +89,7 @@ const Document = () => {
           href="/logos/favicon-128.png"
           sizes="128x128"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="application-name" content="&nbsp;" />
         <meta name="msapplication-TileColor" content="#FFFFFF" />
         <meta

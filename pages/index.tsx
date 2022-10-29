@@ -5,6 +5,7 @@ import { HomePropType } from "../types";
 import Section from "../components/Section";
 import Front from "../components/Front";
 import paletteVault from "../sections/paletteVault";
+import splatoon from "../sections/splatoon";
 import diary from "../sections/diary";
 import RareBeef from "../components/RareBeef";
 import placeReview from "../sections/placeReview";
@@ -25,6 +26,7 @@ const Index: React.FC<HomePropType> = () => {
       <Front />
       <div className={styles.contour} />
       <RareBeef />
+      <Section data={splatoon} />
       <Section data={diary} />
       <Section data={paletteVault} />
       <ReactNative />
