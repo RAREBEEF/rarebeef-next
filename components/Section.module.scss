@@ -27,7 +27,7 @@
     .screenshots {
       opacity: 0;
       transform: translateY(10vh);
-      transition: all 1s;
+      transition: all 1.5s;
       &.active {
         opacity: 1;
         transform: translateY(0);

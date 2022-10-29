@@ -81,12 +81,12 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
       }
     };
 
-    window.addEventListener("scroll", _.throttle(windowScrollListener, 200));
+    window.addEventListener("scroll", _.throttle(windowScrollListener, 500));
 
     return () => {
       window.removeEventListener(
         "scroll",
-        _.throttle(windowScrollListener, 200)
+        _.throttle(windowScrollListener, 500)
       );
     };
   }, [data.imgs]);
