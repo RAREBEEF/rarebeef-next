@@ -16,6 +16,7 @@ import { EffectCoverflow, Navigation, Pagination } from "swiper";
 import { SectionPropType } from "../types";
 import dayjs, { Dayjs } from "dayjs";
 import Image from "next/image";
+import _ from "lodash";
 
 const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
   const screenshotsRef = useRef<HTMLDivElement>(null);
@@ -80,10 +81,13 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
       }
     };
 
-    window.addEventListener("scroll", windowScrollListener);
+    window.addEventListener("scroll", _.throttle(windowScrollListener, 200));
 
     return () => {
-      window.removeEventListener("scroll", windowScrollListener);
+      window.removeEventListener(
+        "scroll",
+        _.throttle(windowScrollListener, 200)
+      );
     };
   }, [data.imgs]);
 

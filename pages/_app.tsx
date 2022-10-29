@@ -9,23 +9,6 @@ import "swiper/scss/effect-coverflow";
 import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    const loadEnd = setTimeout(() => {
-      const rootEl = document.getElementById("__next");
-
-      if (!rootEl) {
-        return;
-      }
-
-      rootEl.style.height = "auto";
-      rootEl.style.overflow = "visible";
-    }, 200);
-
-    return () => {
-      clearTimeout(loadEnd);
-    };
-  }, []);
-
   return (
     <Provider store={store}>
       <Layout>
