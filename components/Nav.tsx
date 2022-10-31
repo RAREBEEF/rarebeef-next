@@ -12,27 +12,23 @@ const Nav: React.FC<NavPropType> = (): ReactElement => {
     setShowMenu((prev) => !prev);
   };
 
-  const onItemClick = (): void => {
-    window.scrollTo({ top: 0 });
-  };
-
   return (
     <nav
       className={classNames(styles.container, showMenu && styles["show-menu"])}
     >
       <ul className={styles["list"]}>
         <Link href="/">
-          <a className={styles.item} onClick={onItemClick}>
+          <a className={styles.item}>
             <li className={styles["item__text"]}>Home</li>
           </a>
         </Link>
         <Link href="/about">
-          <a className={styles.item} onClick={onItemClick}>
+          <a className={styles.item}>
             <li className={styles["item__text"]}>About</li>
           </a>
         </Link>
         <Link href="/contact">
-          <a className={styles.item} onClick={onItemClick}>
+          <a className={styles.item}>
             <li className={styles["item__text"]}>Contact</li>
           </a>
         </Link>
