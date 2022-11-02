@@ -16,6 +16,8 @@ import simpleMemo from "../sections/simpleMemo";
 import clock from "../sections/clock";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
+import ClockApp from "../components/ClockApp";
+import MemoryTestApp from "../components/MemoryTestApp";
 
 const Index: React.FC<HomePropType> = () => {
   const HomeRef = useRef<HTMLDivElement>(null);
@@ -31,9 +33,13 @@ const Index: React.FC<HomePropType> = () => {
       <Section data={paletteVault} />
       <ReactNative />
       <Section data={placeReview} />
-      <Section data={memoryTest} />
+      <Section data={memoryTest}>
+        <MemoryTestApp />
+      </Section>
       <Section data={metaBeef} />
-      <Section data={clock} />
+      <Section data={clock}>
+        <ClockApp />
+      </Section>
       <Section data={simpleMemo} />
       <Footer />
     </main>

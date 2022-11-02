@@ -1,4 +1,11 @@
-import React, { ReactElement, Suspense, useRef } from "react";
+import React, {
+  ReactElement,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import SectionHeader from "./SectionHeader";
 import styles from "./ReactNative.module.scss";
 import { Canvas } from "@react-three/fiber";
@@ -7,9 +14,57 @@ import Skill from "./Skill";
 import Button from "./Button";
 import Loading from "./Loading";
 import Phones from "../scenes/Phones";
+import dayjs, { Dayjs } from "dayjs";
 
 const ReactNative = (): ReactElement => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [latestCommit, setLatestCommit] = useState<any>(null);
+
+  useEffect(() => {
+    const cardsScrollTrigger = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add(styles["active"]);
+      });
+    });
+
+    if (cardRefs.current.length === 0) return;
+    cardRefs.current.forEach((card) => {
+      if (!card) return;
+      cardsScrollTrigger.observe(card);
+    });
+  }, []);
+
+  const getCommits = useCallback(async () => {
+    const auth = window.btoa("RAREBEEF:" + process.env.NEXT_PUBLIC_TOKEN);
+
+    await fetch(`https://api.github.com/repos/RAREBEEF/Todo-app/commits`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + auth,
+      },
+    })
+      .then((result) => result.json())
+      .then((data) => {
+        setLatestCommit(data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    getCommits();
+  }, [getCommits]);
+
+  const calcDateDiff = (): string | null => {
+    if (!latestCommit) return null;
+
+    const updateDate: Dayjs = dayjs(latestCommit.commit.committer.date);
+    const today: Dayjs = dayjs();
+    const rtf = new Intl.RelativeTimeFormat("ko", { numeric: "auto" });
+    return rtf.format(-today.diff(updateDate, "day"), "day");
+  };
 
   return (
     <section className={styles.container} ref={sectionRef}>
@@ -24,7 +79,10 @@ const ReactNative = (): ReactElement => {
             <Phones sectionRef={sectionRef} />
           </Canvas>
         </Suspense>
-        <div className={classNames(styles.summary, styles.card)}>
+        <div
+          ref={(el) => (cardRefs.current[0] = el)}
+          className={classNames(styles.summary, styles.card, styles.left)}
+        >
           <h3 className={styles["card__title"]}>Project summary</h3>
           <div className={styles["summary-wrapper"]}>
             <h4 className={styles["summary__sub-title"]}>프로젝트명</h4>
@@ -60,7 +118,10 @@ const ReactNative = (): ReactElement => {
             </p>
           </div>
         </div>
-        <div className={classNames(styles.description, styles.card)}>
+        <div
+          ref={(el) => (cardRefs.current[1] = el)}
+          className={classNames(styles.description, styles.card, styles.right)}
+        >
           <h3 className={styles["card__title"]}>Description</h3>
           <p className={classNames(styles["card__content"])}>
             {
@@ -68,7 +129,10 @@ const ReactNative = (): ReactElement => {
             }
           </p>
         </div>
-        <div className={classNames(styles.skills, styles.card)}>
+        <div
+          ref={(el) => (cardRefs.current[2] = el)}
+          className={classNames(styles.skills, styles.card, styles.left)}
+        >
           <h3 className={styles["card__title"]}>Skills</h3>
           <ul className={classNames(styles["card__content"])}>
             <Skill skill="JavaScript" />
@@ -77,7 +141,42 @@ const ReactNative = (): ReactElement => {
             <Skill skill="Three.js" />
           </ul>
         </div>
-        <div className={classNames(styles.links, styles.card)}>
+        <div
+          ref={(el) => (cardRefs.current[3] = el)}
+          className={classNames(styles.update, styles.card, styles.right)}
+        >
+          <hgroup>
+            <h3 className={styles["card__title"]}>Latest update</h3>
+            <h4
+              className={classNames(
+                styles["update__date-diff"],
+                styles["card__title"]
+              )}
+            >
+              {calcDateDiff() + " 마지막 커밋"}
+            </h4>
+          </hgroup>
+          {latestCommit ? (
+            <ul className={classNames(styles["card__content"])}>
+              <a href={latestCommit.html_url} target="_blank" rel="noreferrer">
+                <h5 className={styles["update__message"]}>
+                  {latestCommit.commit.message}
+                </h5>
+                <span className={styles["update__date"]}>
+                  {dayjs(latestCommit.commit.committer.date).format(
+                    "YYYY.MM.DD HH:mm"
+                  )}
+                </span>
+              </a>
+            </ul>
+          ) : (
+            <p>알 수 없음</p>
+          )}
+        </div>
+        <div
+          ref={(el) => (cardRefs.current[4] = el)}
+          className={classNames(styles.links, styles.card, styles.right)}
+        >
           <h3 className={styles["card__title"]}>Links</h3>
           <div className={classNames(styles["card__content"])}>
             <Button

@@ -18,9 +18,42 @@ import dayjs, { Dayjs } from "dayjs";
 import Image from "next/image";
 import _ from "lodash";
 
-const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
+const Section: React.FC<SectionPropType> = ({
+  data,
+  children,
+}): ReactElement => {
   const screenshotsRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [latestCommit, setLatestCommit] = useState<any>(null);
+
+  useEffect(() => {
+    const cardsScrollTrigger = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add(styles["active"]);
+      });
+    });
+
+    if (cardRefs.current.length === 0) return;
+    cardRefs.current.forEach((card) => {
+      if (!card) return;
+      cardsScrollTrigger.observe(card);
+    });
+
+    if (!screenshotsRef.current) return;
+
+    const screenshotsScrollTrigger = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting)
+            entry.target.classList.add(styles["active"]);
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    screenshotsScrollTrigger.observe(screenshotsRef.current);
+  }, []);
+
   const swiperGeneroator = (): Array<any> => {
     if (!data.imgs) {
       return [];
@@ -55,42 +88,6 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
 
     return skillReturn;
   };
-
-  useEffect(() => {
-    if (!data.imgs) {
-      return;
-    }
-
-    const windowScrollListener = () => {
-      if (!screenshotsRef.current) {
-        return;
-      }
-
-      let scrollDegree =
-        screenshotsRef.current.getBoundingClientRect().top - window.innerHeight;
-
-      if (
-        scrollDegree < 100 &&
-        !screenshotsRef.current.classList.contains(styles.active)
-      ) {
-        screenshotsRef.current.classList.add(styles.active);
-      } else if (
-        scrollDegree >= 100 &&
-        screenshotsRef.current.classList.contains(styles.active)
-      ) {
-        screenshotsRef.current.classList.remove(styles.active);
-      }
-    };
-
-    window.addEventListener("scroll", _.throttle(windowScrollListener, 500));
-
-    return () => {
-      window.removeEventListener(
-        "scroll",
-        _.throttle(windowScrollListener, 500)
-      );
-    };
-  }, [data.imgs]);
 
   const getCommits = useCallback(async () => {
     if (!data.links.github) return;
@@ -207,8 +204,11 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
             </Swiper>
           </div>
         )}
-        {data.app && <data.app />}
-        <div className={classNames(styles.summary, styles.card)}>
+        {children}
+        <div
+          ref={(el) => (cardRefs.current[0] = el)}
+          className={classNames(styles.summary, styles.card, styles.left)}
+        >
           <h3 className={styles["card__title"]}>Project summary</h3>
           <div className={styles["summary-wrapper"]}>
             <h4 className={styles["summary__sub-title"]}>프로젝트명</h4>
@@ -244,32 +244,40 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
             </p>
           </div>
         </div>
-        <div className={classNames(styles.description, styles.card)}>
+        <div
+          ref={(el) => (cardRefs.current[1] = el)}
+          className={classNames(styles.description, styles.card, styles.right)}
+        >
           <h3 className={styles["card__title"]}>Description</h3>
           <p className={classNames(styles["card__content"])}>
             {data.description}
           </p>
         </div>
-        <div className={classNames(styles.skills, styles.card)}>
+        <div
+          ref={(el) => (cardRefs.current[2] = el)}
+          className={classNames(styles.skills, styles.card, styles.left)}
+        >
           <h3 className={styles["card__title"]}>Skills</h3>
           <ul className={classNames(styles["card__content"])}>
             {skillGeneroator()}
           </ul>
         </div>
-
-        {latestCommit && (
-          <div className={classNames(styles.update, styles.card)}>
-            <hgroup>
-              <h3 className={styles["card__title"]}>Latest update</h3>
-              <h4
-                className={classNames(
-                  styles["update__date-diff"],
-                  styles["card__title"]
-                )}
-              >
-                {calcDateDiff() + " 마지막 커밋"}
-              </h4>
-            </hgroup>
+        <div
+          ref={(el) => (cardRefs.current[3] = el)}
+          className={classNames(styles.update, styles.card, styles.right)}
+        >
+          <hgroup>
+            <h3 className={styles["card__title"]}>Latest update</h3>
+            <h4
+              className={classNames(
+                styles["update__date-diff"],
+                styles["card__title"]
+              )}
+            >
+              {calcDateDiff() + " 마지막 커밋"}
+            </h4>
+          </hgroup>
+          {latestCommit ? (
             <ul className={classNames(styles["card__content"])}>
               <a href={latestCommit.html_url} target="_blank" rel="noreferrer">
                 <h5 className={styles["update__message"]}>
@@ -282,10 +290,15 @@ const Section: React.FC<SectionPropType> = ({ data }): ReactElement => {
                 </span>
               </a>
             </ul>
-          </div>
-        )}
+          ) : (
+            <p>알 수 없음</p>
+          )}
+        </div>
 
-        <div className={classNames(styles.links, styles.card)}>
+        <div
+          ref={(el) => (cardRefs.current[4] = el)}
+          className={classNames(styles.links, styles.card, styles.left)}
+        >
           <h3 className={styles["card__title"]}>Links</h3>
           <div className={classNames(styles["card__content"])}>
             {data.links.github && (

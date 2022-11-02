@@ -2,6 +2,7 @@
 // Props
 
 import { StaticImageData } from "next/image";
+import { ReactElement } from "react";
 
 //
 export interface BeefModelPropType {
@@ -25,7 +26,6 @@ export interface sectionDataType {
     subTitle: Array<string>;
   };
   imgs?: Array<StaticImageData>;
-  app?: any;
   summary: { name: string; date: string; headCount: number };
   description: string;
   skills: Array<skillType>;
@@ -38,6 +38,7 @@ export interface sectionDataType {
 
 export interface SectionPropType {
   data: sectionDataType;
+  children?: ReactElement;
 }
 
 export interface PhonesPropType {
