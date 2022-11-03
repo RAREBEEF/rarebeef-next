@@ -81,7 +81,7 @@ const ReactNative = (): ReactElement => {
         </Suspense>
         <div
           ref={(el) => (cardRefs.current[0] = el)}
-          className={classNames(styles.summary, styles.card, styles.left)}
+          className={classNames(styles.summary, styles.card)}
         >
           <h3 className={styles["card__title"]}>Project summary</h3>
           <div className={styles["summary-wrapper"]}>
@@ -120,7 +120,7 @@ const ReactNative = (): ReactElement => {
         </div>
         <div
           ref={(el) => (cardRefs.current[1] = el)}
-          className={classNames(styles.description, styles.card, styles.right)}
+          className={classNames(styles.description, styles.card)}
         >
           <h3 className={styles["card__title"]}>Description</h3>
           <p className={classNames(styles["card__content"])}>
@@ -131,7 +131,7 @@ const ReactNative = (): ReactElement => {
         </div>
         <div
           ref={(el) => (cardRefs.current[2] = el)}
-          className={classNames(styles.skills, styles.card, styles.left)}
+          className={classNames(styles.skills, styles.card)}
         >
           <h3 className={styles["card__title"]}>Skills</h3>
           <ul className={classNames(styles["card__content"])}>
@@ -143,7 +143,7 @@ const ReactNative = (): ReactElement => {
         </div>
         <div
           ref={(el) => (cardRefs.current[3] = el)}
-          className={classNames(styles.update, styles.card, styles.right)}
+          className={classNames(styles.update, styles.card)}
         >
           <hgroup>
             <h3 className={styles["card__title"]}>Latest update</h3>
@@ -175,7 +175,7 @@ const ReactNative = (): ReactElement => {
         </div>
         <div
           ref={(el) => (cardRefs.current[4] = el)}
-          className={classNames(styles.links, styles.card, styles.right)}
+          className={classNames(styles.links, styles.card)}
         >
           <h3 className={styles["card__title"]}>Links</h3>
           <div className={classNames(styles["card__content"])}>

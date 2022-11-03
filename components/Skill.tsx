@@ -21,7 +21,6 @@ import Image from "next/image";
 
 const Skill: React.FC<SkillPropType> = ({ skill }) => {
   const [showInfoWindow, setShowInfoWindow] = useState<boolean>(false);
-  const infoWindowRef = useRef<HTMLDivElement>(null);
 
   const srcs = {
     "Three.js": Three,
@@ -41,50 +40,8 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
     Tailwindcss,
   };
 
-  const onMouseEnter = (e: any): void => {
-    if (!e.target.alt) {
-      return;
-    }
-
-    setShowInfoWindow(true);
-  };
-
-  const onTouch = (e: any): void => {
-    if (!e.target.alt) {
-      return;
-    }
-
-    setShowInfoWindow(true);
-
-    const currentRef = infoWindowRef.current;
-
-    if (!currentRef) {
-      return;
-    }
-
-    const x = e.clientX;
-    const y = e.clientY;
-    currentRef.style.transform = `translate(${x}px, ${y}px)`;
-  };
-
-  const onMouseMove = (e: any): void => {
-    if (!infoWindowRef.current || !showInfoWindow) {
-      return;
-    }
-
-    const currentRef = infoWindowRef.current;
-
-    const x = e.clientX;
-    const y = e.clientY;
-    currentRef.style.transform = `translate(${x}px, ${y}px)`;
-  };
-
-  const onMouseLeave = (): void => {
-    setShowInfoWindow(false);
-  };
-
   useEffect(() => {
-    const skills = document.querySelectorAll(`.${styles["img--skill"]}`);
+    const skills = document.querySelectorAll(`.${styles["skill"]}`);
 
     if (!skills) {
       return;
@@ -133,24 +90,20 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
   }, []);
 
   return (
-    <li className={styles.container} onMouseMove={onMouseMove}>
-      <div
-        ref={infoWindowRef}
-        className={classNames(
-          styles["info-window"],
-          showInfoWindow && styles.show
-        )}
-      >
-        <span className={styles["info-text"]}>{skill}</span>
-      </div>
-      <div className={styles["img--skill"]}>
-        <Image
-          src={srcs[skill]}
-          alt={skill}
-          onMouseEnter={onMouseEnter}
-          onTouchStart={onTouch}
-          onMouseLeave={onMouseLeave}
-        />
+    <li className={styles.container}>
+      <div className={styles["skill"]}>
+        <div className={styles["skill__img"]}>
+          <Image src={srcs[skill]} alt={skill} />
+        </div>
+
+        <div
+          className={classNames(
+            styles["skill__tooltip"],
+            showInfoWindow && styles.show
+          )}
+        >
+          <span className={styles["tooltip-text"]}>{skill}</span>
+        </div>
       </div>
     </li>
   );

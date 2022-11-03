@@ -27,21 +27,7 @@ const Section: React.FC<SectionPropType> = ({
   const [latestCommit, setLatestCommit] = useState<any>(null);
 
   useEffect(() => {
-    const cardsScrollTrigger = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add(styles["active"]);
-      });
-    });
-
-    if (cardRefs.current.length === 0) return;
-    cardRefs.current.forEach((card) => {
-      if (!card) return;
-      cardsScrollTrigger.observe(card);
-    });
-
-    if (!screenshotsRef.current) return;
-
-    const screenshotsScrollTrigger = new IntersectionObserver(
+    const scrollTrigger = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting)
@@ -51,7 +37,13 @@ const Section: React.FC<SectionPropType> = ({
       { threshold: 0.3 }
     );
 
-    screenshotsScrollTrigger.observe(screenshotsRef.current);
+    if (cardRefs.current.length !== 0)
+      cardRefs.current.forEach((card) => {
+        if (!card) return;
+        scrollTrigger.observe(card);
+      });
+
+    if (screenshotsRef.current) scrollTrigger.observe(screenshotsRef.current);
   }, []);
 
   const swiperGeneroator = (): Array<any> => {
@@ -207,7 +199,7 @@ const Section: React.FC<SectionPropType> = ({
         {children}
         <div
           ref={(el) => (cardRefs.current[0] = el)}
-          className={classNames(styles.summary, styles.card, styles.left)}
+          className={classNames(styles.summary, styles.card)}
         >
           <h3 className={styles["card__title"]}>Project summary</h3>
           <div className={styles["summary-wrapper"]}>
@@ -246,7 +238,7 @@ const Section: React.FC<SectionPropType> = ({
         </div>
         <div
           ref={(el) => (cardRefs.current[1] = el)}
-          className={classNames(styles.description, styles.card, styles.right)}
+          className={classNames(styles.description, styles.card)}
         >
           <h3 className={styles["card__title"]}>Description</h3>
           <p className={classNames(styles["card__content"])}>
@@ -255,7 +247,7 @@ const Section: React.FC<SectionPropType> = ({
         </div>
         <div
           ref={(el) => (cardRefs.current[2] = el)}
-          className={classNames(styles.skills, styles.card, styles.left)}
+          className={classNames(styles.skills, styles.card)}
         >
           <h3 className={styles["card__title"]}>Skills</h3>
           <ul className={classNames(styles["card__content"])}>
@@ -264,7 +256,7 @@ const Section: React.FC<SectionPropType> = ({
         </div>
         <div
           ref={(el) => (cardRefs.current[3] = el)}
-          className={classNames(styles.update, styles.card, styles.right)}
+          className={classNames(styles.update, styles.card)}
         >
           <hgroup>
             <h3 className={styles["card__title"]}>Latest update</h3>
@@ -297,7 +289,7 @@ const Section: React.FC<SectionPropType> = ({
 
         <div
           ref={(el) => (cardRefs.current[4] = el)}
-          className={classNames(styles.links, styles.card, styles.left)}
+          className={classNames(styles.links, styles.card)}
         >
           <h3 className={styles["card__title"]}>Links</h3>
           <div className={classNames(styles["card__content"])}>
