@@ -16,7 +16,7 @@ const data: sectionDataType = {
     headCount: 1,
   },
   description:
-    "닌텐도의 스플래툰 3 홈페이지 클론 코딩입니다.\ntailwindcss에 익숙해지는 것을 목표로 프로젝트를 시작했으며 평소 동적 웹 애플리케이션에 치우쳐 있던 프로젝트 주제에서 벗어나 정적 웹 페이지를 제작하기 위해 주제를 선정하였습니다.\ntailwindcss로 간단하게 반응형 디자인을 구현할 수 있었으며 다양한 애니메이션과 인터랙티브, 임베디드 트위터 위젯 등 새롭게 접하고 배울 점이 많은 프로젝트였습니다.",
+    "닌텐도의 스플래툰 3 홈페이지 클론 코딩입니다.\ntailwindcss에 익숙해지는 것을 목표로 프로젝트를 시작했으며 평소 동적 웹 애플리케이션에 치우쳐 있던 프로젝트 주제에서 벗어나 정적 웹 페이지를 제작하기 위해 주제를 선정하였습니다.\ntailwindcss로 간단하게 반응형 디자인을 구현할 수 있었으며 다양한 애니메이션과 인터랙티브, 트위터 임베드 등 새롭게 접하고 배울 점이 많은 프로젝트였습니다.",
   skills: ["HTML", "TypeScript", "Next", "Tailwindcss", "Netlify"],
   links: {
     github: "https://github.com/RAREBEEF/splatoon3-homepage-clone",

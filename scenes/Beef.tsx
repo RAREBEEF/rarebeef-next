@@ -12,7 +12,7 @@ import { BeefModelPropType } from "../types";
 import { PlateModelPropType } from "../types";
 
 const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
-  const calcScroll = useCalcScroll(sectionRef);
+  const calcScroll = useCalcScroll();
   const [scale, setScale] = useState<number>(
     ((window.innerWidth - 300) / 1200) * 0.3 + 0.7
   );
@@ -42,27 +42,26 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
   }, []);
 
   useEffect(() => {
+    if (
+      !sectionRef.current ||
+      !controlRef.current ||
+      !groupRef.current ||
+      !beefRef.current ||
+      !sectionRef.current
+    ) {
+      return;
+    }
+
+    const controlPos = controlRef.current.object.position;
+    const beefPos = beefRef.current.position;
+    const groupPos = groupRef.current.position;
+
     const windowScrollListener = () => {
-      if (
-        !sectionRef.current ||
-        !controlRef.current ||
-        !groupRef.current ||
-        !beefRef.current
-      ) {
-        return;
-      }
-
-      const controlPos = controlRef.current.object.position;
-      const beefPos = beefRef.current.position;
-      const groupPos = groupRef.current.position;
-
-      let scrollProgress = calcScroll(5);
+      let scrollProgress = calcScroll(sectionRef);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.9) {
         return;
-      }
-
-      if (scrollProgress >= 0.15 && scrollProgress < 0.3) {
+      } else if (scrollProgress >= 0.15 && scrollProgress < 0.3) {
         setText(1);
       } else if (scrollProgress >= 0.45 && scrollProgress < 0.6) {
         setText(2);
@@ -82,6 +81,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
       }
 
       if (scrollProgress >= 0 && scrollProgress < 0.2) {
+        // scrollProgress가 0~0.2 사이인 경우에도 최대값을 1로 잡기 위해 5를 곱한다.
         scrollProgress *= 5;
 
         gsap.to(groupPos, 0.2, {
@@ -100,6 +100,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
           ease: "linear",
         });
       } else if (scrollProgress >= 0.2 && scrollProgress < 0.4) {
+        // scrollProgress가 0.2~0.4 사이인 경우에도 최소값을 0, 최대값을 1로 잡기 위해 0.2를 빼고 5를 곱한다. 이후 반복
         scrollProgress = (scrollProgress - 0.2) * 5;
 
         gsap.to(groupPos, 0.2, {

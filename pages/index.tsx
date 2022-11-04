@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import classNames from "classnames";
 import { HomePropType } from "../types";
 import Section from "../components/Section";
-import Front from "../components/Front";
+import Header from "../components/Header";
 import paletteVault from "../sections/paletteVault";
 import splatoon from "../sections/splatoon";
 import diary from "../sections/diary";
@@ -18,6 +18,7 @@ import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import ClockApp from "../components/ClockApp";
 import MemoryTestApp from "../components/MemoryTestApp";
+import Front from "../components/Front";
 
 const Index: React.FC<HomePropType> = () => {
   const HomeRef = useRef<HTMLDivElement>(null);
@@ -26,6 +27,7 @@ const Index: React.FC<HomePropType> = () => {
     <main ref={HomeRef} className={classNames(styles.container)}>
       <Seo title="PORTFOLIO" />
       <Front />
+      <Header />
       <div className={styles.contour} />
       <RareBeef />
       <Section data={splatoon} />

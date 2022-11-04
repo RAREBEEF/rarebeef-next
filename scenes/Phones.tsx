@@ -9,7 +9,7 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 
 const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
-  const calcScroll = useCalcScroll(sectionRef);
+  const calcScroll = useCalcScroll();
   const [scale, setScale] = useState<number>(
     ((window.innerWidth - 300) / 1200) * 0.3 + 0.7
   );
@@ -34,20 +34,19 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
   }, []);
 
   useEffect(() => {
+    if (!sectionRef.current || !controlRef.current) {
+      return;
+    }
+
+    const controlPos = controlRef.current.object.position;
+
     const windowScrollListener = () => {
-      if (!sectionRef.current || !controlRef.current) {
-        return;
-      }
-
-      const controlPos = controlRef.current.object.position;
-
-      let scrollProgress = calcScroll(8);
+      let scrollProgress = calcScroll(sectionRef);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.5) {
         return;
-      }
-
-      if (scrollProgress >= 0 && scrollProgress < 0.2) {
+      } else if (scrollProgress >= 0 && scrollProgress < 0.2) {
+        // scrollProgress가 0~0.2 사이인 경우에도 최대값을 1로 잡기 위해 5를 곱한다.
         scrollProgress *= 5;
 
         gsap.to(controlPos, 0.3, {
@@ -57,6 +56,7 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
           ease: "linear",
         });
       } else if (scrollProgress >= 0.2 && scrollProgress < 0.4) {
+        // scrollProgress가 0.2~0.4 사이인 경우에도 최소값을 0, 최대값을 1로 잡기 위해 0.2를 빼고 5를 곱한다. 이후 반복
         scrollProgress = (scrollProgress - 0.2) * 5;
 
         gsap.to(controlPos, 0.3, {
