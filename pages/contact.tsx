@@ -36,7 +36,7 @@ const Contact: React.FC<ContactPropType> = () => {
     <main className={styles.container}>
       <Seo
         title="CONTACT"
-        description="RAREBEEF의 Contact 페이지입니다. 방명록을 작성해 보세요. 메일 : drrobot409@gmail.com / Github: github.com/RAREBEEF / 블로그 : velog.io/@drrobot409"
+        description="방명록을 작성해 보세요. 메일 : drrobot409@gmail.com / Github: github.com/RAREBEEF / 블로그 : velog.io/@drrobot409"
       />
       <SectionHeader
         title={["Contact"]}

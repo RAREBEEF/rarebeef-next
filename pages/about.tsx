@@ -24,7 +24,7 @@ const About: React.FC<ProfilePropType> = () => {
     <main className={styles.container}>
       <Seo
         title="ABOUT"
-        description="RAREBEEF의 About 페이지입니다. RAREBEEF에 대해 알아보세요. 이름 : 송의영 / 생년월일: 1998.10.06 / 스킬 : HTML5 CSS3 JavaScript TypeScript React Next.js Scss Redux Three.js Firebase Netlify Illustrator Blender"
+        description="이름 : 송의영 / 생년월일: 1998.10.06 / 스킬 : HTML5 CSS3 JavaScript TypeScript React Next.js Scss Tailwindcss Redux Three.js Firebase Netlify Illustrator"
       />
       <SectionHeader
         title={["About", "me"]}
