@@ -3,6 +3,7 @@ import { ReactElement, useCallback, useEffect, useState } from "react";
 import styles from "./Toolbar.module.scss";
 import { ToolbarPropType } from "../types";
 import classNames from "classnames";
+import _ from "lodash";
 
 const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
   const [scrollTop, setScrollTop] = useState<number>(0);
@@ -21,14 +22,18 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    windowScrollListener();
-    windowResizeListener();
-    window.addEventListener("scroll", windowScrollListener);
-    window.addEventListener("resize", windowResizeListener);
+    window.addEventListener("scroll", _.throttle(windowScrollListener, 500));
+    window.addEventListener("resize", _.debounce(windowResizeListener, 500));
 
     return (): void => {
-      window.removeEventListener("scroll", windowScrollListener);
-      window.removeEventListener("resize", windowResizeListener);
+      window.removeEventListener(
+        "scroll",
+        _.throttle(windowScrollListener, 500)
+      );
+      window.removeEventListener(
+        "resize",
+        _.debounce(windowResizeListener, 500)
+      );
     };
   }, [windowResizeListener, windowScrollListener]);
 
@@ -48,7 +53,7 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
           alt="Velog"
         />
       </a>
-      <a href="mailto:drrobot409@gmail.com?body=-&nbsp;Send from rarebeef.github.io">
+      <a href="mailto:drrobot409@gmail.com?body=-&nbsp;Send from rarebeef's portfolio.">
         <img
           className={classNames(styles["icon--mail"], styles.icon)}
           src="/icons/circle-envelope-regular.svg"
