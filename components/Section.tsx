@@ -23,27 +23,25 @@ const Section: React.FC<SectionPropType> = ({
   children,
 }): ReactElement => {
   const screenshotsRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const cardRefs = useRef<Array<any>>([]);
   const [latestCommit, setLatestCommit] = useState<any>(null);
 
   useEffect(() => {
     const scrollTrigger = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting)
+        entries
+          .filter((entry) => entry.isIntersecting)
+          .forEach((entry) => {
             entry.target.classList.add(styles["active"]);
-        });
+          });
       },
       { threshold: 0.3 }
     );
 
-    if (cardRefs.current.length !== 0)
-      cardRefs.current.forEach((card) => {
-        if (!card) return;
-        scrollTrigger.observe(card);
-      });
+    cardRefs.current.length !== 0 &&
+      cardRefs.current.forEach((card) => scrollTrigger.observe(card));
 
-    if (screenshotsRef.current) scrollTrigger.observe(screenshotsRef.current);
+    screenshotsRef.current && scrollTrigger.observe(screenshotsRef.current);
   }, []);
 
   const swiperGeneroator = (): Array<any> => {
