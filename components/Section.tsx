@@ -228,7 +228,7 @@ const Section: React.FC<SectionPropType> = ({
                 {data.summary.date}
               </p>
             </div>
-            <div className={styles["summary-wrapper"]}>
+            {/* <div className={styles["summary-wrapper"]}>
               <h4 className={styles["summary__sub-title"]}>개발 인원</h4>
               <p
                 className={classNames(
@@ -238,9 +238,20 @@ const Section: React.FC<SectionPropType> = ({
               >
                 {data.summary.headCount}명
               </p>
+            </div> */}
+            <div className={styles["summary-wrapper"]}>
+              <h4 className={styles["summary__sub-title"]}>내용</h4>
+              <p
+                className={classNames(
+                  styles["card__content"],
+                  styles["summary__text"]
+                )}
+              >
+                {data.description}
+              </p>
             </div>
           </div>
-          <div
+          {/* <div
             ref={(el) => (cardRefs.current[1] = el)}
             className={classNames(styles.description, styles.card)}
           >
@@ -248,9 +259,9 @@ const Section: React.FC<SectionPropType> = ({
             <p className={classNames(styles["card__content"])}>
               {data.description}
             </p>
-          </div>
+          </div> */}
           <div
-            ref={(el) => (cardRefs.current[2] = el)}
+            ref={(el) => (cardRefs.current[1] = el)}
             className={classNames(styles.skills, styles.card)}
           >
             <h3 className={styles["card__title"]}>Skills</h3>
@@ -259,7 +270,7 @@ const Section: React.FC<SectionPropType> = ({
             </ul>
           </div>
           <div
-            ref={(el) => (cardRefs.current[3] = el)}
+            ref={(el) => (cardRefs.current[2] = el)}
             className={classNames(styles.update, styles.card)}
           >
             <hgroup>
@@ -296,7 +307,7 @@ const Section: React.FC<SectionPropType> = ({
           </div>
 
           <div
-            ref={(el) => (cardRefs.current[4] = el)}
+            ref={(el) => (cardRefs.current[3] = el)}
             className={classNames(styles.links, styles.card)}
           >
             <h3 className={styles["card__title"]}>Links</h3>

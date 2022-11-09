@@ -107,6 +107,19 @@ const ReactNative = (): ReactElement => {
             </p>
           </div>
           <div className={styles["summary-wrapper"]}>
+            <h4 className={styles["summary__sub-title"]}>내용</h4>
+            <p
+              className={classNames(
+                styles["card__content"],
+                styles["summary__text"]
+              )}
+            >
+              {
+                "ToDo와 날씨 모바일 애플리케이션입니다.\nReact Native와 Expo를 사용해 프로젝트를 진행하였습니다. ToDo 앱에는 Drag & Drop, Progress bar 등의 기능을 구현하였고 날씨 앱에는 geoLocation, weather api 등의 기능을 구현하였습니다.\n앱이 배포까지 이뤄지지 못한 대신 3D 모델과 Three.js로 앱의 모습을 대신 표현해 보았습니다."
+              }
+            </p>
+          </div>
+          {/* <div className={styles["summary-wrapper"]}>
             <h4 className={styles["summary__sub-title"]}>개발 인원</h4>
             <p
               className={classNames(
@@ -116,9 +129,9 @@ const ReactNative = (): ReactElement => {
             >
               1명
             </p>
-          </div>
+          </div> */}
         </div>
-        <div
+        {/* <div
           ref={(el) => (cardRefs.current[1] = el)}
           className={classNames(styles.description, styles.card)}
         >
@@ -128,9 +141,9 @@ const ReactNative = (): ReactElement => {
               "ToDo와 날씨 모바일 애플리케이션입니다.\nReact Native와 Expo를 사용해 프로젝트를 진행하였습니다. ToDo 앱에는 Drag & Drop, Progress bar 등의 기능을 구현하였고 날씨 앱에는 geoLocation, weather api 등의 기능을 구현하였습니다.\n앱이 배포까지 이뤄지지 못한 대신 3D 모델과 Three.js로 앱의 모습을 대신 표현해 보았습니다."
             }
           </p>
-        </div>
+        </div> */}
         <div
-          ref={(el) => (cardRefs.current[2] = el)}
+          ref={(el) => (cardRefs.current[1] = el)}
           className={classNames(styles.skills, styles.card)}
         >
           <h3 className={styles["card__title"]}>Skills</h3>
@@ -142,7 +155,7 @@ const ReactNative = (): ReactElement => {
           </ul>
         </div>
         <div
-          ref={(el) => (cardRefs.current[3] = el)}
+          ref={(el) => (cardRefs.current[2] = el)}
           className={classNames(styles.update, styles.card)}
         >
           <hgroup>
@@ -174,7 +187,7 @@ const ReactNative = (): ReactElement => {
           )}
         </div>
         <div
-          ref={(el) => (cardRefs.current[4] = el)}
+          ref={(el) => (cardRefs.current[3] = el)}
           className={classNames(styles.links, styles.card)}
         >
           <h3 className={styles["card__title"]}>Links</h3>
