@@ -47,8 +47,8 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
       return;
     }
 
-    skills.forEach((skill: any): void => {
-      skill.addEventListener("mousemove", (e: any): void => {
+    skills.forEach((skill: any) => {
+      skill.addEventListener("mousemove", (e: any) => {
         const position = skill.getBoundingClientRect();
         const x = (e.clientX - position.left - position.width / 2) * 0.3;
         const y = (e.clientY - position.top - position.height / 2) * 0.3;
@@ -63,7 +63,7 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
       });
     });
 
-    const windowScrollListener = (): void => {
+    const windowScrollListener = () => {
       setShowInfoWindow(false);
     };
 
@@ -71,7 +71,7 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
 
     return () => {
       skills.forEach((skill: any) => {
-        skill.removeEventListener("mousemove", (e: any): void => {
+        skill.removeEventListener("mousemove", (e: any) => {
           const position = skill.getBoundingClientRect();
           const x = (e.clientX - position.left - position.width / 2) * 0.3;
           const y = (e.clientY - position.top - position.height / 2) * 0.3;

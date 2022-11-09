@@ -8,7 +8,7 @@ import classNames from "classnames";
 const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
   const [pwCheck, setPwCheck] = useState<string>("");
 
-  const onPwCheckChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const onPwCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPwCheck(e.target.value);
   };
 

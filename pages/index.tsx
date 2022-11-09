@@ -39,9 +39,9 @@ const Index: React.FC<HomePropType> = () => {
         <MemoryTestApp />
       </Section>
       <Section data={metaBeef} />
-      <Section data={clock}>
+      {/* <Section data={clock}>
         <ClockApp />
-      </Section>
+      </Section> */}
       <Section data={simpleMemo} />
       <Footer />
     </main>

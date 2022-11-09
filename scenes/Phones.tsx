@@ -16,7 +16,7 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
   const controlRef = useRef<any>(null);
   const groupRef = useRef<any>(null);
 
-  useEffect((): void => {
+  useEffect(() => {
     if (!controlRef.current) {
       return;
     }

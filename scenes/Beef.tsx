@@ -22,7 +22,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
   const plateRef = useRef<any>(null);
   const lightRef = useRef<any>(null);
 
-  useEffect((): void => {
+  useEffect(() => {
     if (!controlRef.current || !beefRef.current) {
       return;
     }

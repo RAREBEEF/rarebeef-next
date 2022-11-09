@@ -16,11 +16,11 @@ const Contact: React.FC<ContactPropType> = () => {
 
   const dispatch = useDispatch();
 
-  useEffect((): void => {
+  useEffect(() => {
     dispatch<any>(getGuestBookThunk());
   }, [dispatch]);
 
-  const onCopyClick = (): void => {
+  const onCopyClick = () => {
     navigator.clipboard
       .writeText("drrobot409@gmail.com")
       .then(() => {

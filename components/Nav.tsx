@@ -8,7 +8,7 @@ import Link from "next/link";
 const Nav: React.FC<NavPropType> = (): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
-  const onMenuClick = (): void => {
+  const onMenuClick = () => {
     setShowMenu((prev) => !prev);
   };
 

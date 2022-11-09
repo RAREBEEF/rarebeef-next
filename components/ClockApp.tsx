@@ -47,7 +47,7 @@ const ClockApp = (): ReactElement => {
 
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
-    const timeUpdate = setInterval((): void => {
+    const timeUpdate = setInterval(() => {
       const date = new Date();
 
       setTime([
@@ -72,14 +72,14 @@ const ClockApp = (): ReactElement => {
       }
     }, 100);
 
-    return (): void => {
+    return () => {
       clearInterval(timeUpdate);
       window.removeEventListener("resize", windowResizeListener);
     };
   });
 
   const clickAnimation = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>): void => {
+    (e: React.MouseEvent<HTMLDivElement>) => {
       gsap.to(e.target, 0.1, {
         repeat: 1,
         yoyo: true,
@@ -89,7 +89,7 @@ const ClockApp = (): ReactElement => {
     []
   );
 
-  const nextClick = (e: React.MouseEvent<HTMLDivElement>): void => {
+  const nextClick = (e: React.MouseEvent<HTMLDivElement>) => {
     clickAnimation(e);
 
     if (!!alarm.active) {
@@ -105,7 +105,7 @@ const ClockApp = (): ReactElement => {
     }
   };
 
-  const prevClick = (e: React.MouseEvent<HTMLDivElement>): void => {
+  const prevClick = (e: React.MouseEvent<HTMLDivElement>) => {
     clickAnimation(e);
 
     if (!!alarm.active) {
@@ -121,7 +121,7 @@ const ClockApp = (): ReactElement => {
     }
   };
 
-  const selectClick = (e: React.MouseEvent<HTMLDivElement>): void => {
+  const selectClick = (e: React.MouseEvent<HTMLDivElement>) => {
     clickAnimation(e);
 
     if (select === 3) {
@@ -141,15 +141,15 @@ const ClockApp = (): ReactElement => {
     }
   };
 
-  const dateClick = (): void => {
+  const dateClick = () => {
     setShow("date");
   };
 
-  const alarmClick = (): void => {
+  const alarmClick = () => {
     setShow("alarm");
   };
 
-  const hourInput = (e: any): void => {
+  const hourInput = (e: any) => {
     if (!e.target.value) {
       return;
     }
@@ -161,7 +161,7 @@ const ClockApp = (): ReactElement => {
     }
   };
 
-  const minuteInput = (e: any): void => {
+  const minuteInput = (e: any) => {
     if (!e.target.value) {
       return;
     }
@@ -173,7 +173,7 @@ const ClockApp = (): ReactElement => {
     }
   };
 
-  const secondInput = (e: any): void => {
+  const secondInput = (e: any) => {
     if (!e.target.value) {
       return;
     }
@@ -185,7 +185,7 @@ const ClockApp = (): ReactElement => {
     }
   };
 
-  const stopRinging = (): void => {
+  const stopRinging = () => {
     setAlarm((prevAlarm: any) => ({ ...prevAlarm, ring: false }));
     // alarmSound.pause();
     // alarmSound.currentTime = 0;
