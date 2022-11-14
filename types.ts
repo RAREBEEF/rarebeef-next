@@ -34,6 +34,10 @@ export interface sectionDataType {
     velog: string;
     project?: { icon: string; href: string };
   };
+  testAccount?: {
+    id: string;
+    pw: string;
+  };
 }
 
 export interface SectionPropType {

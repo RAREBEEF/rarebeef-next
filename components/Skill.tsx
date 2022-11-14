@@ -20,8 +20,6 @@ import Tailwindcss from "../public/skills/tailwindcss-brands.svg";
 import Image from "next/image";
 
 const Skill: React.FC<SkillPropType> = ({ skill }) => {
-  const [showInfoWindow, setShowInfoWindow] = useState<boolean>(false);
-
   const srcs = {
     "Three.js": Three,
     React: react,
@@ -49,6 +47,8 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
 
     skills.forEach((skill: any) => {
       skill.addEventListener("mousemove", (e: any) => {
+        e.preventDefault();
+
         const position = skill.getBoundingClientRect();
         const x = (e.clientX - position.left - position.width / 2) * 0.3;
         const y = (e.clientY - position.top - position.height / 2) * 0.3;
@@ -57,17 +57,13 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
         skill.style.transition = `all 0s`;
       });
 
-      skill.addEventListener("mouseout", () => {
+      skill.addEventListener("mouseout", (e: Event) => {
+        e.preventDefault();
+
         skill.style.transform = `translate(0px, 0px)`;
         skill.style.transition = `all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
       });
     });
-
-    const windowScrollListener = () => {
-      setShowInfoWindow(false);
-    };
-
-    window.addEventListener("scroll", windowScrollListener);
 
     return () => {
       skills.forEach((skill: any) => {
@@ -84,8 +80,6 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
           skill.style.transition = `all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);`;
         });
       });
-
-      window.removeEventListener("scroll", windowScrollListener);
     };
   }, []);
 
@@ -96,12 +90,7 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
           <Image src={srcs[skill]} alt={skill} />
         </div>
 
-        <div
-          className={classNames(
-            styles["skill__tooltip"],
-            showInfoWindow && styles.show
-          )}
-        >
+        <div className={classNames(styles["skill__tooltip"])}>
           <span className={styles["tooltip-text"]}>{skill}</span>
         </div>
       </div>

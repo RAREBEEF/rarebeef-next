@@ -37,6 +37,10 @@ const data: sectionDataType = {
       href: "https://palettevault.netlify.app",
     },
   },
+  testAccount: {
+    id: "test",
+    pw: "test",
+  },
 };
 
 export default data;

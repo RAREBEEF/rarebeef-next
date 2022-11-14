@@ -12,11 +12,16 @@ const withPWA = require("next-pwa")({
   dest: "public",
 });
 
-const nextConfig = {
+module.exports = withPWA({
   reactStrictMode: true,
   swcMinify: true,
-};
-
-module.exports = withPWA({
-  nextConfig,
+  async redirects() {
+    return [
+      {
+        source: "/profile",
+        destination: "/about",
+        permanent: true,
+      },
+    ];
+  },
 });

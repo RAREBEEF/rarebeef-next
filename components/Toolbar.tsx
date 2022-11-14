@@ -13,15 +13,19 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const windowResizeListener = useCallback(() => {
-    setClientHeight(window.innerHeight);
-  }, []);
-
-  const windowScrollListener = useCallback(() => {
-    setScrollTop(window.scrollY);
-  }, []);
-
   useEffect(() => {
+    const windowResizeListener = (e: Event) => {
+      e.preventDefault();
+
+      setClientHeight(window.innerHeight);
+    };
+
+    const windowScrollListener = (e: Event) => {
+      e.preventDefault();
+
+      setScrollTop(window.scrollY);
+    };
+
     window.addEventListener("scroll", _.throttle(windowScrollListener, 500));
     window.addEventListener("resize", _.debounce(windowResizeListener, 500));
 
@@ -35,7 +39,7 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
         _.debounce(windowResizeListener, 500)
       );
     };
-  }, [windowResizeListener, windowScrollListener]);
+  }, []);
 
   return (
     <div className={classNames(styles.container)}>

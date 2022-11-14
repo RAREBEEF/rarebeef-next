@@ -31,6 +31,9 @@ const NotFound = () => {
               weight: 500;
             }
           }
+          a {
+            text-decoration: underline;
+          }
         }
       `}</style>
     </main>

@@ -311,27 +311,49 @@ const Section: React.FC<SectionPropType> = ({
             className={classNames(styles.links, styles.card)}
           >
             <h3 className={styles["card__title"]}>Links</h3>
-            <div className={classNames(styles["card__content"])}>
-              {data.links.github && (
-                <Button
-                  icon="/icons/github-square-brands.svg"
-                  href={data.links.github}
-                  classes={["Home__project-link"]}
-                />
-              )}
-              {data.links.velog && (
-                <Button
-                  icon="/icons/velog-square.svg"
-                  href={data.links.velog}
-                  classes={["Home__project-link"]}
-                />
-              )}
-              {data.links.project && (
-                <Button
-                  icon={data.links.project.icon}
-                  href={data.links.project.href}
-                  classes={["Home__project-link"]}
-                />
+            <div className={styles["card__content"]}>
+              <ul className={styles["link__list"]}>
+                {data.links.github && (
+                  <li>
+                    <Button
+                      icon="/icons/github-square-brands.svg"
+                      href={data.links.github}
+                      classes={["Home__project-link"]}
+                    />
+                  </li>
+                )}
+                {data.links.velog && (
+                  <li>
+                    <Button
+                      icon="/icons/velog-square.svg"
+                      href={data.links.velog}
+                      classes={["Home__project-link"]}
+                    />
+                  </li>
+                )}
+                {data.links.project && (
+                  <li>
+                    <Button
+                      icon={data.links.project.icon}
+                      href={data.links.project.href}
+                      classes={["Home__project-link"]}
+                    />
+                  </li>
+                )}
+              </ul>
+              {data.testAccount && (
+                <div className={styles["test-account"]}>
+                  <h4 className={styles["links__sub-title"]}>Test account</h4>
+                  <ul className={styles["test-account__list"]}>
+                    <li>
+                      <span>ID : {data.testAccount.id}</span>
+                    </li>
+                    <li>
+                      <span>PW : {data.testAccount.pw}</span>
+                    </li>
+                  </ul>
+                  <p>혹은 가상의 이메일로 가입하셔도 됩니다.</p>
+                </div>
               )}
             </div>
           </div>

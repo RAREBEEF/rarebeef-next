@@ -23,6 +23,10 @@ const data: sectionDataType = {
       href: "https://rarebeef.github.io/meta-beef",
     },
   },
+  testAccount: {
+    id: "test",
+    pw: "test",
+  },
 };
 
 export default data;

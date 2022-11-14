@@ -10,6 +10,7 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { BeefModelPropType } from "../types";
 import { PlateModelPropType } from "../types";
+import { ThreeEvent } from "@react-three/fiber";
 
 const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
   const calcScroll = useCalcScroll();
@@ -29,7 +30,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
 
     const control = controlRef.current;
     const beef = beefRef.current;
-
+    
     control.dispose();
     control.enableZoom = false;
     control.enablePan = false;
@@ -56,7 +57,9 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
     const beefPos = beefRef.current.position;
     const groupPos = groupRef.current.position;
 
-    const windowScrollListener = () => {
+    const windowScrollListener = (e: Event) => {
+      e.preventDefault();
+
       let scrollProgress = calcScroll(sectionRef);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.9) {
@@ -177,7 +180,9 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
 
     window.addEventListener("scroll", windowScrollListener);
 
-    const windowResizeListener = () => {
+    const windowResizeListener = (e: Event) => {
+      e.preventDefault();
+
       setScale(
         window.innerWidth < 300
           ? 0.7

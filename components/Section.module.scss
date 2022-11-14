@@ -41,6 +41,7 @@
     }
 
     .screenshots {
+      box-shadow: 5px 5px 5px lightgray;
       min-width: 230px;
       background-color: rgba(200, 200, 200, 0.2);
       border-radius: 15px;
@@ -135,6 +136,7 @@
     }
 
     .card {
+      box-shadow: 5px 5px 5px lightgray;
       background-color: rgba(200, 200, 200, 0.2);
       border-radius: 15px;
       height: fit-content;
@@ -312,16 +314,45 @@
       &.links {
         min-width: 200px;
         .card__content {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
+          .link__list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+          }
+
+          .test-account {
+            margin-top: 20px;
+            .links__sub-title {
+              margin: {
+                bottom: 10px;
+              }
+              font: {
+                size: 20px;
+                weight: 700;
+              }
+            }
+            .test-account__list {
+              margin-left: 10px;
+              display: flex;
+              gap: 10px;
+            }
+            & > p {
+              color: gray;
+              word-break: keep-all;
+              font-size: 14px;
+              margin: {
+                top: 10px;
+                left: 10px;
+              }
+            }
+          }
         }
       }
     }
   }
 }
 
-@media all and (max-height: 640px) {
+@media all and (max-width: 1024px), all and (max-height: 640px) {
   .container {
     .content {
       flex-direction: column;
@@ -333,42 +364,7 @@
         position: static;
       }
       .screenshots {
-        background: none;
-        max-height: auto;
-        .swiper__container {
-          padding: 10vw;
-          max-height: auto;
-        }
-      }
-      .card {
-        width: 90vw;
-        margin: {
-          left: 10px;
-          right: 10px;
-        }
-        &:first-child {
-          margin-top: 100px;
-        }
-        &:last-child {
-          margin-bottom: 250px;
-        }
-      }
-    }
-  }
-}
-
-@media all and (max-width: 1024px) {
-  .container {
-    .content {
-      flex-direction: column;
-      align-items: center;
-      .content__left,
-      .content__right {
-        width: auto;
-        height: auto;
-        position: static;
-      }
-      .screenshots {
+        box-shadow: none;
         background: none;
         max-height: auto;
         .swiper__container {
@@ -381,11 +377,12 @@
       .card {
         width: 90vw;
         margin: {
+          top: 100px;
           left: 10px;
           right: 10px;
         }
         &:first-child {
-          margin-top: 100px;
+          margin-top: 50px;
         }
         &:last-child {
           margin-bottom: 250px;
@@ -400,7 +397,17 @@
     .content {
       .screenshots {
         .swiper__container {
+          margin-top: 50px;
           padding: 0;
+        }
+      }
+      .card {
+        margin-top: 50px;
+        &:first-child {
+          margin-top: 0px;
+        }
+        &:last-child {
+          margin-bottom: 200px;
         }
       }
     }
@@ -411,6 +418,9 @@
   .container {
     .content {
       .card {
+        &:last-child {
+          margin-bottom: 150px;
+        }
         .card__title {
           text-align: center;
         }
@@ -461,7 +471,18 @@
         }
         &.links {
           .card__content {
-            justify-content: space-evenly;
+            .link__list {
+              justify-content: space-evenly;
+            }
+            .test-account {
+              .test-account__list {
+                margin-left: 0;
+                justify-content: space-evenly;
+              }
+              & > p {
+                margin-left: 0;
+              }
+            }
           }
         }
       }

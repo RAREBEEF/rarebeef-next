@@ -34,12 +34,14 @@ const ClockApp = (): ReactElement => {
 
   React.useEffect(() => {
     setVh(window.innerHeight * 0.01);
-  }, [])
+  }, []);
 
   React.useEffect(() => {
     // alarmSound.loop = true;
 
-    const windowResizeListener = () => {
+    const windowResizeListener = (e: Event) => {
+      e.preventDefault();
+
       setVh(window.innerHeight * 0.01);
     };
 
@@ -78,16 +80,13 @@ const ClockApp = (): ReactElement => {
     };
   });
 
-  const clickAnimation = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      gsap.to(e.target, 0.1, {
-        repeat: 1,
-        yoyo: true,
-        translateY: "10vmin",
-      });
-    },
-    []
-  );
+  const clickAnimation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.target, 0.1, {
+      repeat: 1,
+      yoyo: true,
+      translateY: "10vmin",
+    });
+  }, []);
 
   const nextClick = (e: React.MouseEvent<HTMLDivElement>) => {
     clickAnimation(e);

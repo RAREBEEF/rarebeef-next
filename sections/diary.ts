@@ -37,6 +37,10 @@ const data: sectionDataType = {
       href: "https://diary-daily.netlify.app/",
     },
   },
+  testAccount: {
+    id: "test",
+    pw: "test",
+  },
 };
 
 export default data;

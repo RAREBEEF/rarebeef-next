@@ -33,7 +33,9 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
     const realSubTitle = realSubTitleRef.current;
     const realTitle = realTitleRef.current;
 
-    const windowScrollListener = () => {
+    const windowScrollListener = (e: Event) => {
+      e.preventDefault();
+
       const scrollProgress = calcScroll(containerRef);
 
       if (scrollProgress >= 1.3 || scrollProgress <= 0) {

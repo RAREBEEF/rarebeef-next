@@ -192,16 +192,22 @@ const ReactNative = (): ReactElement => {
         >
           <h3 className={styles["card__title"]}>Links</h3>
           <div className={classNames(styles["card__content"])}>
-            <Button
-              icon="/icons/github-square-brands.svg"
-              href="https://github.com/RAREBEEF/Todo-app"
-              classes={["Home__project-link"]}
-            />
-            <Button
-              icon="/icons/velog-square.svg"
-              href="https://velog.io/@drrobot409/React-Native-Expo-ToDo%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0"
-              classes={["Home__project-link"]}
-            />
+            <ul className={styles["link__list"]}>
+              <li>
+                <Button
+                  icon="/icons/github-square-brands.svg"
+                  href="https://github.com/RAREBEEF/Todo-app"
+                  classes={["Home__project-link"]}
+                />
+              </li>
+              <li>
+                <Button
+                  icon="/icons/velog-square.svg"
+                  href="https://velog.io/@drrobot409/React-Native-Expo-ToDo%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0"
+                  classes={["Home__project-link"]}
+                />
+              </li>
+            </ul>
           </div>
         </div>
       </main>

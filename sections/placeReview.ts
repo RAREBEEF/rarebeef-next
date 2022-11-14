@@ -24,6 +24,10 @@ const data: sectionDataType = {
       href: "https://rarebeef.github.io/place-review/",
     },
   },
+  testAccount: {
+    id: "test",
+    pw: "test",
+  },
 };
 
 export default data;

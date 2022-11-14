@@ -40,7 +40,9 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
 
     const controlPos = controlRef.current.object.position;
 
-    const windowScrollListener = () => {
+    const windowScrollListener = (e: Event) => {
+      e.preventDefault();
+
       let scrollProgress = calcScroll(sectionRef);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.5) {
@@ -97,7 +99,9 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
 
     window.addEventListener("scroll", windowScrollListener);
 
-    const windowResizeListener = () => {
+    const windowResizeListener = (e: Event) => {
+      e.preventDefault();
+
       setScale(
         window.innerWidth < 300
           ? 0.7
