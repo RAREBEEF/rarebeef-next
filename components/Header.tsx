@@ -48,10 +48,10 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
         // 스케일 애니메이션 실행
         targets[1].style.clipPath = "inset(100% 0px 0px)";
         firstLines.forEach((line) => {
-          line.style.transform = "translateX(-26.5)";
+          line.style.transform = "translateX(-26.5px)";
         });
         lastLines.forEach((line) => {
-          line.style.transform = "translateX(42.5)";
+          line.style.transform = "translateX(42.5px)";
         });
         scrollProgress = scrollProgress * scrollProgress * scrollProgress;
         targets.forEach((target) => {
