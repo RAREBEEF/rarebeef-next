@@ -1,3 +1,5 @@
+import { legacy_createStore } from "redux";
+
 /**
  * @return clacScroll function
  * */
@@ -10,11 +12,12 @@ const useCalcScroll = () => {
     const { current: target } = ref;
 
     // (뷰포트 상단 기준 section top의 y 위치) / (ref 높이 - sticy요소(content) 높이),
-    return (
+    let x =
       (target.getBoundingClientRect().top /
         (target.clientHeight - target.childNodes[1].clientHeight)) *
-      -1
-    );
+      -1;
+
+    return x;
   };
 
   return calcScroll;

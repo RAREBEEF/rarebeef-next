@@ -113,6 +113,10 @@ export interface SkillPropType {
   skill: skillType;
 }
 
+export interface InitLoadingPropType {
+  init: boolean;
+}
+
 export interface HomePropType {}
 
 export interface ProfilePropType {}
