@@ -1,0 +1,49 @@
+.container {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  width: 100vw;
+  min-width: 230px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.fade-out {
+    animation: fade-out 1s linear forwards;
+    @keyframes fade-out {
+      0% {
+        display: flex;
+        opacity: 1;
+      }
+      90% {
+        opacity: 0;
+        display: flex;
+      }
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+  }
+  .icon--loading {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 10vmin;
+    height: 10vmin;
+    min-width: 100px;
+    min-height: 100px;
+    pointer-events: none;
+    animation: rotate 1s linear infinite;
+    @keyframes rotate {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

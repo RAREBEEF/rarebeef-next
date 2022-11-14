@@ -2,69 +2,91 @@ import { ReactElement, useEffect, useRef } from "react";
 import styles from "./Header.module.scss";
 import { FrontPropType } from "../types";
 import gsap from "gsap";
-import Image from "next/image";
-import beefImg from "../public/logos/beef.svg";
 import useCalcScroll from "../hooks/useCalcScroll";
 import _ from "lodash";
 
 const Header: React.FC<FrontPropType> = (): ReactElement => {
-  const clipPathRef = useRef<HTMLHeadingElement>(null);
-  const fakeSubTitleRef = useRef<HTMLHeadingElement>(null);
-  const realSubTitleRef = useRef<HTMLHeadingElement>(null);
-  const fakeTitleRef = useRef<HTMLHeadingElement>(null);
-  const realTitleRef = useRef<HTMLHeadingElement>(null);
+  const animationTargetsRef = useRef<Array<any>>([]);
+  const firstLinesRef = useRef<Array<any>>([]);
+  const lastLinesRef = useRef<Array<any>>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const calcScroll = useCalcScroll();
 
   useEffect(() => {
     if (
-      !clipPathRef.current ||
-      !fakeSubTitleRef.current ||
-      !fakeTitleRef.current ||
-      !realSubTitleRef.current ||
-      !realTitleRef.current ||
-      !containerRef.current
+      !animationTargetsRef.current ||
+      !containerRef.current ||
+      !firstLinesRef.current ||
+      !lastLinesRef.current
     )
       return;
 
-    const clipPath = clipPathRef.current;
-    const fakeSubTitle = fakeSubTitleRef.current;
-    const fakeTitle = fakeTitleRef.current;
-    const realSubTitle = realSubTitleRef.current;
-    const realTitle = realTitleRef.current;
+    const targets = animationTargetsRef.current;
+    const firstLines = firstLinesRef.current;
+    const lastLines = lastLinesRef.current;
 
     const windowScrollListener = (e: Event) => {
       e.preventDefault();
 
-      const scrollProgress = calcScroll(containerRef);
+      // 스크롤 진행도, 100% = 1, 0% = 0, 한계점 x
+      let scrollProgress = calcScroll(containerRef);
 
-      if (scrollProgress >= 1.3 || scrollProgress <= 0) {
-        return;
-      } else if (scrollProgress >= 1) {
-        clipPath.style.clipPath = "inset(-100% 0px 0px)";
+      // 진행도에 따른 x축, clip-path, 스케일 애니메이션 처리
+      if (scrollProgress >= 1) {
+        // 진행도 1 이상
+        // x축, clip-path 기본값
+        targets[1].style.clipPath = "inset(-100% 0px 0px)";
+        firstLines.forEach((line) => {
+          line.style.transform = "translateX(0)";
+        });
+        lastLines.forEach((line) => {
+          line.style.transform = "translateX(0)";
+        });
+      } else if (scrollProgress < 0) {
+        // 진행도 0 미만
+        // x축 & clip-path 초기값
+        // 스케일 애니메이션 실행
+        targets[1].style.clipPath = "inset(100% 0px 0px)";
+        firstLines.forEach((line) => {
+          line.style.transform = "translateX(-26.5)";
+        });
+        lastLines.forEach((line) => {
+          line.style.transform = "translateX(42.5)";
+        });
+        scrollProgress = scrollProgress * scrollProgress * scrollProgress;
+        targets.forEach((target) => {
+          gsap.to(target, {
+            duration: 0,
+            scale: -scrollProgress * 20 + 1,
+          });
+        });
       } else {
-        gsap.to(clipPath, 0.1, {
+        // 진행도 1 미만 0 이상
+        // 스케일 기본값
+        // x축 & clip-path 애니메이션 실행
+        targets.forEach((target) => {
+          target.style.transform = "scale(1)";
+        });
+        gsap.to(targets[1], {
+          duration: 0,
           clipPath: `inset(${100 - scrollProgress * 100}% 0px 0px)`,
           ease: "linear",
         });
+        firstLines.forEach((line) => {
+          gsap.to(line, {
+            translateX: `${
+              scrollProgress < 0 ? -26.5 : -26.5 + 26.5 * scrollProgress
+            }`,
+          });
+        });
+        lastLines.forEach((line) => {
+          gsap.to(line, {
+            translateX: `${
+              scrollProgress < 0 ? 42.5 : 42.5 - 42.5 * scrollProgress
+            }`,
+          });
+        });
       }
-
-      gsap.to(fakeSubTitle, 0.3, {
-        transform: `translateY(${15 - scrollProgress * 15}vmin)`,
-        ease: "linear",
-      });
-      gsap.to(fakeTitle, 0.3, {
-        transform: `translateY(${-15 + scrollProgress * 15}vmin)`,
-        ease: "linear",
-      });
-      gsap.to(realSubTitle, 0.3, {
-        transform: `translateY(${15 - scrollProgress * 15}vmin)`,
-        ease: "linear",
-      });
-      gsap.to(realTitle, 0.3, {
-        transform: `translateY(${-15 + scrollProgress * 15}vmin)`,
-        ease: "linear",
-      });
     };
 
     window.addEventListener("scroll", windowScrollListener);
@@ -76,42 +98,46 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
 
   return (
     <header ref={containerRef} className={styles.container}>
-      <div /* className={styles.bg} */ />
+      <div />
       <div className={styles.content}>
-        <div className={styles.fake}>
+        <div
+          ref={(el) => (animationTargetsRef.current[0] = el)}
+          className={styles.fake}
+          style={{ transform: "scale(73.88)" }}
+        >
           <div
-            ref={fakeSubTitleRef}
-            className={styles["sub-title"]}
-            style={{ transform: `translateY(15vmin)` }}
+            ref={(el) => (firstLinesRef.current[0] = el)}
+            style={{ transform: "translateX(-26.5px)" }}
           >
-            RAREBEEF&apos;s
+            Rare
           </div>
-          <div className={styles.logo}>
-            <Image src={beefImg} alt="RARE BEEF" />
-          </div>
+          <div>beef&apos;s</div>
           <div
-            ref={fakeTitleRef}
-            className={styles.title}
-            style={{ transform: `translateY(-15vmin)` }}
+            ref={(el) => (lastLinesRef.current[0] = el)}
+            style={{ transform: "translateX(42.5px)" }}
           >
-            Portfolio
+            portfolio
           </div>
         </div>
-        <hgroup
-          ref={clipPathRef}
+        <h1
+          ref={(el) => (animationTargetsRef.current[1] = el)}
           className={styles.real}
           style={{ clipPath: "inset(100% 0px 0px)" }}
         >
-          <h1 ref={realSubTitleRef} className={styles["sub-title"]}>
-            RAREBEEF&apos;s
-          </h1>
-          <div className={styles.logo}>
-            <Image src={beefImg} alt="RARE BEEF" priority />
+          <div
+            ref={(el) => (firstLinesRef.current[1] = el)}
+            style={{ transform: "translateX(-26.5px)" }}
+          >
+            Rare
           </div>
-          <h1 ref={realTitleRef} className={styles.title}>
-            Portfolio
-          </h1>
-        </hgroup>
+          <div>beef&apos;s</div>
+          <div
+            ref={(el) => (lastLinesRef.current[1] = el)}
+            style={{ transform: "translateX(42.5px)" }}
+          >
+            portfolio
+          </div>
+        </h1>
       </div>
     </header>
   );
