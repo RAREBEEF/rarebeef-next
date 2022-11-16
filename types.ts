@@ -46,11 +46,13 @@ export interface SectionPropType {
 }
 
 export interface PhonesPropType {
-  sectionRef: any;
+  containerRef: any;
+  stickyElRef: any;
 }
 
 export interface BeefPropType {
-  sectionRef: any;
+  containerRef: any;
+  stickyElRef: any;
   setText: Function;
 }
 
@@ -177,4 +179,12 @@ export interface guestBookType {
   createdAt: number;
   displayIp: string;
   ip: string;
+}
+
+export interface styleType {
+  duration?: number;
+  ease?: string;
+  translateX?: string | number;
+  scale?: string | number;
+  clipPath?: string | number;
 }

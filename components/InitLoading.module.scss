@@ -4,29 +4,32 @@
   z-index: 10;
   background-color: white;
   width: 100vw;
-  min-width: 230px;
+  min-width: 350px;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 25px;
   &.fade-out {
-    animation: fade-out 1s linear forwards;
+    animation: fade-out 0.5s linear forwards;
     @keyframes fade-out {
       0% {
-        display: flex;
         opacity: 1;
-      }
-      90% {
-        opacity: 0;
-        display: flex;
       }
       100% {
         opacity: 0;
-        display: none;
       }
     }
   }
-  .icon--loading {
+  .icon {
+    .blob {
+      fill: none;
+      stroke: #000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 4px;
+    }
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -36,13 +39,42 @@
     min-width: 100px;
     min-height: 100px;
     pointer-events: none;
-    animation: rotate 1s linear infinite;
+    animation: rotate 15s linear infinite;
     @keyframes rotate {
       0% {
         transform: rotate(0);
       }
       100% {
         transform: rotate(360deg);
+      }
+    }
+  }
+  .text {
+    color: black;
+    font: {
+      size: 25px;
+      weight: 700;
+    }
+    &::after {
+      position: absolute;
+      content: ".";
+      animation: dots 2s linear infinite;
+      @keyframes dots {
+        0% {
+          content: ".";
+        }
+        25% {
+          content: "..";
+        }
+        50% {
+          content: "...";
+        }
+        75% {
+          content: "..";
+        }
+        100% {
+          content: ".";
+        }
       }
     }
   }

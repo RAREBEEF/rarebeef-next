@@ -3,13 +3,14 @@
 .container {
   background-color: black;
   height: 230vh !important;
-  min-width: 230px;
+  min-width: 350px;
   display: block !important;
   margin: {
     bottom: 0;
   }
 
   .content {
+    overflow: hidden;
     position: sticky !important;
     top: 0;
     display: flex;

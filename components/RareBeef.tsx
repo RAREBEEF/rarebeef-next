@@ -7,20 +7,25 @@ import Loading from "../components/Loading";
 import Beef from "../scenes/Beef";
 
 const RareBeef = (): ReactElement => {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stickyElRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<number>(0);
 
   return (
-    <section className={styles.container} ref={sectionRef}>
+    <section className={styles.container} ref={containerRef}>
       <SectionHeader
         title={["Why", "RAREBEEF?"]}
         subTitle={["Origin", "of", "RAREBEEF"]}
         classes={["RareBeef"]}
       />
-      <main className={styles.content}>
+      <main ref={stickyElRef} className={styles.content}>
         <Suspense fallback={<Loading />}>
           <Canvas className={styles.canvas} shadows dpr={[1, 1.2]}>
-            <Beef sectionRef={sectionRef} setText={setText} />
+            <Beef
+              containerRef={containerRef}
+              stickyElRef={stickyElRef}
+              setText={setText}
+            />
           </Canvas>
         </Suspense>
         <p
@@ -38,7 +43,8 @@ const RareBeef = (): ReactElement => {
         <p
           className={classNames(styles["main-text"], text === 3 && styles.show)}
         >
-          오랜 기간 사용해온 저의 닉네임을 심볼화하여 현재까지 사용 중에 있습니다.
+          오랜 기간 사용해온 저의 닉네임을 심볼화하여 현재까지 사용 중에
+          있습니다.
         </p>
         <hgroup className={styles["header-group"]}>
           <h1

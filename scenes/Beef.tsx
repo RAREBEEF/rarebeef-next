@@ -10,9 +10,12 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { BeefModelPropType } from "../types";
 import { PlateModelPropType } from "../types";
-import { ThreeEvent } from "@react-three/fiber";
 
-const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
+const Beef: React.FC<BeefPropType> = ({
+  containerRef,
+  stickyElRef,
+  setText,
+}) => {
   const calcScroll = useCalcScroll();
   const [scale, setScale] = useState<number>(
     ((window.innerWidth - 300) / 1200) * 0.3 + 0.7
@@ -30,7 +33,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
 
     const control = controlRef.current;
     const beef = beefRef.current;
-    
+
     control.dispose();
     control.enableZoom = false;
     control.enablePan = false;
@@ -44,11 +47,11 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
 
   useEffect(() => {
     if (
-      !sectionRef.current ||
+      !containerRef.current ||
+      !stickyElRef.current ||
       !controlRef.current ||
       !groupRef.current ||
-      !beefRef.current ||
-      !sectionRef.current
+      !beefRef.current
     ) {
       return;
     }
@@ -60,7 +63,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
     const windowScrollListener = (e: Event) => {
       e.preventDefault();
 
-      let scrollProgress = calcScroll(sectionRef);
+      let scrollProgress = calcScroll(containerRef, stickyElRef);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.9) {
         return;
@@ -74,7 +77,8 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
         setText(4);
       } else if (scrollProgress >= 1) {
         setText(4);
-        gsap.to(groupPos, 0.2, {
+        gsap.to(groupPos, {
+          duration: 0.2,
           x: 3.2,
           y: 0,
           z: 0,
@@ -87,18 +91,21 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
         // scrollProgress가 0~0.2 사이인 경우에도 최대값을 1로 잡기 위해 5를 곱한다.
         scrollProgress *= 5;
 
-        gsap.to(groupPos, 0.2, {
+        gsap.to(groupPos, {
+          duration: 0.2,
           x: 0,
           y: 0,
           z: 0,
         });
-        gsap.to(controlPos, 0.2, {
+        gsap.to(controlPos, {
+          duration: 0.2,
           x: 0,
           y: 10,
           z: 20 - 5 * scrollProgress,
           ease: "linear",
         });
-        gsap.to(beefPos, 0.2, {
+        gsap.to(beefPos, {
+          duration: 0.2,
           y: 30 - 10 * scrollProgress,
           ease: "linear",
         });
@@ -106,72 +113,84 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
         // scrollProgress가 0.2~0.4 사이인 경우에도 최소값을 0, 최대값을 1로 잡기 위해 0.2를 빼고 5를 곱한다. 이후 반복
         scrollProgress = (scrollProgress - 0.2) * 5;
 
-        gsap.to(groupPos, 0.2, {
+        gsap.to(groupPos, {
+          duration: 0.2,
           x: 0,
           y: 0,
           z: 0,
         });
-        gsap.to(controlPos, 0.2, {
+        gsap.to(controlPos, {
+          duration: 0.2,
           x: 0,
           y: 10,
           z: 15 - 5 * scrollProgress,
           ease: "linear",
         });
-        gsap.to(beefPos, 0.2, {
+        gsap.to(beefPos, {
+          duration: 0.2,
           y: 20 - 10 * scrollProgress,
           ease: "linear",
         });
       } else if (scrollProgress >= 0.4 && scrollProgress < 0.6) {
         scrollProgress = (scrollProgress - 0.4) * 5;
 
-        gsap.to(groupPos, 0.2, {
+        gsap.to(groupPos, {
+          duration: 0.2,
           x: 0,
           y: 0,
           z: 0,
         });
-        gsap.to(controlPos, 0.2, {
+        gsap.to(controlPos, {
+          duration: 0.2,
           x: 0,
           y: 10 - 2 * scrollProgress,
           z: 10 - 5 * scrollProgress,
           ease: "linear",
         });
-        gsap.to(beefPos, 0.2, {
+        gsap.to(beefPos, {
+          duration: 0.2,
           y: 10 - 5 * scrollProgress,
           ease: "linear",
         });
       } else if (scrollProgress >= 0.6 && scrollProgress < 0.8) {
         scrollProgress = (scrollProgress - 0.6) * 5;
 
-        gsap.to(groupPos, 0.2, {
+        gsap.to(groupPos, {
+          duration: 0.2,
           x: 0,
           y: 0,
           z: 0,
         });
-        gsap.to(controlPos, 0.2, {
+        gsap.to(controlPos, {
+          duration: 0.2,
           x: 0,
           y: 8 - 4 * scrollProgress,
           z: 5 - 5 * scrollProgress,
           ease: "linear",
         });
-        gsap.to(beefPos, 0.2, {
+        gsap.to(beefPos, {
+          duration: 0.2,
           y: 5 - 5 * scrollProgress,
           ease: "linear",
         });
       } else if (scrollProgress >= 0.8 && scrollProgress <= 1) {
         scrollProgress = (scrollProgress - 0.8) * 5;
 
-        gsap.to(groupPos, 0.2, {
+        gsap.to(groupPos, {
+          duration: 0.2,
           x: 0 + 3.2 * scrollProgress,
           y: 0,
           z: 0,
         });
-        gsap.to(controlPos, 0.2, {
+        gsap.to(controlPos, {
+          duration: 0.2,
           x: 0,
           y: 4,
           z: 0,
           ease: "linear",
         });
-        gsap.to(beefPos, 0.2, {
+        gsap.to(beefPos, {
+          duration: 0.2,
           y: 0,
           ease: "linear",
         });
@@ -198,7 +217,7 @@ const Beef: React.FC<BeefPropType> = ({ sectionRef, setText }) => {
       window.removeEventListener("scroll", windowScrollListener);
       window.removeEventListener("resize", windowResizeListener);
     };
-  }, [calcScroll, sectionRef, setText]);
+  }, [calcScroll, containerRef, setText, stickyElRef]);
 
   return (
     <group scale={scale}>
@@ -249,36 +268,6 @@ type PlateGLTFResult = GLTF & {
 const BeefModel: React.FC<BeefModelPropType> = ({ beefRef }) => {
   const { nodes, materials } = useGLTF("/models/beef.glb") as BeefGLTFResult;
 
-  // const onBeefClick = () => {
-  //   const win = window.open(
-  //     "https://drive.google.com/file/d/1sfBqd8BRLTbYAK3rcXpflO4fBj0hIRj5/view?usp=sharing",
-  //     "_blank"
-  //   );
-
-  //   if (!win) {
-  //     return;
-  //   }
-
-  //   win.focus();
-  // };
-  // const onPointerEnter = () => {
-  //   const bodyEl = document.querySelector("body");
-
-  //   if (!bodyEl) {
-  //     return;
-  //   }
-
-  //   bodyEl.style.cursor = "pointer";
-  // };
-  // const onPointerLeave = () => {
-  //   const bodyEl = document.querySelector("body");
-
-  //   if (!bodyEl) {
-  //     return;
-  //   }
-
-  //   bodyEl.style.cursor = "default";
-  // };
   return (
     <group
       ref={beefRef}
@@ -288,9 +277,6 @@ const BeefModel: React.FC<BeefModelPropType> = ({ beefRef }) => {
       rotation={[angleToRadians(-90), 0, angleToRadians(5)]}
     >
       <mesh
-        // onClick={onBeefClick}
-        // onPointerEnter={onPointerEnter}
-        // onPointerLeave={onPointerLeave}
         geometry={nodes.겉면001.geometry}
         material={materials.겉면}
         position={[-0.35, 0.05, 0]}

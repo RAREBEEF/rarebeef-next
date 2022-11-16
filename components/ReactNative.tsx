@@ -17,7 +17,8 @@ import Phones from "../scenes/Phones";
 import dayjs, { Dayjs } from "dayjs";
 
 const ReactNative = (): ReactElement => {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stickyElRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [latestCommit, setLatestCommit] = useState<any>(null);
 
@@ -67,16 +68,16 @@ const ReactNative = (): ReactElement => {
   };
 
   return (
-    <section className={styles.container} ref={sectionRef}>
+    <section className={styles.container} ref={containerRef}>
       <SectionHeader
         title={["ToDo", "&", "Weather", "App"]}
         subTitle={["with", "React", "Native"]}
         classes={["ReactNative"]}
       />
-      <main className={styles.content}>
+      <main ref={stickyElRef} className={styles.content}>
         <Suspense fallback={<Loading />}>
           <Canvas className={styles.canvas} dpr={[1, 1.2]}>
-            <Phones sectionRef={sectionRef} />
+            <Phones containerRef={containerRef} stickyElRef={stickyElRef} />
           </Canvas>
         </Suspense>
         <div

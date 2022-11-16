@@ -8,7 +8,7 @@ import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 
-const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
+const Phones: React.FC<PhonesPropType> = ({ containerRef, stickyElRef }) => {
   const calcScroll = useCalcScroll();
   const [scale, setScale] = useState<number>(
     ((window.innerWidth - 300) / 1200) * 0.3 + 0.7
@@ -34,7 +34,7 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
   }, []);
 
   useEffect(() => {
-    if (!sectionRef.current || !controlRef.current) {
+    if (!containerRef.current || !stickyElRef.current || !controlRef.current) {
       return;
     }
 
@@ -43,7 +43,7 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
     const windowScrollListener = (e: Event) => {
       e.preventDefault();
 
-      let scrollProgress = calcScroll(sectionRef);
+      let scrollProgress = calcScroll(containerRef, stickyElRef);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.5) {
         return;
@@ -51,7 +51,8 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
         // scrollProgress가 0~0.2 사이인 경우에도 최대값을 1로 잡기 위해 5를 곱한다.
         scrollProgress *= 5;
 
-        gsap.to(controlPos, 0.3, {
+        gsap.to(controlPos, {
+          duration: 0.3,
           x: -5 + 5 * scrollProgress,
           y: -1,
           z: 0 + 3 * scrollProgress,
@@ -61,7 +62,8 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
         // scrollProgress가 0.2~0.4 사이인 경우에도 최소값을 0, 최대값을 1로 잡기 위해 0.2를 빼고 5를 곱한다. 이후 반복
         scrollProgress = (scrollProgress - 0.2) * 5;
 
-        gsap.to(controlPos, 0.3, {
+        gsap.to(controlPos, {
+          duration: 0.3,
           x: 0 + 5 * scrollProgress,
           y: -1,
           z: 3 - 3 * scrollProgress,
@@ -70,7 +72,8 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
       } else if (scrollProgress >= 0.4 && scrollProgress < 0.6) {
         scrollProgress = (scrollProgress - 0.4) * 5;
 
-        gsap.to(controlPos, 0.3, {
+        gsap.to(controlPos, {
+          duration: 0.3,
           x: 5 - 5 * scrollProgress,
           y: -1,
           z: 0 - 1 * scrollProgress,
@@ -79,7 +82,8 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
       } else if (scrollProgress >= 0.6 && scrollProgress < 0.8) {
         scrollProgress = (scrollProgress - 0.6) * 5;
 
-        gsap.to(controlPos, 0.3, {
+        gsap.to(controlPos, {
+          duration: 0.3,
           x: 0,
           y: -1 - 5.5 * scrollProgress,
           z: -1,
@@ -88,7 +92,8 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
       } else if (scrollProgress >= 0.8 && scrollProgress <= 1.05) {
         scrollProgress = (scrollProgress - 0.8) * 5;
 
-        gsap.to(controlPos, 0.3, {
+        gsap.to(controlPos, {
+          duration: 0.3,
           x: 0 - 5 * scrollProgress,
           y: -6.5 + 6 * scrollProgress,
           z: -1 + 6 * scrollProgress,
@@ -117,41 +122,22 @@ const Phones: React.FC<PhonesPropType> = ({ sectionRef }) => {
       window.removeEventListener("scroll", windowScrollListener);
       window.removeEventListener("resize", windowResizeListener);
     };
-  }, [calcScroll, sectionRef]);
+  }, [calcScroll, containerRef, stickyElRef]);
 
   return (
     <>
-      <group
-        ref={groupRef}
-        scale={scale}
-        // rotation={[0, angleToRadians(-45), 0]}
-        // rotation={[0, angleToRadians(45), 0]}
-        // rotation={[0, 0, 0]}
-        // position={[0, -1, 0]}
-      >
+      <group ref={groupRef} scale={scale}>
         <ToDoModel
           rotation={[angleToRadians(90), 0, 0]}
-          // scale={0.02}
           scale={0.03}
-          // position={[-1.1, 0.3, 0]}
           position={[0, 0, 0.5]}
         />
         <WeatherModel
           rotation={[angleToRadians(90), 0, angleToRadians(180)]}
           scale={0.03}
-          // position={[1.1, -0.3, 0]}
           position={[0, -2, -0.5]}
         />
         <OrbitControls ref={controlRef} />
-        {/* <PerspectiveCamera  /> */}
-        {/* <spotLight
-          args={["#fff", 1, 80, angleToRadians(100), 0.4]}
-          position={[0, 0, -10]}
-        /> */}
-        {/* <spotLight
-          args={["#fff", 1, 80, angleToRadians(200), 0]}
-          position={[0, 5, 0]}
-        /> */}
         <pointLight args={["#fff", 3]} position={[0, 0, -10]} />
         <pointLight args={["#fff", 3]} position={[0, 0, 10]} />
       </group>

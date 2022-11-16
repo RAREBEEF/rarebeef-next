@@ -27,6 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       clearTimeout(initTimer);
     };
   }, []);
+  
   return (
     <Provider store={store}>
       <Head>
