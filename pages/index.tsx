@@ -26,7 +26,7 @@ const Index: React.FC<HomePropType> = () => {
   return (
     <main ref={HomeRef} className={classNames(styles.container)}>
       <Seo title="PORTFOLIO" />
-      <Front />
+      {/* <Front /> */}
       <Header />
       <div className={styles.contour} />
       <RareBeef />

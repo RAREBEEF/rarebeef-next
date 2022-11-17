@@ -185,6 +185,8 @@ export interface styleType {
   duration?: number;
   ease?: string;
   translateX?: string | number;
+  translateY?: string | number;
   scale?: string | number;
   clipPath?: string | number;
+  opacity?: number;
 }

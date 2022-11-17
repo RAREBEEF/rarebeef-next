@@ -38,17 +38,18 @@ const Phones: React.FC<PhonesPropType> = ({ containerRef, stickyElRef }) => {
       return;
     }
 
+    const container = containerRef.current;
+    const stickyEl = stickyElRef.current;
     const controlPos = controlRef.current.object.position;
 
     const windowScrollListener = (e: Event) => {
       e.preventDefault();
 
-      let scrollProgress = calcScroll(containerRef, stickyElRef);
+      let scrollProgress = calcScroll(container, stickyEl);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.5) {
         return;
       } else if (scrollProgress >= 0 && scrollProgress < 0.2) {
-        // scrollProgress가 0~0.2 사이인 경우에도 최대값을 1로 잡기 위해 5를 곱한다.
         scrollProgress *= 5;
 
         gsap.to(controlPos, {
@@ -59,7 +60,6 @@ const Phones: React.FC<PhonesPropType> = ({ containerRef, stickyElRef }) => {
           ease: "linear",
         });
       } else if (scrollProgress >= 0.2 && scrollProgress < 0.4) {
-        // scrollProgress가 0.2~0.4 사이인 경우에도 최소값을 0, 최대값을 1로 잡기 위해 0.2를 빼고 5를 곱한다. 이후 반복
         scrollProgress = (scrollProgress - 0.2) * 5;
 
         gsap.to(controlPos, {

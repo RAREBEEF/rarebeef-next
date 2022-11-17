@@ -56,6 +56,8 @@ const Beef: React.FC<BeefPropType> = ({
       return;
     }
 
+    const container = containerRef.current;
+    const stickyEl = stickyElRef.current;
     const controlPos = controlRef.current.object.position;
     const beefPos = beefRef.current.position;
     const groupPos = groupRef.current.position;
@@ -63,7 +65,7 @@ const Beef: React.FC<BeefPropType> = ({
     const windowScrollListener = (e: Event) => {
       e.preventDefault();
 
-      let scrollProgress = calcScroll(containerRef, stickyElRef);
+      let scrollProgress = calcScroll(container, stickyEl);
 
       if (scrollProgress <= 0 || scrollProgress >= 1.9) {
         return;
@@ -88,7 +90,6 @@ const Beef: React.FC<BeefPropType> = ({
       }
 
       if (scrollProgress >= 0 && scrollProgress < 0.2) {
-        // scrollProgress가 0~0.2 사이인 경우에도 최대값을 1로 잡기 위해 5를 곱한다.
         scrollProgress *= 5;
 
         gsap.to(groupPos, {
@@ -110,7 +111,6 @@ const Beef: React.FC<BeefPropType> = ({
           ease: "linear",
         });
       } else if (scrollProgress >= 0.2 && scrollProgress < 0.4) {
-        // scrollProgress가 0.2~0.4 사이인 경우에도 최소값을 0, 최대값을 1로 잡기 위해 0.2를 빼고 5를 곱한다. 이후 반복
         scrollProgress = (scrollProgress - 0.2) * 5;
 
         gsap.to(groupPos, {

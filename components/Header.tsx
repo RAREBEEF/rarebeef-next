@@ -2,14 +2,13 @@ import { ReactElement, useEffect, useRef } from "react";
 import styles from "./Header.module.scss";
 import { FrontPropType } from "../types";
 import useCalcScroll from "../hooks/useCalcScroll";
-import _ from "lodash";
+import _, { first } from "lodash";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 
 const Header: React.FC<FrontPropType> = (): ReactElement => {
   const headerContainerRef = useRef<Array<any>>([]);
   const stickyElRef = useRef<HTMLDivElement>(null);
-  const firstLinesRef = useRef<Array<any>>([]);
-  const lastLinesRef = useRef<Array<any>>([]);
+  const linesRef = useRef<Array<any>>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const calcScroll = useCalcScroll();
   const ScrollAnimation = useScrollAnimation();
@@ -19,15 +18,15 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
       !headerContainerRef.current ||
       !containerRef.current ||
       !stickyElRef.current ||
-      !firstLinesRef.current ||
-      !lastLinesRef.current
+      !linesRef.current
     )
       return;
 
+    const container = containerRef.current;
+    const stickyEl = stickyElRef.current;
     const headerContainers = headerContainerRef.current;
     const clipPathTarget = headerContainers[1];
-    const firstLines = firstLinesRef.current;
-    const lastLines = lastLinesRef.current;
+    const lines = linesRef.current;
 
     const clipPathAnimation = new ScrollAnimation(
       [clipPathTarget],
@@ -42,73 +41,90 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
         clipPath: "inset(100% 0px 0px)",
       }
     );
-    const scaleAnimation = new ScrollAnimation(
-      headerContainers,
-      {},
-      { duration: 0, ease: "linear", scale: 1 }
+    const firstLineAnimation = new ScrollAnimation(
+      [lines[0]],
+      {
+        translateY: "0",
+        opacity: 1,
+      },
+      {
+        translateY: "50px",
+        opacity: 0,
+      }
     );
-    const firstLinesAnimation = new ScrollAnimation(
-      firstLines,
-      { duration: 0, ease: "linear", translateX: 0 },
-      { duration: 0, ease: "linear", translateX: "-26.5px" }
+    const secondLineAnimation = new ScrollAnimation(
+      [lines[1]],
+      {
+        translateY: "0",
+        opacity: 1,
+      },
+      {
+        translateY: "50px",
+        opacity: 0,
+      }
     );
-    const lastLinesAnimation = new ScrollAnimation(
-      lastLines,
-      { duration: 0, ease: "linear", translateX: 0 },
-      { duration: 0, ease: "linear", translateX: "42.5px" }
+    const lastLineAnimation = new ScrollAnimation(
+      [lines[2]],
+      {
+        translateY: "0",
+      },
+      {
+        translateY: "100px",
+      }
     );
 
     const windowScrollListener = (e: Event) => {
       e.preventDefault();
 
       // 스크롤 진행도
-      let scrollProgress = calcScroll(containerRef, stickyElRef);
+      let scrollProgress = calcScroll(container, stickyEl);
 
-      // 진행도에 따른 x축, clip-path, 스케일 애니메이션 처리
-      if (scrollProgress >= 1) {
-        // 진행도 1 이상일 때,
-        // 헤더 x축 기본값
-        // clip-path 초기값
-        firstLinesAnimation.setDefault();
-        lastLinesAnimation.setDefault();
+      if (scrollProgress > 1) {
         clipPathAnimation.setDefault();
-      } else if (scrollProgress < 0) {
-        // 진행도 0 미만일 때,
-        // 헤더 x축 & clip-path 초기값
-        // scrollProgress에 ease 적용 후 스케일 애니메이션 실행
-        firstLinesAnimation.setInit();
-        lastLinesAnimation.setInit();
+      } else if (scrollProgress >= 0 && scrollProgress < 0.25) {
+        scrollProgress *= 4;
+
+        lastLineAnimation.startAnimation({
+          translateY: `${-100 + 100 * scrollProgress}px`,
+        });
+
+        firstLineAnimation.setInit();
+        secondLineAnimation.setInit();
         clipPathAnimation.setInit();
-        scrollProgress = scrollProgress * scrollProgress * scrollProgress;
-        scaleAnimation.startAnimation({
-          duration: 0,
-          ease: "linear",
-          scale: -scrollProgress * 20 + 1,
+      } else if (scrollProgress >= 0.25 && scrollProgress < 0.5) {
+        scrollProgress = (scrollProgress - 0.25) * 4;
+
+        secondLineAnimation.startAnimation({
+          opacity: 1 * scrollProgress,
+          translateY: `${50 - 50 * scrollProgress}px`,
         });
-      } else {
-        // 진행도 1 미만 0 이상일 때,
-        // 스케일 기본값
-        // 헤더 x축 & clip-path 애니메이션 실행
-        scaleAnimation.setDefault();
-        firstLinesAnimation.startAnimation({
-          duration: 0,
-          ease: "linear",
-          translateX: `${
-            scrollProgress < 0 ? -26.5 : -26.5 + 26.5 * scrollProgress
-          }`,
+
+        firstLineAnimation.setInit();
+        lastLineAnimation.setDefault();
+        clipPathAnimation.setInit();
+      } else if (scrollProgress >= 0.5 && scrollProgress < 0.75) {
+        scrollProgress = (scrollProgress - 0.5) * 4;
+
+        firstLineAnimation.startAnimation({
+          opacity: 1 * scrollProgress,
+          translateY: `${50 - 50 * scrollProgress}px`,
         });
-        lastLinesAnimation.startAnimation({
-          duration: 0,
-          ease: "linear",
-          translateX: `${
-            scrollProgress < 0 ? 42.5 : 42.5 - 42.5 * scrollProgress
-          }`,
-        });
+
+        secondLineAnimation.setDefault();
+        lastLineAnimation.setDefault();
+        clipPathAnimation.setInit();
+      } else if (scrollProgress > 0.75) {
+        scrollProgress = (scrollProgress - 0.75) * 4;
+
         clipPathAnimation.startAnimation({
           duration: 0,
           ease: "linear",
           clipPath: `inset(${100 - scrollProgress * 100}% 0px 0px)`,
         });
+
+        firstLineAnimation.setDefault();
+        secondLineAnimation.setDefault();
+        lastLineAnimation.setDefault();
       }
     };
 
@@ -125,41 +141,37 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
         <div
           ref={(el) => (headerContainerRef.current[0] = el)}
           className={styles.fake}
-          style={{ transform: "scale(73.88)" }}
         >
           <div
-            ref={(el) => (firstLinesRef.current[0] = el)}
-            style={{ transform: "translateX(-26.5px)" }}
+            ref={(el) => (linesRef.current[0] = el)}
+            style={{ opacity: 0, transform: "translateY: 50px" }}
           >
             Rare
           </div>
-          <div>beef&apos;s</div>
           <div
-            ref={(el) => (lastLinesRef.current[0] = el)}
-            style={{ transform: "translateX(42.5px)" }}
+            ref={(el) => (linesRef.current[1] = el)}
+            style={{ opacity: 0, transform: "translateY: 50px" }}
+          >
+            beef&apos;s
+          </div>
+          <div
+            ref={(el) => (linesRef.current[2] = el)}
+            style={{ transform: "translateY: -100px" }}
           >
             portfolio
           </div>
         </div>
-        <h1
+        <div
           ref={(el) => (headerContainerRef.current[1] = el)}
           className={styles.real}
           style={{ clipPath: "inset(100% 0px 0px)" }}
         >
-          <div
-            ref={(el) => (firstLinesRef.current[1] = el)}
-            style={{ transform: "translateX(-26.5px)" }}
-          >
-            Rare
-          </div>
-          <div>beef&apos;s</div>
-          <div
-            ref={(el) => (lastLinesRef.current[1] = el)}
-            style={{ transform: "translateX(42.5px)" }}
-          >
-            portfolio
-          </div>
-        </h1>
+          <hgroup>
+            <h1>Rare</h1>
+            <h1>beef&apos;s</h1>
+            <h1>portfolio</h1>
+          </hgroup>
+        </div>
       </div>
     </header>
   );
