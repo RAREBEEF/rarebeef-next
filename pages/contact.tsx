@@ -13,7 +13,6 @@ import Seo from "../components/Seo";
 
 const Contact: React.FC<ContactPropType> = () => {
   const [copyAlert, setCopyAlert] = useState<string>("");
-
   const dispatch = useDispatch();
 
   useEffect(() => {

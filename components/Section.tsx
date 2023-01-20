@@ -192,7 +192,22 @@ const Section: React.FC<SectionPropType> = ({
                     </div>
                   </div>
                 </div>
-                {swiperGeneroator()}
+                {data.imgs.length === 0 ? (
+                  <SwiperSlide className={styles["swiper__item"]}>
+                    <div
+                      style={{
+                        aspectRatio: "16/9",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      이미지 준비 중
+                    </div>
+                  </SwiperSlide>
+                ) : (
+                  swiperGeneroator()
+                )}
               </Swiper>
             </div>
           )}

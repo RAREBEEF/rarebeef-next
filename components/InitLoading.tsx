@@ -1,11 +1,29 @@
 import styles from "./InitLoading.module.scss";
-import Image from "next/image";
 import { InitLoadingPropType } from "../types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import Lottie from "lottie-web";
+import loadingAnimation from "../public/json/loadingAnimation.json";
 
 const InitLoading: React.FC<InitLoadingPropType> = ({ init }) => {
   const [disable, setDisable] = useState<boolean>(false);
+  const animator = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!animator.current) return;
+
+    const animation = Lottie.loadAnimation({
+      container: animator.current,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      animationData: loadingAnimation,
+    });
+
+    return () => {
+      animation.destroy();
+    };
+  }, []);
 
   useEffect(() => {
     if (!init) return;
@@ -18,30 +36,14 @@ const InitLoading: React.FC<InitLoadingPropType> = ({ init }) => {
       clearTimeout(timer);
     };
   }, [init]);
+
   return (
     <div
       className={classNames(styles.container, init && styles["fade-out"])}
       style={{ display: disable ? "none" : "flex" }}
     >
-      <div className={styles["icon"]}>
-        <svg
-          style={{ transform: "scale(1.5)" }}
-          viewBox="0 0 200 200"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            className={styles.blob}
-            d="M49.9,-58.8C63.4,-48,72.5,-31.2,75.8,-13.2C79.1,4.7,76.7,23.8,66.1,34.6C55.6,45.4,37,47.9,19.5,54.9C1.9,61.9,-14.5,73.4,-27.8,70.9C-41.1,68.5,-51.3,52,-58.1,35.7C-65,19.4,-68.6,3.3,-66.9,-12.8C-65.3,-29,-58.4,-45.2,-46.4,-56.3C-34.4,-67.4,-17.2,-73.4,0.5,-73.9C18.1,-74.5,36.3,-69.7,49.9,-58.8Z"
-            transform="translate(100 100)"
-          >
-            <animate
-              attributeName="d"
-              dur="5s"
-              repeatCount="indefinite"
-              values="M49.9,-58.8C63.4,-48,72.5,-31.2,75.8,-13.2C79.1,4.7,76.7,23.8,66.1,34.6C55.6,45.4,37,47.9,19.5,54.9C1.9,61.9,-14.5,73.4,-27.8,70.9C-41.1,68.5,-51.3,52,-58.1,35.7C-65,19.4,-68.6,3.3,-66.9,-12.8C-65.3,-29,-58.4,-45.2,-46.4,-56.3C-34.4,-67.4,-17.2,-73.4,0.5,-73.9C18.1,-74.5,36.3,-69.7,49.9,-58.8Z;M54.5,-64.7C67.7,-53.9,73.3,-33.9,72.4,-16.2C71.4,1.6,63.9,17.1,55,31.1C46.1,45.2,35.9,57.9,21.6,65.9C7.4,73.8,-10.9,77.1,-25.1,71C-39.2,65,-49.2,49.6,-56.1,34.1C-62.9,18.6,-66.7,3.1,-64.9,-12.3C-63.2,-27.7,-56,-42.9,-44.3,-54C-32.5,-65.1,-16.3,-72,2.2,-74.6C20.7,-77.2,41.3,-75.6,54.5,-64.7Z;M38.9,-41.5C54,-33.7,72.3,-24.8,78.7,-10.6C85.2,3.7,79.7,23.3,68.4,36.3C57.1,49.2,39.8,55.5,23.8,58.2C7.9,60.8,-6.7,59.8,-22.2,56.2C-37.7,52.7,-54.1,46.7,-61.3,35C-68.5,23.3,-66.6,5.9,-60.5,-7.5C-54.4,-21,-44.1,-30.6,-33.3,-39.2C-22.5,-47.8,-11.3,-55.4,0.3,-55.8C11.9,-56.2,23.8,-49.3,38.9,-41.5Z;M39,-46.2C51.9,-35.7,64.6,-24.7,68.6,-10.8C72.6,3.1,67.9,19.8,58.7,32.2C49.5,44.6,35.8,52.8,20.4,60.2C5,67.6,-12.2,74.3,-23.4,68.4C-34.5,62.5,-39.5,44.1,-45.1,28.8C-50.7,13.4,-56.8,1.2,-56,-10.9C-55.1,-23,-47.1,-34.8,-36.6,-45.8C-26.1,-56.7,-13.1,-66.6,0,-66.6C13.1,-66.6,26.1,-56.7,39,-46.2Z;M49.9,-58.8C63.4,-48,72.5,-31.2,75.8,-13.2C79.1,4.7,76.7,23.8,66.1,34.6C55.6,45.4,37,47.9,19.5,54.9C1.9,61.9,-14.5,73.4,-27.8,70.9C-41.1,68.5,-51.3,52,-58.1,35.7C-65,19.4,-68.6,3.3,-66.9,-12.8C-65.3,-29,-58.4,-45.2,-46.4,-56.3C-34.4,-67.4,-17.2,-73.4,0.5,-73.9C18.1,-74.5,36.3,-69.7,49.9,-58.8Z"
-            />
-          </path>
-        </svg>
+      <div>
+        <div ref={animator} />
       </div>
       <p className={styles["text"]}>Loading</p>
     </div>

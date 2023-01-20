@@ -1,10 +1,6 @@
-//
-// Props
-
 import { StaticImageData } from "next/image";
-import { ReactElement } from "react";
+import { ReactElement, RefObject } from "react";
 
-//
 export interface BeefModelPropType {
   beefRef: any;
 }
@@ -31,13 +27,17 @@ export interface sectionDataType {
   skills: Array<skillType>;
   links: {
     github: string;
-    velog: string;
+    velog?: string;
     project?: { icon: string; href: string };
   };
   testAccount?: {
     id: string;
     pw: string;
   };
+}
+
+export interface ScrollIndicatorPropType {
+  homeContainerRef: RefObject<HTMLDivElement>;
 }
 
 export interface SectionPropType {
@@ -137,9 +137,6 @@ export interface GuestBookPropType {
   data: guestBookType;
 }
 
-//
-// redux
-//
 export interface ReduxStateType {
   getGuestBook: getGusetBookStateType;
 }
@@ -168,9 +165,6 @@ export interface setStartType {
   type: string;
 }
 
-//
-// etc
-//
 export interface guestBookType {
   id: string;
   name: string;

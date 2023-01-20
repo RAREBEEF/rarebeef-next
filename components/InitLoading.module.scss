@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 25px;
+  gap: 10px;
   &.fade-out {
     animation: fade-out 0.5s linear forwards;
     @keyframes fade-out {
@@ -19,33 +19,6 @@
       }
       100% {
         opacity: 0;
-      }
-    }
-  }
-  .icon {
-    .blob {
-      fill: none;
-      stroke: #000;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-width: 4px;
-    }
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    width: 10vmin;
-    height: 10vmin;
-    min-width: 100px;
-    min-height: 100px;
-    pointer-events: none;
-    animation: rotate 15s linear infinite;
-    @keyframes rotate {
-      0% {
-        transform: rotate(0);
-      }
-      100% {
-        transform: rotate(360deg);
       }
     }
   }

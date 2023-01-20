@@ -5,6 +5,7 @@ import { HomePropType } from "../types";
 import Section from "../components/Section";
 import Header from "../components/Header";
 import paletteVault from "../sections/paletteVault";
+import raebef from "../sections/raebef";
 import splatoon from "../sections/splatoon";
 import diary from "../sections/diary";
 import RareBeef from "../components/RareBeef";
@@ -19,17 +20,21 @@ import Seo from "../components/Seo";
 import ClockApp from "../components/ClockApp";
 import MemoryTestApp from "../components/MemoryTestApp";
 import Front from "../components/Front";
+import ScrollIndicator from "../components/ScrollIndicator";
+import ProjectList from "../components/ProjectList";
 
 const Index: React.FC<HomePropType> = () => {
-  const HomeRef = useRef<HTMLDivElement>(null);
+  const homeContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <main ref={HomeRef} className={classNames(styles.container)}>
+    <main ref={homeContainerRef} className={classNames(styles.container)}>
       <Seo title="PORTFOLIO" />
       {/* <Front /> */}
       <Header />
+      {/* <ProjectList /> */}
       <div className={styles.contour} />
       <RareBeef />
+      <Section data={raebef} />
       <Section data={splatoon} />
       <Section data={diary} />
       <Section data={paletteVault} />
@@ -44,6 +49,7 @@ const Index: React.FC<HomePropType> = () => {
       </Section> */}
       <Section data={simpleMemo} />
       <Footer />
+      {/* <ScrollIndicator homeContainerRef={homeContainerRef} /> */}
     </main>
   );
 };

@@ -2,12 +2,11 @@ import { ReactElement, useEffect, useRef } from "react";
 import styles from "./Header.module.scss";
 import { FrontPropType } from "../types";
 import useCalcScroll from "../hooks/useCalcScroll";
-import _, { first } from "lodash";
+import _ from "lodash";
 import useScrollAnimation from "../hooks/useScrollAnimation";
 
 const Header: React.FC<FrontPropType> = (): ReactElement => {
   const headerContainerRef = useRef<Array<any>>([]);
-  const verticalRef = useRef<HTMLDivElement>(null);
   const stickyElRef = useRef<HTMLDivElement>(null);
   const linesRef = useRef<Array<any>>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,7 +16,6 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
   useEffect(() => {
     if (
       !headerContainerRef.current ||
-      !verticalRef.current ||
       !containerRef.current ||
       !stickyElRef.current ||
       !linesRef.current
@@ -29,7 +27,6 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
     const headerContainers = headerContainerRef.current;
     const clipPathTarget = headerContainers[1];
     const lines = linesRef.current;
-    const vertical = verticalRef.current;
 
     // 애니메이션 객체 생성
     const clipPathAnimation = new ScrollAnimation(
@@ -78,15 +75,6 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
         opacity: 0,
       }
     );
-    const verticalAnimation = new ScrollAnimation(
-      [vertical],
-      {
-        translateY: "-150vh",
-      },
-      {
-        translateY: "50vh",
-      }
-    );
 
     const windowScrollListener = (e: Event) => {
       e.preventDefault();
@@ -94,22 +82,7 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
       // 스크롤 진행도
       let scrollProgress = calcScroll(container, stickyEl);
 
-      // 스크롤 진행도가 0.6 미만일 경우 텍스트 수직 애니메이션 실행
-      if (scrollProgress < 0.6) {
-        let textAnimationProgress = scrollProgress * 1.6;
-        textAnimationProgress =
-          textAnimationProgress === 0
-            ? 0
-            : textAnimationProgress === 1
-            ? 1
-            : textAnimationProgress < 0.5
-            ? Math.pow(2, 20 * textAnimationProgress - 10) / 2
-            : (2 - Math.pow(2, -20 * textAnimationProgress + 10)) / 2;
-
-        verticalAnimation.startAnimation({
-          translateY: `${50 - 200 * textAnimationProgress}vh`,
-        });
-      }
+      if (scrollProgress >= 1.3) return;
 
       // 분기별 텍스트 애니메이션
       if (scrollProgress >= 1) {
@@ -186,13 +159,9 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
       } else if (scrollProgress >= 0.6 && scrollProgress < 1) {
         scrollProgress = (scrollProgress - 0.6) * 2.5;
         scrollProgress =
-          scrollProgress === 0
-            ? 0
-            : scrollProgress === 1
-            ? 1
-            : scrollProgress < 0.5
-            ? Math.pow(2, 20 * scrollProgress - 10) / 2
-            : (2 - Math.pow(2, -20 * scrollProgress + 10)) / 2;
+          scrollProgress < 0.5
+            ? 4 * scrollProgress * scrollProgress * scrollProgress
+            : 1 - Math.pow(-2 * scrollProgress + 2, 3) / 2;
 
         clipPathAnimation.startAnimation({
           duration: 0,
@@ -237,10 +206,6 @@ const Header: React.FC<FrontPropType> = (): ReactElement => {
             style={{ opacity: 0, transform: "translateY: 150px" }}
           >
             portfolio
-          </div>
-          <div ref={verticalRef} className={styles.vertical}>
-            <div>RARE</div>
-            <div>BEEF</div>
           </div>
         </div>
         <div
