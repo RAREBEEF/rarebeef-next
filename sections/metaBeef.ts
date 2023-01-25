@@ -12,7 +12,7 @@ const data: sectionDataType = {
   imgs: [img1, img2, img3],
   summary: { name: "Meta Beef", date: "2022.01.26 ~ 02.24", headCount: 1 },
   description:
-    "간단한 SNS 웹 애플리케이션입니다.\n사진과 짧은 글을 업로드하고 좋아요를 남기는 등의 SNS 기능을 구현하였습니다. Firebase를 활용한 첫 프로젝트이며 프론트엔드 독학을 진행하던 저에게 Front-Back 간의 통신을 이해하는데 큰 도움을 준 프로젝트입니다.",
+    "간단한 SNS 웹 애플리케이션입니다.\n사진과 짧은 글을 업로드하고 좋아요를 남기는 등의 SNS 기능을 구현하였습니다. Firebase를 활용한 첫 프로젝트이며 프론트엔드 독학을 진행하던 저에게 Front-Back 간의 통신을 이해하는데 큰 도움을 준 프로젝트입니다.\n최근 업데이트를 통해 IntersectionObserver를 이용한 무한 스크롤 기능을 구현하였습니다.",
   skills: ["HTML", "JavaScript", "React", "Sass", "Firebase"],
   links: {
     github: "https://github.com/RAREBEEF/meta-beef",

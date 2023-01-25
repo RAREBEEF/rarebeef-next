@@ -39,7 +39,7 @@ const Index: React.FC<HomePropType> = () => {
       <Section data={diary} />
       <Section data={paletteVault} />
       <ReactNative />
-      <Section data={placeReview} />
+      {/* <Section data={placeReview} /> */}
       <Section data={memoryTest}>
         <MemoryTestApp />
       </Section>
