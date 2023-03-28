@@ -15,26 +15,23 @@
 
       .skills__front-end,
       .skills__design {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 80vw;
-        justify-content: flex-start;
-        margin: {
-          bottom: 10px;
-        }
+        display: grid;
+        justify-items: center;
+        gap: 25px;
+        grid-template-columns: repeat(auto-fill, minmax(25%, auto));
       }
     }
   }
 }
 
-@media all and (max-width: 640px) {
-  .container {
-    .content {
-      .section {
-        .skills__front-end {
-          justify-content: space-around;
-        }
-      }
-    }
-  }
-}
+// @media all and (max-width: 640px) {
+//   .container {
+//     .content {
+//       .section {
+//         .skills__front-end {
+//           justify-content: space-around;
+//         }
+//       }
+//     }
+//   }
+// }

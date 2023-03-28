@@ -42,7 +42,7 @@ const Phones: React.FC<PhonesPropType> = ({ containerRef, stickyElRef }) => {
     const stickyEl = stickyElRef.current;
     const controlPos = controlRef.current.object.position;
 
-    const windowScrollListener = (e: Event) => {
+    const windowScrollHandler = (e: Event) => {
       e.preventDefault();
 
       let scrollProgress = calcScroll(container, stickyEl);
@@ -102,9 +102,9 @@ const Phones: React.FC<PhonesPropType> = ({ containerRef, stickyElRef }) => {
       }
     };
 
-    window.addEventListener("scroll", windowScrollListener);
+    window.addEventListener("scroll", windowScrollHandler);
 
-    const windowResizeListener = (e: Event) => {
+    const windowResizeHandler = (e: Event) => {
       e.preventDefault();
 
       setScale(
@@ -116,11 +116,11 @@ const Phones: React.FC<PhonesPropType> = ({ containerRef, stickyElRef }) => {
       );
     };
 
-    window.addEventListener("resize", windowResizeListener);
+    window.addEventListener("resize", windowResizeHandler);
 
     return () => {
-      window.removeEventListener("scroll", windowScrollListener);
-      window.removeEventListener("resize", windowResizeListener);
+      window.removeEventListener("scroll", windowScrollHandler);
+      window.removeEventListener("resize", windowResizeHandler);
     };
   }, [calcScroll, containerRef, stickyElRef]);
 

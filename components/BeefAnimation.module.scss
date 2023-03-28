@@ -1,0 +1,148 @@
+.container {
+  position: relative;
+  height: 500vh;
+  width: 100vw;
+  background-color: white;
+  text-align: center;
+
+  .wrapper {
+    background-color: black;
+    position: sticky;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    margin: auto;
+    min-width: 350px;
+    height: 100vh;
+    overflow: visible;
+
+    .canvas {
+      max-width: 80vw;
+      min-width: 175px;
+      max-height: 100vh;
+      aspect-ratio: 768/672;
+    }
+  }
+
+  .to-projects-wrapper {
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    height: fit-content;
+    width: fit-content;
+    top: 65%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: auto;
+    transition: opacity 0.5s;
+
+    &.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .to-projects {
+      position: relative;
+      color: white;
+      transition: all 0.3s;
+      font: {
+        size: 35px;
+        family: "raleway", sans-serif;
+        weight: 500;
+      }
+      &:hover {
+        font-size: 37px;
+      }
+    }
+  }
+
+  .scroll-guide {
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    font-size: 50px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    animation: bounce 1s ease-in-out infinite alternate;
+    @keyframes bounce {
+      from {
+        transform: translateY(-10px) rotate(-90deg);
+      }
+      to {
+        transform: translateY(10px) rotate(-90deg);
+      }
+    }
+    &.show {
+      opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .container {
+    .project-list {
+      li {
+        .project-list__item__title {
+          font-size: 70px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .container {
+    .project-list {
+      li {
+        .project-list__item__title {
+          font-size: 60px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    .project-list {
+      li {
+        .project-list__item__icon {
+          border-radius: 10px;
+        }
+        .project-list__item__title {
+          font-size: 50px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    .project-list {
+      li {
+        .project-list__item__icon {
+          border-radius: 5px;
+        }
+        .project-list__item__title {
+          font-size: 35px;
+        }
+      }
+    }
+    .to-projects-wrapper {
+      .to-projects {
+        font-size: 30px;
+        &:hover {
+          font-size: 35px;
+        }
+      }
+    }
+  }
+}

@@ -1,42 +1,34 @@
 /* eslint-disable @next/next/no-img-element */
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import styles from "./Toolbar.module.scss";
 import { ToolbarPropType } from "../types";
 import classNames from "classnames";
 import _ from "lodash";
 
 const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
-  const [scrollTop, setScrollTop] = useState<number>(0);
-  const [clientHeight, setClientHeight] = useState<number>(0);
+  const [show, setShow] = useState<boolean>(false);
 
   const toTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
-    const windowResizeListener = (e: Event) => {
+    const windowScrollHandler = (e: Event) => {
       e.preventDefault();
 
-      setClientHeight(window.innerHeight);
+      if (window.scrollY >= window.innerHeight * 2) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
     };
 
-    const windowScrollListener = (e: Event) => {
-      e.preventDefault();
-
-      setScrollTop(window.scrollY);
-    };
-
-    window.addEventListener("scroll", _.throttle(windowScrollListener, 500));
-    window.addEventListener("resize", _.debounce(windowResizeListener, 500));
+    window.addEventListener("scroll", _.throttle(windowScrollHandler, 500));
 
     return () => {
       window.removeEventListener(
         "scroll",
-        _.throttle(windowScrollListener, 500)
-      );
-      window.removeEventListener(
-        "resize",
-        _.debounce(windowResizeListener, 500)
+        _.throttle(windowScrollHandler, 500)
       );
     };
   }, []);
@@ -68,7 +60,7 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
         className={classNames(
           styles["icon--to-top"],
           styles.icon,
-          scrollTop > clientHeight / 2 + 2500 && styles.show
+          show && styles.show
         )}
         src="/icons/circle-chevron-up-solid.svg"
         alt="To top"

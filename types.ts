@@ -109,10 +109,13 @@ export type skillType =
   | "Netlify"
   | "Illustrator"
   | "Blender"
-  | "Tailwindcss";
+  | "Tailwindcss"
+  | "Vercel"
+  | "React Query";
 
 export interface SkillPropType {
   skill: skillType;
+  disableAnimation?: boolean;
 }
 
 export interface InitLoadingPropType {

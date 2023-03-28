@@ -3,16 +3,35 @@ import Head from "next/head";
 interface Props {
   title?: string;
   description?: string;
+  url?: string;
+  img?: string;
 }
 
 const Seo: React.FC<Props> = ({
   title = "",
-  description = "현재까지 진행한 웹 개발 프로젝트를 모아둔 프론트엔드 포트폴리오입니다. 데이터 분석과 관련하여 파이썬을 공부하던 중 개발에 눈을 뜨게 되었습니다. 직접 작성한 코드 몇 줄이 눈 앞에 시각화되고 작동되는 점에서 재미를 느꼈습니다. 이후 HTML과 CSS를 이용해 간단한 웹사이트를 클론 코딩 해보는 과정을 거치며 흥미가 커졌고 본격적으로 자바스크립트 공부를 시작하며 웹 개발 독학을 시작하는 계기가 되었습니다. 리액트 기반, 파이어베이스를 활용한 프로젝트를 주로 진행하였으며 최근에는 3D와 PWA에 흥미를 갖고 있습니다.",
+  img = "./logo1200x630.png",
+  url = "https://rarebeef.co.kr",
+  description = "RAREBEEF의 프론트엔드 포트폴리오입니다. RAREBEEF라는 이름은 제가 오래전부터 사용해 온 닉네임 '소고기는레어'에서 비롯되었습니다. 리액트와 파이어베이스를 활용한 프로젝트를 주로 진행하였습니다.",
 }) => {
   return (
     <Head>
       <title>{`RAREBEEF${title && " │ " + title}`}</title>
       <meta name="description" content={description} />
+      <meta property="og:type" content="website" />
+      <meta property="og:locale" content="ko_KR" />
+      <meta property="og:site_name" content="RAREBEEF's Portfolio" />
+      <meta property="og:title" content={`RAREBEEF${title && " │ " + title}`} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={img} />
+      <meta property="og:url" content={url} />
+      <meta property="twitter:card" content="summary" />
+      <meta property="twitter:url" content={url} />
+      <meta
+        property="twitter:title"
+        content={`RAREBEEF${title && " │ " + title}`}
+      />
+      <meta property="twitter:description" content={description} />
+      <meta property="twitter:image" content={img} />
     </Head>
   );
 };

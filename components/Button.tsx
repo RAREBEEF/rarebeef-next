@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import classNames from "classnames";
+import Link from "next/link";
 import { ButtonPropType } from "../types";
 import styles from "./Button.module.scss";
 
@@ -8,8 +9,8 @@ import styles from "./Button.module.scss";
  * @param onClick onClick 리스너
  * @param classes 클래스 배열
  * @param icon 아이콘 경로
- * @param href 링크 경로
- *  */ 
+ * @param href 링크 경로,
+ *  */
 const Button: React.FC<ButtonPropType> = ({
   text,
   onClick,
@@ -18,8 +19,7 @@ const Button: React.FC<ButtonPropType> = ({
   href,
 }) => {
   return href ? (
-    <a
-      onClick={onClick}
+    <Link
       href={href}
       className={classNames(
         styles.button,
@@ -30,7 +30,7 @@ const Button: React.FC<ButtonPropType> = ({
     >
       {icon && <img src={icon} alt={text} className={styles.icon} />}
       {text}
-    </a>
+    </Link>
   ) : (
     <button
       onClick={onClick}

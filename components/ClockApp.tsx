@@ -39,13 +39,13 @@ const ClockApp = (): ReactElement => {
   React.useEffect(() => {
     // alarmSound.loop = true;
 
-    const windowResizeListener = (e: Event) => {
+    const windowResizeHandler = (e: Event) => {
       e.preventDefault();
 
       setVh(window.innerHeight * 0.01);
     };
 
-    window.addEventListener("resize", windowResizeListener);
+    window.addEventListener("resize", windowResizeHandler);
 
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
@@ -76,7 +76,7 @@ const ClockApp = (): ReactElement => {
 
     return () => {
       clearInterval(timeUpdate);
-      window.removeEventListener("resize", windowResizeListener);
+      window.removeEventListener("resize", windowResizeHandler);
     };
   });
 

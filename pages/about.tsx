@@ -1,7 +1,7 @@
 import styles from "./about.module.scss";
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import SectionHeader from "../components/SectionHeader";
+import ProjectHeader from "../components/ProjectHeader";
 import { ProfilePropType } from "../types";
 import Skill from "../components/Skill";
 import Footer from "../components/Footer";
@@ -26,7 +26,7 @@ const About: React.FC<ProfilePropType> = () => {
         title="ABOUT"
         description="이름 : 송의영 / 생년월일: 1998.10.06 / 스킬 : HTML5 CSS3 JavaScript TypeScript React Next.js Scss Tailwindcss Redux Three.js Firebase Netlify Illustrator"
       />
-      <SectionHeader
+      <ProjectHeader
         title={["About", "me"]}
         subTitle={["Junior Developer"]}
         classes={["Profile"]}
@@ -59,10 +59,12 @@ const About: React.FC<ProfilePropType> = () => {
                 <Skill skill="Next" />
                 <Skill skill="Sass" />
                 <Skill skill="Tailwindcss" />
+                <Skill skill="React Query" />
                 <Skill skill="Redux" />
                 <Skill skill="Three.js" />
                 <Skill skill="Firebase" />
                 <Skill skill="Netlify" />
+                <Skill skill="Vercel" />
               </ul>
             </li>
             <li>
@@ -78,10 +80,10 @@ const About: React.FC<ProfilePropType> = () => {
           <h4 className={styles.header}>Future plans</h4>
           <ol>
             <li id={"first-plan"} className={styles["sub-header"]}>
-              1. React VR
+              1. PWA
             </li>
             <li id={"second-plan"} className={styles["sub-header"]}>
-              2. PWA
+              2. Next.js 13
             </li>
           </ol>
         </section>

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import Button from "../components/Button";
 import GuestBookWrapper from "../components/GuestBookWrapper";
-import SectionHeader from "../components/SectionHeader";
+import ProjectHeader from "../components/ProjectHeader";
 import styles from "./contact.module.scss";
 import { ContactPropType } from "../types";
 import Footer from "../components/Footer";
@@ -37,7 +37,7 @@ const Contact: React.FC<ContactPropType> = () => {
         title="CONTACT"
         description="방명록을 작성해 보세요. 메일 : drrobot409@gmail.com / Github: github.com/RAREBEEF / 블로그 : velog.io/@drrobot409"
       />
-      <SectionHeader
+      <ProjectHeader
         title={["Contact"]}
         subTitle={["Welcome feedback"]}
         classes={["Contact"]}

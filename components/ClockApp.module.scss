@@ -295,3 +295,17 @@ $size: 90vmin;
     }
   }
 }
+
+@media screen and (max-width: 350px) {
+  .clock-wrapper {
+    * {
+      display: none !important;
+    }
+
+    &::after {
+      content: "Out of minimum supported size";
+      color: black;
+      display: block !important;
+    }
+  }
+}

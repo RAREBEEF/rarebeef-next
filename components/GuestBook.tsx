@@ -4,6 +4,7 @@ import Button from "./Button";
 import styles from "./GuestBook.module.scss";
 import * as FB from "../fb";
 import classNames from "classnames";
+import dayjs from "dayjs";
 
 const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
   const [pwCheck, setPwCheck] = useState<string>("");
@@ -48,17 +49,9 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
           <div className={classNames(styles.text, styles.name)}>
             {data.name} ({data.displayIp})
           </div>
-          <div className={classNames(styles.text, styles.date)}>{`${new Date(
-            data.createdAt
-          ).getFullYear()}/${
-            new Date(data.createdAt).getMonth() < 9 ? "0" : ""
-          }${new Date(data.createdAt).getMonth() + 1}/${
-            new Date(data.createdAt).getDate() < 10 ? "0" : ""
-          }${new Date(data.createdAt).getDate()} ${
-            new Date(data.createdAt).getHours() < 10 ? "0" : ""
-          }${new Date(data.createdAt).getHours()}:${
-            new Date(data.createdAt).getMinutes() < 10 ? "0" : ""
-          }${new Date(data.createdAt).getMinutes()}`}</div>
+          <div className={classNames(styles.text, styles.date)}>
+            {dayjs(data.createdAt).format("YYYY.MM.DD HH:mm")}
+          </div>
         </div>
         <form className={styles.form} onSubmit={onDelete}>
           <input

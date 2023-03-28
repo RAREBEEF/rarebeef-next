@@ -3,10 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  max-height: 100px;
-  max-width: 100px;
-  min-width: 75px;
-  min-height: 75px;
+  max-width: 120px;
+  max-height: 120px;
   width: 20vw;
   height: 20vw;
   margin: 1vw;
@@ -16,12 +14,13 @@
   &:hover {
     .skill__tooltip {
       opacity: 1;
-      transform: translateY(-200%);
+      transform: translateY(-230%);
     }
   }
 
   .skill__img {
     position: relative;
+    width: 100%;
     z-index: 1;
   }
 
