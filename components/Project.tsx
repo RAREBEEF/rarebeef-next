@@ -23,7 +23,7 @@ const Project: React.FC<SectionPropType> = ({
   children,
 }): ReactElement => {
   const screenshotsRef = useRef<HTMLDivElement>(null);
-  const [latestCommit, setLatestCommit] = useState<any>(null);
+  // const [latestCommit, setLatestCommit] = useState<any>(null);
 
   const swiperGeneroator = (): Array<any> => {
     if (!data.imgs) {
@@ -61,43 +61,43 @@ const Project: React.FC<SectionPropType> = ({
     return skillReturn;
   };
 
-  const getCommits = useCallback(async () => {
-    if (!data.links.github) return;
+  // const getCommits = useCallback(async () => {
+  //   if (!data.links.github) return;
 
-    const githubHref = data.links.github;
-    const repo = githubHref.slice(28);
+  //   const githubHref = data.links.github;
+  //   const repo = githubHref.slice(28);
 
-    if (!repo) return;
+  //   if (!repo) return;
 
-    const auth = window.btoa("RAREBEEF:" + process.env.NEXT_PUBLIC_TOKEN);
+  //   const auth = window.btoa("RAREBEEF:" + process.env.NEXT_PUBLIC_TOKEN);
 
-    await fetch(`https://api.github.com/repos/RAREBEEF/${repo}/commits`, {
-      method: "GET",
-      headers: {
-        Authorization: "Basic " + auth,
-      },
-    })
-      .then((result) => result.json())
-      .then((data) => {
-        setLatestCommit(data[0]);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [data.links.github]);
+  //   await fetch(`https://api.github.com/repos/RAREBEEF/${repo}/commits`, {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: "Basic " + auth,
+  //     },
+  //   })
+  //     .then((result) => result.json())
+  //     .then((data) => {
+  //       setLatestCommit(data[0]);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [data.links.github]);
 
-  useEffect(() => {
-    getCommits();
-  }, [getCommits]);
+  // useEffect(() => {
+  //   getCommits();
+  // }, [getCommits]);
 
-  const calcDateDiff = (): string | null => {
-    if (!latestCommit) return null;
+  // const calcDateDiff = (): string | null => {
+  //   if (!data.latestCommit) return null;
 
-    const updateDate: Dayjs = dayjs(latestCommit.commit.committer.date);
-    const today: Dayjs = dayjs();
-    const rtf = new Intl.RelativeTimeFormat("ko", { numeric: "auto" });
-    return rtf.format(-today.diff(updateDate, "day"), "day");
-  };
+  //   const updateDate: Dayjs = dayjs(data.latestCommit.commit.committer.date);
+  //   const today: Dayjs = dayjs();
+  //   const rtf = new Intl.RelativeTimeFormat("ko", { numeric: "auto" });
+  //   return rtf.format(-today.diff(updateDate, "day"), "day");
+  // };
 
   return (
     <article
@@ -242,7 +242,7 @@ const Project: React.FC<SectionPropType> = ({
               {skillGeneroator()}
             </ul>
           </div>
-          <div className={classNames(styles.update, styles.card)}>
+          {/* <div className={classNames(styles.update, styles.card)}>
             <hgroup>
               <h3 className={styles["card__title"]}>Latest update</h3>
               <h4
@@ -254,18 +254,18 @@ const Project: React.FC<SectionPropType> = ({
                 {calcDateDiff() + " 마지막 커밋"}
               </h4>
             </hgroup>
-            {latestCommit ? (
+            {data.latestCommit ? (
               <ul className={classNames(styles["card__content"])}>
                 <a
-                  href={latestCommit.html_url}
+                  href={data.latestCommit.html_url}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <h5 className={styles["update__message"]}>
-                    {latestCommit.commit.message}
+                    {data.latestCommit.commit.message}
                   </h5>
                   <span className={styles["update__date"]}>
-                    {dayjs(latestCommit.commit.committer.date).format(
+                    {dayjs(data.latestCommit.commit.committer.date).format(
                       "YYYY.MM.DD HH:mm"
                     )}
                   </span>
@@ -274,7 +274,7 @@ const Project: React.FC<SectionPropType> = ({
             ) : (
               <p>알 수 없음</p>
             )}
-          </div>
+          </div> */}
 
           <div className={classNames(styles.links, styles.card)}>
             <h3 className={styles["card__title"]}>Links</h3>

@@ -18,7 +18,7 @@ import Seo from "../../components/Seo";
 
 const PROJECT_LIST = {
   Raebef: { icon: raebef, path: "raebef" },
-  Splatoon3: { icon: splatoon, path: "splatoon" },
+  Splatoon3: { icon: splatoon, path: "splatoon3" },
   Diary: { icon: diary, path: "diary" },
   "Palette Vault": { icon: paletteVault, path: "palettevault" },
   "Memory Test": { icon: memoryTest, path: "memorytest" },

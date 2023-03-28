@@ -1,6 +1,6 @@
 import palettevault from "../../projects/palettevault";
 import raebef from "../../projects/raebef";
-import splatoon from "../../projects/splatoon";
+import splatoon from "../../projects/splatoon3";
 import diary from "../../projects/diary";
 import placereview from "../../projects/placereview";
 import metabeef from "../../projects/metabeef";
@@ -13,49 +13,48 @@ import Seo from "../../components/Seo";
 import styles from "../index.module.scss";
 import { useRouter } from "next/router";
 import { sectionDataType } from "../../types";
-import { useEffect, useState } from "react";
 import ClockApp from "../../components/ClockApp";
 import MemoryTestApp from "../../components/MemoryTestApp";
 
-const Projects = () => {
+const Projects = (projectData: sectionDataType) => {
   const { query } = useRouter();
-  const [projectData, setProjectData] = useState<sectionDataType | null>(null);
+  // const [projectData, setProjectData] = useState<sectionDataType | null>(null);
 
-  useEffect(() => {
-    if (typeof query.id !== "string") return;
+  // useEffect(() => {
+  //   if (typeof query.id !== "string") return;
 
-    switch (query.id) {
-      case "raebef":
-        setProjectData(raebef);
-        break;
-      case "splatoon":
-        setProjectData(splatoon);
-        break;
-      case "diary":
-        setProjectData(diary);
-        break;
-      case "palettevault":
-        setProjectData(palettevault);
-        break;
-      case "placereview":
-        setProjectData(placereview);
-        break;
-      case "metabeef":
-        setProjectData(metabeef);
-        break;
-      case "simplememo":
-        setProjectData(simplememo);
-        break;
-      case "digitalclock":
-        setProjectData(digitalclock);
-        break;
-      case "memorytest":
-        setProjectData(memorytest);
-        break;
-      default:
-        break;
-    }
-  }, [query]);
+  //   switch (query.id) {
+  //     case "raebef":
+  //       setProjectData(raebef);
+  //       break;
+  //     case "splatoon3":
+  //       setProjectData(splatoon);
+  //       break;
+  //     case "diary":
+  //       setProjectData(diary);
+  //       break;
+  //     case "palettevault":
+  //       setProjectData(palettevault);
+  //       break;
+  //     case "placereview":
+  //       setProjectData(placereview);
+  //       break;
+  //     case "metabeef":
+  //       setProjectData(metabeef);
+  //       break;
+  //     case "simplememo":
+  //       setProjectData(simplememo);
+  //       break;
+  //     case "digitalclock":
+  //       setProjectData(digitalclock);
+  //       break;
+  //     case "memorytest":
+  //       setProjectData(memorytest);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }, [query]);
 
   return (
     <main className={styles.container}>
@@ -82,3 +81,66 @@ const Projects = () => {
 };
 
 export default Projects;
+
+export async function getStaticProps({ params }: any) {
+  const { id } = params;
+
+  switch (id) {
+    case "raebef":
+      return {
+        props: raebef,
+      };
+    case "splatoon3":
+      return {
+        props: splatoon,
+      };
+    case "diary":
+      return {
+        props: diary,
+      };
+    case "palettevault":
+      return {
+        props: palettevault,
+      };
+    case "placereview":
+      return {
+        props: placereview,
+      };
+    case "metabeef":
+      return {
+        props: metabeef,
+      };
+    case "simplememo":
+      return {
+        props: simplememo,
+      };
+    case "digitalclock":
+      return {
+        props: digitalclock,
+      };
+    case "memorytest":
+      return {
+        props: memorytest,
+      };
+    default:
+      return {
+        props: {},
+      };
+  }
+}
+
+export async function getStaticPaths() {
+  const paths: Array<{ params: { id: string } }> = [
+    { params: { id: "raebef" } },
+    { params: { id: "splatoon3" } },
+    { params: { id: "diary" } },
+    { params: { id: "palettevault" } },
+    { params: { id: "placereview" } },
+    { params: { id: "metabeef" } },
+    { params: { id: "simplememo" } },
+    { params: { id: "digitalclock" } },
+    { params: { id: "memorytest" } },
+  ];
+
+  return { paths, fallback: false };
+}
