@@ -1,10 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, {
   ReactElement,
-  useCallback,
-  useEffect,
   useRef,
-  useState,
 } from "react";
 import styles from "./Project.module.scss";
 import ProjectHeader from "./ProjectHeader";
@@ -14,7 +11,6 @@ import Button from "./Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation, Pagination } from "swiper";
 import { SectionPropType } from "../types";
-import dayjs, { Dayjs } from "dayjs";
 import Image from "next/image";
 import _ from "lodash";
 
@@ -145,6 +141,8 @@ const Project: React.FC<SectionPropType> = ({
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 512 512"
+                        width="50px"
+                        height="50px"
                         style={{ transform: "rotate(-90deg)" }}
                       >
                         <path
@@ -164,6 +162,8 @@ const Project: React.FC<SectionPropType> = ({
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 512 512"
+                        width="50px"
+                        height="50px"
                         style={{ transform: "rotate(-90deg)" }}
                       >
                         <path
