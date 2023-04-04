@@ -1,0 +1,66 @@
+$size: 15vmin;
+
+@mixin face($color: black, $tx: 0px, $ty: 0px, $tz: 0px, $rx: 0deg, $ry: 0deg) {
+  background-color: $color;
+  transform: translateX($tx) translateY($ty) translateZ($tz) rotateX($rx)
+    rotateY($ry);
+}
+
+.container {
+  background-color: white;
+  height: 100vh;
+  width: 100vw;
+  min-width: 350px;
+  overflow: hidden;
+  perspective: 1000px;
+
+  .cube {
+    cursor: pointer;
+    transform-style: preserve-3d;
+    position: absolute;
+    width: $size;
+    height: $size;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    animation: rotating 3s infinite;
+    @keyframes rotating {
+      0% {
+        transform: rotateX(-45deg) rotateY(-45deg);
+      }
+      100% {
+        transform: rotateX(-405deg) rotateY(-405deg);
+      }
+    }
+
+    .face {
+      box-sizing: border-box;
+      border: 5px solid white;
+      width: $size;
+      height: $size;
+      position: absolute;
+      top: 0;
+      left: 0;
+      &.front {
+        @include face($tz: $size / 2);
+      }
+      &.back {
+        @include face($tz: -$size / 2);
+      }
+      &.top {
+        @include face($ty: -$size / 2, $rx: 90deg);
+      }
+      &.bottom {
+        @include face($ty: $size / 2, $rx: 90deg);
+      }
+      &.left {
+        @include face($tx: -$size / 2, $ry: 90deg);
+      }
+      &.right {
+        @include face($tx: $size / 2, $ry: 90deg);
+      }
+    }
+  }
+}

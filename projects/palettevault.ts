@@ -1,11 +1,11 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 import img1 from "../public/screenshots/palette-vault.png";
 import img2 from "../public/screenshots/palette-vault-pwa.png";
 import img3 from "../public/screenshots/palette-vault-pwa2.png";
 import img4 from "../public/screenshots/palette-vault-empty.png";
 import img5 from "../public/screenshots/palette-vault-new.png";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["PaletteVault"],
   header: {
     title: ["Palette", "Vault"],

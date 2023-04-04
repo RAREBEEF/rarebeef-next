@@ -1,9 +1,9 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 import img1 from "../public/screenshots/simple-memo.png";
 import img2 from "../public/screenshots/simple-memo-memo.png";
 import img3 from "../public/screenshots/simple-memo-write.png";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["SimpleMemo"],
   header: {
     title: ["Simple", "memo"],

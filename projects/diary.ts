@@ -1,11 +1,11 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 import img1 from "../public/screenshots/diary-calendar.png";
 import img2 from "../public/screenshots/diary-diary.png";
 import img3 from "../public/screenshots/diary-write.png";
 import img4 from "../public/screenshots/diary-tags.png";
 import img5 from "../public/screenshots/diary-responsive.png";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["Diary"],
   header: {
     title: ["Diary"],

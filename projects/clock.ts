@@ -1,6 +1,6 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["Clock"],
   header: {
     title: ["Digital", "Clock"],

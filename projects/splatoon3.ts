@@ -1,9 +1,9 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 import img1 from "../public/screenshots/splatoon.png";
 import img2 from "../public/screenshots/splatoon-slide.png";
 import img3 from "../public/screenshots/splatoon-twitter.png";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["Splatoon3"],
   header: {
     title: ["Splatoon 3"],

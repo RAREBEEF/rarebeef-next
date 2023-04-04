@@ -15,8 +15,9 @@ export interface ProgressiveLogoPropType {
   alt: string;
 }
 
-export interface sectionDataType {
+export interface projectDataType {
   name: Array<string>;
+  icon?: StaticImageData;
   header: {
     title: Array<string>;
     subTitle: Array<string>;
@@ -41,7 +42,7 @@ export interface ScrollIndicatorPropType {
 }
 
 export interface SectionPropType {
-  data: sectionDataType;
+  data: projectDataType;
   children?: ReactElement;
 }
 

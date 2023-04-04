@@ -1,19 +1,19 @@
 import classNames from "classnames";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./BeefAnimation.module.scss";
-import gsap, { Power2 } from "gsap";
-import { useRouter } from "next/router";
 import NextImage from "next/image";
 
 import arrowIcon from "../public/icons/angle-left-solid.svg";
 import Link from "next/link";
+import Cube from "./Cube";
 
 const BeefAnimation = () => {
+  const [init, setInit] = useState<boolean>(false);
+  const [cubeUnmaount, setCubeUnmount] = useState<boolean>(false);
   const [showBtn, setShowBtn] = useState<boolean>(false);
   const [showScrollGuide, setShowScrollGuide] = useState<boolean>(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,11 +31,31 @@ const BeefAnimation = () => {
       `/animation/beef_animation_${index.toString().padStart(4, "0")}.jpg`;
 
     const preload = () => {
+      let isTimeout = false;
+      let loadEnd = false;
+
+      setTimeout(() => {
+        isTimeout = true;
+        if (loadEnd) {
+          setInit(true);
+          setTimeout(() => setCubeUnmount(true), 700);
+        }
+      }, 2000);
+
       for (let i = 1; i < maxFrame; i++) {
         const img = new Image();
         img.src = curFrame(i);
       }
+
+      loadEnd = true;
+
+      if (isTimeout) {
+        setInit(true);
+        setTimeout(() => setCubeUnmount(true), 700);
+      }
     };
+
+    preload();
 
     const img = new Image();
 
@@ -49,8 +69,6 @@ const BeefAnimation = () => {
       img.src = curFrame(i);
       ctx.drawImage(img, 0, 0);
     };
-
-    preload();
 
     const windowScrollHandler = () => {
       const scrollProgress =
@@ -83,30 +101,30 @@ const BeefAnimation = () => {
     };
   }, []);
 
-  // const linkToProjects = (e: MouseEvent<HTMLDivElement>) => {
-  //   e.preventDefault();
-
-  //   if (!wrapperRef.current) return;
-  //   setShowBtn(false);
-
-  //   const wrapper = wrapperRef.current;
-  //   const list = listRef.current;
-
-  //   gsap
-  //     .to([wrapper, list], {
-  //       duration: 4,
-  //       translateY: "-700vh",
-  //       ease: Power2.easeIn,
-  //     })
-  //     .then(() => {
-  //       push("/projects");
-  //     });
-  // };
-
   return (
-    <section className={styles.container} ref={containerRef}>
+    <section
+      className={classNames(styles.container, init && styles.init)}
+      ref={containerRef}
+    >
+      {!cubeUnmaount && (
+        <div className={classNames(styles.loading, init && styles.hidden)}>
+          <Cube />
+          <p>Loading</p>
+        </div>
+      )}
       <div ref={wrapperRef} className={styles.wrapper}>
-        <canvas className={styles.canvas} ref={canvasRef}></canvas>
+        <canvas
+          className={styles.canvas}
+          ref={canvasRef}
+          style={{ cursor: showBtn ? "pointer" : "default" }}
+          onClick={() =>
+            showBtn &&
+            window.open(
+              "https://velog.io/@drrobot409/Blender-3D-%EB%A1%9C%EA%B3%A0-%EC%A0%9C%EC%9E%91",
+              "_blank"
+            )
+          }
+        />
       </div>
 
       <nav
@@ -116,7 +134,7 @@ const BeefAnimation = () => {
         )}
       >
         <Link href="/projects" className={styles["to-projects"]}>
-          Click to look around
+          Link to project list
         </Link>
       </nav>
 

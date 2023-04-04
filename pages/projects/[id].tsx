@@ -12,49 +12,12 @@ import Project from "../../components/Project";
 import Seo from "../../components/Seo";
 import styles from "../index.module.scss";
 import { useRouter } from "next/router";
-import { sectionDataType } from "../../types";
+import { projectDataType } from "../../types";
 import ClockApp from "../../components/ClockApp";
 import MemoryTestApp from "../../components/MemoryTestApp";
 
-const Projects = (projectData: sectionDataType) => {
+const Projects = (projectData: projectDataType) => {
   const { query } = useRouter();
-  // const [projectData, setProjectData] = useState<sectionDataType | null>(null);
-
-  // useEffect(() => {
-  //   if (typeof query.id !== "string") return;
-
-  //   switch (query.id) {
-  //     case "raebef":
-  //       setProjectData(raebef);
-  //       break;
-  //     case "splatoon3":
-  //       setProjectData(splatoon);
-  //       break;
-  //     case "diary":
-  //       setProjectData(diary);
-  //       break;
-  //     case "palettevault":
-  //       setProjectData(palettevault);
-  //       break;
-  //     case "placereview":
-  //       setProjectData(placereview);
-  //       break;
-  //     case "metabeef":
-  //       setProjectData(metabeef);
-  //       break;
-  //     case "simplememo":
-  //       setProjectData(simplememo);
-  //       break;
-  //     case "digitalclock":
-  //       setProjectData(digitalclock);
-  //       break;
-  //     case "memorytest":
-  //       setProjectData(memorytest);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }, [query]);
 
   return (
     <main className={styles.container}>

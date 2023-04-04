@@ -1,4 +1,4 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 import img1 from "../public/screenshots/raebef.png";
 import img2 from "../public/screenshots/raebef-login.png";
 import img3 from "../public/screenshots/raebef-products.png";
@@ -6,7 +6,7 @@ import img4 from "../public/screenshots/raebef-filter.png";
 import img5 from "../public/screenshots/raebef-cart.png";
 import img6 from "../public/screenshots/raebef-orders.png";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["Raebef"],
   header: {
     title: ["Raebef"],
@@ -29,6 +29,10 @@ const data: sectionDataType = {
       icon: "/logos/raebef-icon.svg",
       href: "https://raebef.vercel.app/",
     },
+  },
+  testAccount: {
+    id: "test@test.com",
+    pw: "test123",
   },
 };
 

@@ -1,9 +1,9 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 import img1 from "../public/screenshots/meta-beef.png";
 import img2 from "../public/screenshots/meta-beef-posts.png";
 import img3 from "../public/screenshots/meta-beef-login.png";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["MetaBeef"],
   header: {
     title: ["Meta", "Beef"],

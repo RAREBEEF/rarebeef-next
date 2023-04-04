@@ -1,10 +1,10 @@
-import { sectionDataType } from "../types";
+import { projectDataType } from "../types";
 import img1 from "../public/screenshots/place-review.png";
 import img2 from "../public/screenshots/place-review-write.png";
 import img3 from "../public/screenshots/place-review-login.png";
 import img4 from "../public/screenshots/place-review-responsive.png";
 
-const data: sectionDataType = {
+const data: projectDataType = {
   name: ["PlaceReview"],
   header: {
     title: ["Place", "Review"],
