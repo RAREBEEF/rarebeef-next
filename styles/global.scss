@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+#__next {
+  overflow-y: visible;
+}
+
 body {
   min-width: 350px;
   max-width: 100vw;

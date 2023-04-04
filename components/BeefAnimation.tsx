@@ -109,22 +109,10 @@ const BeefAnimation = () => {
       {!cubeUnmaount && (
         <div className={classNames(styles.loading, init && styles.hidden)}>
           <Cube />
-          <p>Loading</p>
         </div>
       )}
       <div ref={wrapperRef} className={styles.wrapper}>
-        <canvas
-          className={styles.canvas}
-          ref={canvasRef}
-          style={{ cursor: showBtn ? "pointer" : "default" }}
-          onClick={() =>
-            showBtn &&
-            window.open(
-              "https://velog.io/@drrobot409/Blender-3D-%EB%A1%9C%EA%B3%A0-%EC%A0%9C%EC%9E%91",
-              "_blank"
-            )
-          }
-        />
+        <canvas className={styles.canvas} ref={canvasRef} />
       </div>
 
       <nav

@@ -2,6 +2,7 @@
   position: relative;
   height: 100vh;
   width: 100vw;
+  min-width: 350px;
   background-color: white;
   text-align: center;
 
@@ -14,42 +15,10 @@
     z-index: 10;
     top: 0;
     width: 100vw;
+    min-width: 350px;
     height: 100vh;
     transition: opacity 0.7s;
     opacity: 1;
-    
-    p {
-      height: fit-content;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      transform: translateY(16vmin);
-      color: black;
-      font-size: 25px;
-      &::after {
-        content: "";
-        position: absolute;
-        margin-left: 3px;
-        animation: dots 0.5s infinite alternate;
-        @keyframes dots {
-          0% {
-            content: "";
-          }
-          33% {
-            content: ".";
-          }
-          66% {
-            content: "..";
-          }
-          100% {
-            content: "...";
-          }
-        }
-      }
-    }
 
     &.hidden {
       opacity: 0;
@@ -83,6 +52,7 @@
     position: fixed;
     height: fit-content;
     width: fit-content;
+    min-width: 350px;
     top: 65%;
     bottom: 0;
     left: 0;
@@ -100,6 +70,7 @@
       position: relative;
       color: white;
       transition: all 0.3s;
+
       font: {
         size: 35px;
         family: "raleway", sans-serif;
@@ -136,39 +107,13 @@
   }
 }
 
-@media (max-width: 1000px) {
-  .container {
-    .project-list {
-      li {
-        .project-list__item__title {
-          font-size: 70px;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 800px) {
-  .container {
-    .project-list {
-      li {
-        .project-list__item__title {
-          font-size: 60px;
-        }
-      }
-    }
-  }
-}
-
 @media (max-width: 600px) {
   .container {
-    .project-list {
-      li {
-        .project-list__item__icon {
-          border-radius: 10px;
-        }
-        .project-list__item__title {
-          font-size: 50px;
+    .to-projects-wrapper {
+      .to-projects {
+        font-size: 30px;
+        &:hover {
+          font-size: 32px;
         }
       }
     }
@@ -177,21 +122,11 @@
 
 @media (max-width: 400px) {
   .container {
-    .project-list {
-      li {
-        .project-list__item__icon {
-          border-radius: 5px;
-        }
-        .project-list__item__title {
-          font-size: 35px;
-        }
-      }
-    }
     .to-projects-wrapper {
       .to-projects {
-        font-size: 30px;
+        font-size: 25px;
         &:hover {
-          font-size: 35px;
+          font-size: 27px;
         }
       }
     }
