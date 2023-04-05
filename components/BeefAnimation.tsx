@@ -2,7 +2,6 @@ import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import styles from "./BeefAnimation.module.scss";
 import NextImage from "next/image";
-
 import arrowIcon from "../public/icons/angle-left-solid.svg";
 import Link from "next/link";
 import Cube from "./Cube";
@@ -12,72 +11,88 @@ const BeefAnimation = () => {
   const [cubeUnmaount, setCubeUnmount] = useState<boolean>(false);
   const [showBtn, setShowBtn] = useState<boolean>(false);
   const [showScrollGuide, setShowScrollGuide] = useState<boolean>(true);
+  const [imgs, setImgs] = useState<Array<HTMLImageElement> | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const maxFrame = 120;
 
+  // 이미지 로딩 체크
   useEffect(() => {
-    if (!containerRef.current || !canvasRef.current) return;
+    if (!imgs) return;
 
-    const cvs = canvasRef.current;
-    const ctx = cvs.getContext("2d");
-    if (!ctx) return;
-    const container = containerRef.current;
-    const maxFrame = 120;
-    cvs.width = 768;
-    cvs.height = 672;
+    const executeWhenReady = () => {
+      setInit(true);
+      setTimeout(() => {
+        setCubeUnmount(true);
+      }, 700);
+    };
 
+    // 이미 로드된 경우
+    if (imgs[120].complete) {
+      executeWhenReady();
+      // 최초 로드일 경우
+    } else {
+      let isLoadEnd = false;
+      let isTimerEnd = false;
+
+      // 최소 로딩 시간(2초)
+      setTimeout(() => {
+        isTimerEnd = true;
+        isLoadEnd && executeWhenReady();
+      }, 2000);
+
+      // 이미지 로드 체크
+      imgs[120].onload = () => {
+        isLoadEnd = true;
+        isTimerEnd && executeWhenReady();
+      };
+    }
+  }, [imgs]);
+
+  // 이미지 로드
+  useEffect(() => {
     const curFrame = (index: number) =>
       `/animation/beef_animation_${index.toString().padStart(4, "0")}.jpg`;
 
-    const preload = () => {
-      let isTimeout = false;
-      let loadEnd = false;
+    const preloadImgs: Array<HTMLImageElement> = [];
 
-      setTimeout(() => {
-        isTimeout = true;
-        if (loadEnd) {
-          setInit(true);
-          setTimeout(() => setCubeUnmount(true), 700);
-        }
-      }, 2000);
-
-      for (let i = 1; i < maxFrame; i++) {
-        const img = new Image();
-        img.src = curFrame(i);
-      }
-
-      loadEnd = true;
-
-      if (isTimeout) {
-        setInit(true);
-        setTimeout(() => setCubeUnmount(true), 700);
-      }
-    };
-
-    preload();
-
-    const img = new Image();
-
-    img.src = curFrame(0);
-
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0);
-    };
-
-    const update = (i: number) => {
+    for (let i = 0; i <= maxFrame; i++) {
+      const img = new Image();
       img.src = curFrame(i);
+      preloadImgs.push(img);
+    }
+
+    setImgs(preloadImgs);
+  }, []);
+
+  // 렌더
+  useEffect(() => {
+    if (!containerRef.current || !canvasRef.current || !imgs) return;
+
+    const cvs = canvasRef.current;
+    const ctx = cvs.getContext("2d");
+
+    if (!ctx) return;
+
+    const container = containerRef.current;
+
+    cvs.width = 768;
+    cvs.height = 672;
+
+    // 사진 교체
+    const update = (i: number) => {
+      const img = imgs[i];
       ctx.drawImage(img, 0, 0);
     };
 
-    const windowScrollHandler = () => {
-      const scrollProgress =
-        -container.getBoundingClientRect().top /
-        (container.clientHeight - window.innerHeight);
+    const renderCurImg = (e?: Event) => {
+      const scrollProgress = Math.abs(
+        container.getBoundingClientRect().top /
+          (container.clientHeight - window.innerHeight)
+      );
 
-      if (scrollProgress > 1) return;
-
-      const frame = Math.ceil(scrollProgress * maxFrame);
+      const frame = Math.ceil(scrollProgress * maxFrame) || 0;
 
       requestAnimationFrame(() => update(frame));
 
@@ -87,19 +102,21 @@ const BeefAnimation = () => {
         setShowScrollGuide(true);
       }
 
-      if (scrollProgress < 0.8) {
+      if (!(e instanceof Event) || scrollProgress < 0.8) {
         setShowBtn(false);
       } else {
         setShowBtn(true);
       }
     };
 
-    window.addEventListener("scroll", windowScrollHandler);
+    renderCurImg();
+
+    window.addEventListener("scroll", (e) => renderCurImg(e));
 
     return () => {
-      window.removeEventListener("scroll", windowScrollHandler);
+      window.removeEventListener("scroll", (e) => renderCurImg(e));
     };
-  }, []);
+  }, [imgs]);
 
   return (
     <section

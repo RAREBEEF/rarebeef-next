@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://rarebeef.co.kr</loc><lastmod>2023-04-04T02:42:31.299Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/about</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/contact</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/reactnative</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/raebef</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/splatoon3</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/diary</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/palettevault</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/placereview</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/metabeef</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/simplememo</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/digitalclock</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://rarebeef.co.kr/projects/memorytest</loc><lastmod>2023-04-04T02:42:31.301Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr</loc><lastmod>2023-04-05T06:13:05.860Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/about</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/contact</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/reactnative</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/raebef</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/splatoon3</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/diary</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/palettevault</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/placereview</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/metabeef</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/simplememo</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/digitalclock</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://rarebeef.co.kr/projects/memorytest</loc><lastmod>2023-04-05T06:13:05.861Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
