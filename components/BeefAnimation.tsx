@@ -11,6 +11,7 @@ const BeefAnimation = () => {
   const [cubeUnmaount, setCubeUnmount] = useState<boolean>(false);
   const [showBtn, setShowBtn] = useState<boolean>(false);
   const [showScrollGuide, setShowScrollGuide] = useState<boolean>(true);
+  const [nextImgs, setNextImgs] = useState<Array<JSX.Element>>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,10 +42,23 @@ const BeefAnimation = () => {
         isLoadEnd && executeWhenReady();
       }, 2000);
 
+      const nextImgs: Array<JSX.Element> = [];
+
       for (let i = 0; i <= maxFrame; i++) {
-        const img = new Image();
-        img.src = curFrame(i);
+        const nextImg = (
+          <NextImage
+            key={i}
+            src={curFrame(i)}
+            alt="RAREBEEF"
+            width="50"
+            height="50"
+            priority
+          />
+        );
+        nextImgs.push(nextImg);
       }
+
+      setNextImgs(nextImgs);
 
       const relayLoadCheck = (i: number) => {
         if (i > maxFrame) {
@@ -159,6 +173,7 @@ const BeefAnimation = () => {
           alt="Scroll down"
         />
       </div>
+      <div style={{ opacity: 0, position: "absolute", pointerEvents: "none" }}>{nextImgs}</div>
     </section>
   );
 };
@@ -172,13 +187,14 @@ export default BeefAnimation;
 // import arrowIcon from "../public/icons/angle-left-solid.svg";
 // import Link from "next/link";
 // import Cube from "./Cube";
+// import Image from "next/image";
 
 // const BeefAnimation = () => {
 //   const [init, setInit] = useState<boolean>(false);
 //   const [cubeUnmaount, setCubeUnmount] = useState<boolean>(false);
 //   const [showBtn, setShowBtn] = useState<boolean>(false);
 //   const [showScrollGuide, setShowScrollGuide] = useState<boolean>(true);
-//   const [imgs, setImgs] = useState<Array<HTMLImageElement> | null>(null);
+//   const [imgs, setImgs] = useState<Array<JSX.Element> | null>(null);
 //   const canvasRef = useRef<HTMLCanvasElement>(null);
 //   const wrapperRef = useRef<HTMLDivElement>(null);
 //   const containerRef = useRef<HTMLDivElement>(null);
@@ -222,11 +238,12 @@ export default BeefAnimation;
 //     const curFrame = (index: number) =>
 //       `/animation/beef_animation_${index.toString().padStart(4, "0")}.jpg`;
 
-//     const preloadImgs: Array<HTMLImageElement> = [];
+//     const preloadImgs: Array<JSX.Element> = [];
 
 //     for (let i = 0; i <= maxFrame; i++) {
-//       const img = new Image();
-//       img.src = curFrame(i);
+//       // const img = new Image();
+//       // img.src = curFrame(i);
+//       const img = <Image src={curFrame(i)} alt={`RAREBEEF animation frame ${i}`} />
 //       preloadImgs.push(img);
 //     }
 
@@ -324,6 +341,7 @@ export default BeefAnimation;
 //           alt="Scroll down"
 //         />
 //       </div>
+//       <div>{imgs?.map((img) =>)}</div>
 //     </section>
 //   );
 // };
