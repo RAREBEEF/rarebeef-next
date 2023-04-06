@@ -11,7 +11,7 @@ const BeefAnimation = () => {
   const [cubeUnmaount, setCubeUnmount] = useState<boolean>(false);
   const [showBtn, setShowBtn] = useState<boolean>(false);
   const [showScrollGuide, setShowScrollGuide] = useState<boolean>(true);
-  const [nextImgs, setNextImgs] = useState<Array<JSX.Element>>([]);
+  const [imgElements, setImgElements] = useState<Array<JSX.Element>>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +27,8 @@ const BeefAnimation = () => {
       `/animation/beef_animation_${index.toString().padStart(4, "0")}.jpg`;
     cvs.width = 768;
     cvs.height = 672;
-    const nextImgs: Array<JSX.Element> = [];
+
+    const imgs: Array<JSX.Element> = [];
 
     const preload = () => {
       let isTimerEnd = false;
@@ -44,20 +45,11 @@ const BeefAnimation = () => {
       }, 2000);
 
       for (let i = 0; i <= maxFrame; i++) {
-        const nextImg = (
-          <NextImage
-            key={i}
-            src={curFrame(i)}
-            alt="RAREBEEF"
-            width="50"
-            height="50"
-            priority
-          />
-        );
-        nextImgs.push(nextImg);
+        const nextImg = <img key={i} src={curFrame(i)} alt="RAREBEEF" />;
+        imgs.push(nextImg);
       }
 
-      setNextImgs(nextImgs);
+      setImgElements(imgs);
 
       const relayLoadCheck = (i: number) => {
         if (i > maxFrame) {
@@ -68,7 +60,7 @@ const BeefAnimation = () => {
         }
 
         const img = new Image();
-        img.src = nextImgs[i].props.src;
+        img.src = imgs[i].props.src;
 
         if (img.complete) {
           console.log(`frame ${i} ready`);
@@ -88,14 +80,14 @@ const BeefAnimation = () => {
 
     const img = new Image();
 
-    img.src =  nextImgs[0].props.src;
+    img.src = imgs[0].props.src;
 
     img.onload = function () {
       ctx.drawImage(img, 0, 0);
     };
 
     const update = (i: number) => {
-      img.src = nextImgs[i].props.src;
+      img.src = imgs[i].props.src;
       ctx.drawImage(img, 0, 0);
     };
 
@@ -172,8 +164,8 @@ const BeefAnimation = () => {
           alt="Scroll down"
         />
       </div>
-      <div style={{ opacity: 0, position: "absolute", pointerEvents: "none" }}>
-        {nextImgs}
+      <div className={styles.preload}>
+        {imgElements}
       </div>
     </section>
   );
