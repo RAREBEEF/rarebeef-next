@@ -30,53 +30,54 @@ const BeefAnimation = () => {
 
     const imgs: Array<JSX.Element> = [];
 
-    const preload = () => {
-      let isTimerEnd = false;
-      let isLoadEnd = false;
+    // const preload = () => {
+    //   // let isTimerEnd = false;
+    //   // let isLoadEnd = false;
 
-      const executeWhenReady = () => {
-        setInit(true);
-        setTimeout(() => setCubeUnmount(true), 700);
-      };
+    //   // const executeWhenReady = () => {
+    //   //   setInit(true);
+    //   //   setTimeout(() => setCubeUnmount(true), 700);
+    //   // };
 
-      setTimeout(() => {
-        isTimerEnd = true;
-        isLoadEnd && executeWhenReady();
-      }, 2000);
+    // //   const relayLoadCheck = (i: number) => {
+    // //     if (i > maxFrame) {
+    // //       console.log("all frames are ready");
+    // //       isLoadEnd = true;
+    // //       isTimerEnd && executeWhenReady();
+    // //       return;
+    // //     }
 
-      for (let i = 0; i <= maxFrame; i++) {
-        const nextImg = <img key={i} src={curFrame(i)} alt="RAREBEEF" />;
-        imgs.push(nextImg);
-      }
+    // //     const img = new Image();
+    // //     img.src = imgs[i].props.src;
 
-      setImgElements(imgs);
+    // //     if (img.complete) {
+    // //       console.log(`frame ${i} ready`);
+    // //       relayLoadCheck(i + 1);
+    // //     } else {
+    // //       img.onload = () => {
+    // //         console.log(`frame ${i} ready`);
+    // //         relayLoadCheck(i + 1);
+    // //       };
+    // //     }
+    // //   };
 
-      const relayLoadCheck = (i: number) => {
-        if (i > maxFrame) {
-          console.log("all frames are ready");
-          isLoadEnd = true;
-          isTimerEnd && executeWhenReady();
-          return;
-        }
+    // //   relayLoadCheck(0);
+    // // };
+    // }
 
-        const img = new Image();
-        img.src = imgs[i].props.src;
+    setTimeout(() => {
+      setInit(true);
+      setTimeout(() => setCubeUnmount(true), 700);
+    }, 2000);
 
-        if (img.complete) {
-          console.log(`frame ${i} ready`);
-          relayLoadCheck(i + 1);
-        } else {
-          img.onload = () => {
-            console.log(`frame ${i} ready`);
-            relayLoadCheck(i + 1);
-          };
-        }
-      };
+    for (let i = 0; i <= maxFrame; i++) {
+      const nextImg = <img key={i} src={curFrame(i)} alt="RAREBEEF" />;
+      imgs.push(nextImg);
+    }
 
-      relayLoadCheck(0);
-    };
+    setImgElements(imgs);
 
-    preload();
+    // preload();
 
     const img = new Image();
 
@@ -164,9 +165,7 @@ const BeefAnimation = () => {
           alt="Scroll down"
         />
       </div>
-      <div className={styles.preload}>
-        {imgElements}
-      </div>
+      <div className={styles.preload}>{imgElements}</div>
     </section>
   );
 };
