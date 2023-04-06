@@ -27,6 +27,7 @@ const BeefAnimation = () => {
       `/animation/beef_animation_${index.toString().padStart(4, "0")}.jpg`;
     cvs.width = 768;
     cvs.height = 672;
+    const nextImgs: Array<JSX.Element> = [];
 
     const preload = () => {
       let isTimerEnd = false;
@@ -41,8 +42,6 @@ const BeefAnimation = () => {
         isTimerEnd = true;
         isLoadEnd && executeWhenReady();
       }, 2000);
-
-      const nextImgs: Array<JSX.Element> = [];
 
       for (let i = 0; i <= maxFrame; i++) {
         const nextImg = (
@@ -69,7 +68,7 @@ const BeefAnimation = () => {
         }
 
         const img = new Image();
-        img.src = curFrame(i);
+        img.src = nextImgs[i].props.src;
 
         if (img.complete) {
           console.log(`frame ${i} ready`);
@@ -89,14 +88,14 @@ const BeefAnimation = () => {
 
     const img = new Image();
 
-    img.src = curFrame(0);
+    img.src =  nextImgs[0].props.src;
 
     img.onload = function () {
       ctx.drawImage(img, 0, 0);
     };
 
     const update = (i: number) => {
-      img.src = curFrame(i);
+      img.src = nextImgs[i].props.src;
       ctx.drawImage(img, 0, 0);
     };
 
@@ -173,7 +172,9 @@ const BeefAnimation = () => {
           alt="Scroll down"
         />
       </div>
-      <div style={{ opacity: 0, position: "absolute", pointerEvents: "none" }}>{nextImgs}</div>
+      <div style={{ opacity: 0, position: "absolute", pointerEvents: "none" }}>
+        {nextImgs}
+      </div>
     </section>
   );
 };
