@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./BeefAnimation.module.scss";
 import NextImage from "next/image";
 import arrowIcon from "../public/icons/angle-left-solid.svg";
@@ -18,23 +18,12 @@ const BeefAnimation = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const MAX_FRAME = 120;
+  const MAX_FRAME = 120; // 사실 시작은 0부터라 120까지 총 121 프레임
   const curFrame = useCallback(
     (index: number) =>
       `/animation/beef_animation_${index.toString().padStart(4, "0")}.jpg`,
     []
   );
-
-  // 애니메이션 스킵
-  useEffect(() => {
-    if (skipAnimation) {
-      setSkipAnimation(true);
-      setInit(true);
-      setShowScrollGuide(false);
-      setShowBtn(true);
-      setTimeout(() => setCubeUnmount(true), 700);
-    }
-  }, [skipAnimation]);
 
   // 모든 이미지가 준비되었는지 체크
   useEffect(() => {
@@ -51,16 +40,11 @@ const BeefAnimation = () => {
       setTimeout(() => setCubeUnmount(true), 700);
     };
 
-    // 최소 로딩 시간
+    // 최소 로딩 시간 2초
     setTimeout(() => {
       isTimerEnd = true;
       isAllReady && executeWhenReady();
     }, 2000);
-
-    // 스킵 버튼 출력하기
-    const youCanSkip = setTimeout(() => {
-      setCanISkip(true);
-    }, 10000);
 
     // 이미지 불러오기
     for (let i = 0; i <= MAX_FRAME; i++) {
@@ -75,9 +59,11 @@ const BeefAnimation = () => {
      * 큐가 완료되었을 때 로드되지 않은 이미지가 없다면 모든 로딩 프로세스 종료
      * */
     const imgLoadCheckQueue = (imgs: Array<HTMLImageElement>) => {
+      if (skipAnimation) return;
+
       // 모든 큐 완료
       if (!imgs || imgs.length === 0) {
-        console.log("Queue completed. Waiting for all frames to load.");
+        console.log("Queue completed. Waiting for all frames to ready.");
         isQueueEnd = true;
 
         // 모든 이미지 로드 완료 여부
@@ -93,12 +79,16 @@ const BeefAnimation = () => {
 
       // 로드 완료/미완료 이미지 구분
       if (current.complete) {
-        console.log(current.src.slice(-8) + " is ready.");
+        console.log(
+          "Frame " + current.src.match(/[0-9]{4}(?=.jpg$)/i) + " is ready."
+        );
       } else {
         waitingForLoad.push(current);
 
         current.onload = () => {
-          console.log(current.src.slice(-8) + " is ready.");
+          console.log(
+            "Frame " + current.src.match(/[0-9]{4}(?=.jpg$)/i) + " is ready."
+          );
           checkNotLoadedImgs(waitingForLoad);
         };
       }
@@ -114,7 +104,7 @@ const BeefAnimation = () => {
      * 로드가 왼료되지 않았던 이미지들의 완료 여부 체크
      * */
     const checkNotLoadedImgs = (imgs: Array<HTMLImageElement>) => {
-      if (!imgs || imgs.length === 0 || isAllReady) {
+      if (!imgs || imgs.length === 0 || isAllReady || skipAnimation) {
         return;
       }
 
@@ -129,7 +119,12 @@ const BeefAnimation = () => {
 
       waitingForLoad = notLoaded;
     };
-  }, [curFrame]);
+
+    // 스킵 버튼 출력하기
+    const youCanSkip = setTimeout(() => {
+      setCanISkip(true);
+    }, 5000);
+  }, [curFrame, skipAnimation]);
 
   // 스크롤에 맞춰 캔버스에 이미지 렌더링
   useEffect(() => {
@@ -186,6 +181,16 @@ const BeefAnimation = () => {
     };
   }, [curFrame, init, skipAnimation]);
 
+  // 애니메이션 스킵
+  const skip = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setSkipAnimation(true);
+    setInit(true);
+    setShowScrollGuide(false);
+    setShowBtn(true);
+    setTimeout(() => setCubeUnmount(true), 700);
+  };
+
   return (
     <section
       className={classNames(
@@ -205,10 +210,7 @@ const BeefAnimation = () => {
         >
           <Cube />
           <p>Loading</p>
-          <Button
-            onClick={() => setSkipAnimation(true)}
-            text="인트로 스킵하기"
-          />
+          <Button onClick={skip} text="인트로 스킵하기" />
         </div>
       )}
       {skipAnimation ? (
@@ -221,7 +223,7 @@ const BeefAnimation = () => {
           />
         </div>
       ) : (
-        <div ref={wrapperRef} className={styles.wrapper}>
+        <div ref={wrapperRef} className={styles["canvas-wrapper"]}>
           <canvas className={styles.canvas} ref={canvasRef} />
         </div>
       )}
