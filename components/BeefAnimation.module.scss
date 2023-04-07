@@ -6,8 +6,24 @@
   background-color: white;
   text-align: center;
 
-  &.init {
+  &.init:not(.skiped) {
     height: 500vh;
+  }
+
+  &.skiped {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .alt-image-wrapper {
+      position: relative;
+      max-width: 100vw;
+      min-width: 350px;
+      width: 768px;
+      height: 672px;
+      aspect-ratio: 768/672;
+    }
   }
 
   .loading {
@@ -22,6 +38,59 @@
 
     &.hidden {
       opacity: 0;
+    }
+
+    p {
+      pointer-events: none;
+      color: black;
+      font-size: 30px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      height: fit-content;
+      padding-top: 35vmin;
+
+      &::after {
+        position: absolute;
+        content: "...";
+        animation: dots 1s infinite alternate;
+        @keyframes dots {
+          0% {
+            content: "";
+          }
+          25% {
+            content: ".";
+          }
+          50% {
+            content: "..";
+          }
+          75% {
+            content: "...";
+          }
+        }
+      }
+    }
+
+    button {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto auto 10vh;
+      width: 150px;
+      transition: opacity 0.7s;
+    }
+
+    &.show-skip {
+      button {
+        opacity: 1;
+        pointer-events: all;
+      }
     }
   }
 
