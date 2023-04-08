@@ -152,10 +152,8 @@ const BeefAnimation = () => {
 
     const windowScrollHandler = () => {
       const scrollProgress =
-        -container.getBoundingClientRect().top /
+        Math.abs(container.getBoundingClientRect().top) /
         (container.clientHeight - window.innerHeight);
-
-      if (scrollProgress > 1) return;
 
       const frame = Math.ceil(scrollProgress * MAX_FRAME);
 
@@ -213,21 +211,19 @@ const BeefAnimation = () => {
           <Button onClick={skip} text="인트로 스킵하기" />
         </div>
       )}
-      {skipAnimation ? (
-        <div className={styles["alt-image-wrapper"]}>
-          <NextImage
-            src={altImage}
-            alt="RAREBEEF's portfolio"
-            fill={true}
-            objectFit="contain"
-          />
-        </div>
-      ) : (
+      <div className={styles["alt-image-wrapper"]}>
+        <NextImage
+          src={altImage}
+          alt="RAREBEEF's portfolio"
+          fill={true}
+          objectFit="contain"
+        />
+      </div>
+      {!skipAnimation && (
         <div ref={wrapperRef} className={styles["canvas-wrapper"]}>
           <canvas className={styles.canvas} ref={canvasRef} />
         </div>
       )}
-
       <nav
         className={classNames(
           styles["to-projects-wrapper"],

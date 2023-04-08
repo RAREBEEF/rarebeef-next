@@ -144,14 +144,11 @@
       position: relative;
       color: white;
       transition: all 0.3s;
-
+      padding: 5px 15px;
       font: {
         size: 35px;
         family: "raleway", sans-serif;
         weight: 500;
-      }
-      &:hover {
-        font-size: 37px;
       }
     }
   }
@@ -213,6 +210,14 @@
           font-size: 27px;
         }
       }
+    }
+  }
+}
+
+@media (hover: hover) {
+  .to-projects-wrapper {
+    .to-projects:hover {
+      font-size: 37px;
     }
   }
 }
