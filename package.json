@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 2702",
     "devhttps": "node server.js",
     "build": "next build",
     "postbuild": "next-sitemap",
-    "start": "next start",
+    "start": "next start -p 2702",
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/swc-darwin-x64": "^13.3.0",
     "@react-three/cannon": "^6.3.0",
     "@react-three/drei": "^9.6.0",
     "@react-three/fiber": "^8.0.12",
@@ -21,7 +22,7 @@
     "dayjs": "^1.11.5",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.1",
-    "firebase": "^9.8.1",
+    "firebase": "^9.14.0",
     "gsap": "^3.10.4",
     "lodash": "^4.17.21",
     "lottie-web": "^5.10.1",

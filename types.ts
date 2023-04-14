@@ -143,6 +143,11 @@ export interface GuestBookPropType {
 
 export interface ReduxStateType {
   getGuestBook: getGusetBookStateType;
+  getToken: getTokenStateType;
+}
+
+export interface TokenDataType {
+  list: Array<string>;
 }
 
 export interface getGusetBookStateType {
@@ -165,6 +170,26 @@ export interface getGuestBookFailType {
   error: any;
 }
 
+export interface getTokenStateType {
+  data: TokenDataType;
+  error: any;
+  loading: boolean;
+}
+
+export interface getTokenStartType {
+  type: string;
+}
+
+export interface getTokenSuccessType {
+  type: string;
+  data: TokenDataType;
+}
+
+export interface getTokenFailType {
+  type: string;
+  error: any;
+}
+
 export interface setStartType {
   type: string;
 }
@@ -175,8 +200,8 @@ export interface guestBookType {
   pw: string;
   content: string;
   createdAt: number;
-  displayIp: string;
-  ip: string;
+  displayIp?: string;
+  ip?: string;
 }
 
 export interface styleType {

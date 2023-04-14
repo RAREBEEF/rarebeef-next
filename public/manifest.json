@@ -74,5 +74,6 @@
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "scope": "/"
+  "scope": "/",
+  "gcm_sender_id": "905000831692"
 }

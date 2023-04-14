@@ -1,0 +1,26 @@
+@import "./about&contact.module.scss";
+
+.container {
+  .content {
+    justify-content: flex-start;
+    .section {
+      .sub-header {
+        margin: {
+          top: 10px;
+        }
+        font: {
+          size: 20px;
+        }
+      }
+      .text {
+        flex-direction: column;
+        max-width: 300px;
+        margin-bottom: 20px;
+
+        input {
+          padding: 5px;
+        }
+      }
+    }
+  }
+}

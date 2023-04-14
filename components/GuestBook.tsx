@@ -25,7 +25,7 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
     }
 
     if (pwCheck !== process.env.REACT_APP_PW && pwCheck !== data.pw) {
-      window.alert("비밀번호가 일치하지 않습니다.");
+      window.alert("비밀번호가 일치하지 않습니다. 한/영 및 대소문자를 확인해 주세요.");
 
       return;
     }
@@ -47,7 +47,7 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
       <div className={styles["bottom-wrapper"]}>
         <div className={styles["info"]}>
           <div className={classNames(styles.text, styles.name)}>
-            {data.name} ({data.displayIp})
+            {data.name}
           </div>
           <div className={classNames(styles.text, styles.date)}>
             {dayjs(data.createdAt).format("YYYY.MM.DD HH:mm")}
