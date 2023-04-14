@@ -16,12 +16,52 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  const { title, body, icon, click_action } = payload.notification;
+// messaging.onBackgroundMessage((payload) => {
+//   const { title, body, icon, click_action } = payload.notification;
 
-  return self.registration.showNotification(title, {
-    body,
-    icon,
-    data: { click_action },
-  });
+//   return self.registration.showNotification(title, {
+//     body,
+//     // icon,
+//     click_action,
+//   });
+// });
+
+self.addEventListener('push', function(event) {
+  if (event.data) {
+    const notification = event.notification.json();
+    const options = {
+      body: notification.body,
+      icon: notification.icon,
+      image: notification.image,
+      vibrate: [200, 100, 200],
+      data: {
+        url: notification.click_action
+      },
+      actions: [
+        {
+          action: 'open_url',
+          title: 'Open URL'
+        },
+        {
+          action: 'dismiss',
+          title: 'Dismiss'
+        }
+      ]
+    };
+    event.waitUntil(
+      self.registration.showNotification(notification.title, options)
+    );
+  } else {
+    console.log('This push event has no data.');
+  }
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+
+  const url = event.notification.data.click_action;
+  const action = event.action;
+  if (action === 'open_url' && url) {
+    event.waitUntil(clients.openWindow(url));
+  }
 });

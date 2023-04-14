@@ -13,13 +13,4 @@ module.exports = withPWA({
   experimental: {
     scrollRestoration: true,
   },
-  async redirects() {
-    return [
-      {
-        source: "/profile",
-        destination: "/about",
-        permanent: true,
-      },
-    ];
-  },
 });

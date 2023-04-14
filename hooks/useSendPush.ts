@@ -24,14 +24,21 @@ const useSendPush = () => {
     body: string;
     click_action: string;
   }) => {
+    if (token.list.length === 0) {
+      window.alert("푸시를 발송할 토큰이 존재하지 않습니다.");
+      return;
+    }
+    
     const fcmServerKey = process.env.NEXT_PUBLIC_FCM_SERVER_KEY;
 
     const message = {
       notification: {
         title,
         body,
-        click_action,
         icon: "/logos/beef.svg"
+      },
+      data: {
+        click_action
       },
       registration_ids: token.list,
     };
