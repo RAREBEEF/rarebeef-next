@@ -16,7 +16,7 @@ import Link from "next/link";
 import Footer from "../../components/Footer";
 import Seo from "../../components/Seo";
 import classNames from "classnames";
-import PushRequest from "../../components/pushRequest";
+import PushRequest from "../../components/PushRequest";
 
 const PROJECT_LIST = {
   Raebef: { icon: raebef, path: "raebef" },
