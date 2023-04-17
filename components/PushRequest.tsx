@@ -123,7 +123,7 @@ const PushRequest: React.FC<PushRequestPropType> = ({
     <section className={styles["request-permission"]}>
       <div className={styles["request-permission__modal"]}>
         <p>
-          푸시를 통해 새로운 프로젝트 알림을 받아보실 수 있습니다.
+          푸시를 통해 새로운 프로젝트와 방명록 등의 알림을 받아보실 수 있습니다.
           <br />
           푸시 알림을 허용하시겠습니까?
         </p>

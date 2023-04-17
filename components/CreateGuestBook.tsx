@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./CreateGuestBook.module.scss";
 import * as FB from "../fb";
 import Button from "./Button";
 import classNames from "classnames";
 import useInput from "../hooks/useInput";
 import useSendPush from "../hooks/useSendPush";
+import Inko from "inko";
 
 const CreateGuestBook = () => {
   const {
@@ -16,11 +17,12 @@ const CreateGuestBook = () => {
   const { value: pw, onChange: onPwChange, setValue: setPw } = useInput();
   const [uploading, setUploading] = useState<boolean>(false);
   const sendPush = useSendPush();
+  const inko = new Inko();
 
   const upload = async () => {
     await FB.addDoc(FB.collection(FB.db, "GuestBook"), {
       name,
-      pw,
+      pw: inko.ko2en(pw),
       content,
       createdAt: new Date().getTime(),
     })
@@ -30,8 +32,8 @@ const CreateGuestBook = () => {
         setPw("");
 
         await sendPush({
-          title: "새로운 방명록이 등록되었습니다!",
-          body: `${name}님 : ${content}`,
+          title: "🎉 새로운 방명록이 등록되었습니다! 🎉",
+          body: `\n📝 ${name}님 : ${content}`,
           click_action: "https://www.rarebeef.co.kr/contact",
         }).catch((error) => console.log(error));
       })

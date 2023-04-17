@@ -5,9 +5,11 @@ import styles from "./GuestBook.module.scss";
 import * as FB from "../fb";
 import classNames from "classnames";
 import dayjs from "dayjs";
+import Inko from "inko";
 
 const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
   const [pwCheck, setPwCheck] = useState<string>("");
+  const inko = new Inko();
 
   const onPwCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPwCheck(e.target.value);
@@ -20,13 +22,11 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
 
     if (pwCheck.length === 0) {
       window.alert("비밀번호를 입력해주세요.");
-
       return;
     }
 
-    if (pwCheck !== process.env.REACT_APP_PW && pwCheck !== data.pw) {
-      window.alert("비밀번호가 일치하지 않습니다. 한/영 및 대소문자를 확인해 주세요.");
-
+  if (pwCheck !== process.env.REACT_APP_PW && inko.ko2en(pwCheck) !== data.pw) {
+      window.alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
