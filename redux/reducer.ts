@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import getGuestBook from "./modules/getGuestBook";
-import getToken from "./modules/getToken";
 
-const reducer = combineReducers({ getGuestBook, getToken });
+const reducer = combineReducers({ getGuestBook });
 
 export default reducer;

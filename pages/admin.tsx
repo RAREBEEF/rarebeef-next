@@ -70,18 +70,19 @@ const Admin: React.FC<ProfilePropType> = () => {
       });
   };
 
-  const onSendPushClick = () => {
+  const onSendPushClick = async () => {
     try {
-    sendPush({ title, body, click_action: url }).then(() => {
-      setTitle("");
-      setBody("");
-      setUrl("https://www.rarebeef.co.kr/");
-      window.alert("푸시가 발송되었습니다.")
-    });
+    await sendPush({ title, body, click_action: url })
   } catch (error) {
     console.log(error);
     window.alert("푸시 발송에 실패하였습니다.\n" + error);
+    return;
   }
+
+  setTitle("");
+  setBody("");
+  setUrl("https://www.rarebeef.co.kr/");
+  window.alert("푸시가 발송되었습니다.")
   };
 
   return (

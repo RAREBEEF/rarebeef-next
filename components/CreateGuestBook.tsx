@@ -24,15 +24,16 @@ const CreateGuestBook = () => {
       content,
       createdAt: new Date().getTime(),
     })
-      .then(() => {
-        sendPush({
-          title: "새로운 방명록이 등록되었습니다!",
-          body: `${name}님 : ${content}`,
-          click_action: "https://www.rarebeef.co.kr/contact",
-        });
+      .then(async () => {
         setContent("");
         setName("");
         setPw("");
+
+        await sendPush({
+          title: "새로운 방명록이 등록되었습니다!",
+          body: `${name}님 : ${content}`,
+          click_action: "https://www.rarebeef.co.kr/contact",
+        }).catch((error) => console.log(error));
       })
       .catch((error) => {
         console.log(error);

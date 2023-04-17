@@ -16,16 +16,6 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// messaging.onBackgroundMessage((payload) => {
-//   const { title, body, icon, click_action } = payload.notification;
-
-//   return self.registration.showNotification(title, {
-//     body,
-//     // icon,
-//     click_action,
-//   });
-// });
-
 self.addEventListener('push', function(event) {
   if (event.data) {
     const notification = event.notification.json();
@@ -65,3 +55,4 @@ self.addEventListener('notificationclick', function(event) {
     event.waitUntil(clients.openWindow(url));
   }
 });
+
