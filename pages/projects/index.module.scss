@@ -84,45 +84,6 @@
     }
   }
 
-  .request-permission {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    min-width: 350px;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    -moz-backdrop-filter: blur(3px);
-    -ms-backdrop-filter: blur(3px);
-    background-color: rgba(0, 0, 0, 0.3);
-    top: 0;
-    left: 0;
-
-    .request-permission__modal {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      padding: 20px;
-      width: fit-content;
-      max-width: calc(100% - 40px);
-      height: fit-content;
-      background-color: white;
-      font-size: 16px;
-      line-height: 25px;
-      border-radius: 15px;
-      word-break: keep-all;
-      .request-permission__modal__btn-wrapper {
-        margin-top: 10px;
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-      }
-    }
-  }
-
   .footer {
     position: fixed;
     bottom: 0;

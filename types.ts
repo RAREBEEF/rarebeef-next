@@ -1,5 +1,5 @@
 import { StaticImageData } from "next/image";
-import { ReactElement, RefObject } from "react";
+import { Dispatch, DispatchWithoutAction, ReactElement, RefObject, SetStateAction } from "react";
 
 export interface BeefModelPropType {
   beefRef: any;
@@ -121,6 +121,11 @@ export interface SkillPropType {
 
 export interface InitLoadingPropType {
   init: boolean;
+}
+
+export interface PushRequestPropType {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface HomePropType {}

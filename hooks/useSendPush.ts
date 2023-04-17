@@ -25,7 +25,7 @@ const useSendPush = () => {
     click_action: string;
   }) => {
     if (token.list.length === 0) {
-      window.alert("푸시를 발송할 토큰이 존재하지 않습니다.");
+      console.log("No tokens available");
       return;
     }
     
@@ -54,11 +54,9 @@ const useSendPush = () => {
       .post("https://fcm.googleapis.com/fcm/send", message, config)
       .then((response) => {
         console.log("Successfully sent message:", response.data);
-        window.alert("푸시가 전송되었습니다.");
       })
       .catch((error) => {
         console.log("Error sending message:", error);
-        window.alert("푸시가 전송에 실패하였습니다.");
       });
   };
 
