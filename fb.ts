@@ -1,16 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
-  collection as c,
-  addDoc as aD,
-  updateDoc as uD,
-  query as q,
-  onSnapshot as oS,
-  orderBy as oB,
-  doc as d,
-  deleteDoc as dD,
 } from "firebase/firestore";
-import { getAuth as gA, signInAnonymously as sIA } from "firebase/auth";
 import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -30,23 +21,3 @@ if (typeof window !== "undefined" && typeof window.navigator !== "undefined") {
 }
 
 export const db = getFirestore(app);
-
-export const collection = c;
-
-export const addDoc = aD;
-
-export const updateDoc = uD;
-
-export const query = q;
-
-export const onSnapshot = oS;
-
-export const orderBy = oB;
-
-export const doc = d;
-
-export const deleteDoc = dD;
-
-export const getAuth = gA;
-
-export const signInAnonymously = sIA;

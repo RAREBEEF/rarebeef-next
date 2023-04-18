@@ -4,7 +4,8 @@ import { PushRequestPropType } from "../types";
 import Button from "./Button";
 import { getMessaging, getToken } from "firebase/messaging";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import * as FB from "../fb";
+import { getAuth, signInAnonymously } from "firebase/auth";
+import { db } from "../fb";
 
 const PushRequest: React.FC<PushRequestPropType> = ({
   showModal,
@@ -20,11 +21,8 @@ const PushRequest: React.FC<PushRequestPropType> = ({
       "(display-mode: standalone)"
     ).matches;
 
-    console.log(permission, userAgent, isIos, isStandalone);
-
     // ios이면서 스탠드얼론이 아니면 푸시를 보낼 수 없다.
     if (isIos && !isStandalone) {
-      console.log("Nooooooooooooo");
       setShowModal(false);
       return;
     }
@@ -42,7 +40,7 @@ const PushRequest: React.FC<PushRequestPropType> = ({
   }, [setShowModal]);
 
   const uploadToken = async (currentToken: string) => {
-    const docRef = doc(FB.db, "subscribe", "tokens");
+    const docRef = doc(db, "subscribe", "tokens");
     await updateDoc(docRef, {
       list: arrayUnion(currentToken),
     })
@@ -84,10 +82,10 @@ const PushRequest: React.FC<PushRequestPropType> = ({
               return;
             } else {
               // 인증 후 토큰 업로드
-              const auth = FB.getAuth();
+              const auth = getAuth();
 
               if (!auth.currentUser) {
-                await FB.signInAnonymously(auth)
+                await signInAnonymously(auth)
                   .then(() => {
                     uploadToken(currentToken);
                   })

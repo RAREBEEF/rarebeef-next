@@ -16,43 +16,55 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-self.addEventListener('push', function(event) {
+self.addEventListener("push", function (event) {
   if (event.data) {
-    const notification = event.notification.json();
+    const data = event.data.json().data;
     const options = {
-      body: notification.body,
-      icon: notification.icon,
-      image: notification.image,
+      body: data.body,
+      icon: data.image,
+      image: data.image,
       vibrate: [200, 100, 200],
       data: {
-        url: notification.click_action
+        click_action: data.click_action,
       },
-      actions: [
-        {
-          action: 'open_url',
-          title: 'Open URL'
-        },
-        {
-          action: 'dismiss',
-          title: 'Dismiss'
-        }
-      ]
     };
+    
     event.waitUntil(
-      self.registration.showNotification(notification.title, options)
+      self.registration.showNotification(data.title, options)
     );
   } else {
-    console.log('This push event has no data.');
+    console.log("This push event has no data.");
   }
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener("notificationclick", function (event) {
+  event.preventDefault();
   event.notification.close();
 
-  const url = event.notification.data.click_action;
-  const action = event.action;
-  if (action === 'open_url' && url) {
-    event.waitUntil(clients.openWindow(url));
-  }
-});
+  const urlToOpen = event.notification.data.click_action;
 
+  const promiseChain = clients
+    .matchAll({
+      type: "window",
+      includeUncontrolled: true,
+    })
+    .then(function (windowClients) {
+      let matchingClient = null;
+
+      for (let i = 0; i < windowClients.length; i++) {
+        const windowClient = windowClients[i];
+        if (windowClient.url.includes(urlToOpen)) {
+          matchingClient = windowClient;
+          break;
+        }
+      }
+
+      if (matchingClient) {
+        return matchingClient.focus();
+      } else {
+        return clients.openWindow(urlToOpen);
+      }
+    });
+
+  event.waitUntil(promiseChain);
+});

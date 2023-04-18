@@ -1,5 +1,4 @@
 import React from "react";
-import * as FB from "../../fb";
 import {
   getGuestBookFailType,
   getGuestBookStartType,
@@ -7,6 +6,8 @@ import {
   getGusetBookStateType,
   guestBookType,
 } from "../../types";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { db } from "../../fb";
 
 //
 // 액션 타입
@@ -46,12 +47,12 @@ export const getGuestBookThunk = (): Function => {
     try {
       dispatch(getGuestBookStart());
 
-      const q = FB.query(
-        FB.collection(FB.db, "GuestBook"),
-        FB.orderBy("createdAt", "desc")
+      const q = query(
+        collection(db, "GuestBook"),
+        orderBy("createdAt", "desc")
       );
 
-      FB.onSnapshot(q, (querySnapshot) => {
+      onSnapshot(q, (querySnapshot) => {
         let guestBookArr: any = [];
 
         querySnapshot.forEach((doc) => {

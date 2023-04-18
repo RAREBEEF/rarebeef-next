@@ -2,23 +2,21 @@ import axios from "axios";
 
 const useSendPush = () => {
   const sendPush = async ({
-    title = "",
+    title,
     body,
     click_action,
   }: {
-    title?: string;
+    title: string;
     body: string;
     click_action: string;
   }) => {
     const message = {
-      notification: {
+      data: {
         title,
         body,
-        icon: "/logos/beef.svg",
-      },
-      data: {
-        click_action,
-      },
+        image: "/logos/favicon-196x196.png",
+        click_action
+      }
     };
 
     axios.request({

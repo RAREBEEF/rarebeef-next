@@ -1,29 +1,48 @@
-import axios from "axios";
 import { doc, getDoc } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../fb";
+import admin, { ServiceAccount } from "firebase-admin";
 
-const sendFCMNotification = async (data: any) => {
-  const fcmServerKey = process.env.NEXT_PUBLIC_FCM_SERVER_KEY;
+interface NotificationData {
+  data: {
+    title: string;
+    body: string;
+    image: string;
+    click_action: string;
+  }
+}
+
+const sendFCMNotification = async (data: NotificationData) => {
+  const serviceAccount: ServiceAccount = {
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    privateKey: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY,
+    clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+  };
+
+  // Firebase Admin SDK 초기화
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+  }
+
   const docRef = doc(db, "subscribe", "tokens");
-  let tokenList;
-
+  let tokenList: Array<string> = []
+  
   await getDoc(docRef).then((doc) => {
     tokenList = doc?.data()?.list;
   });
 
-  const config = {
-    headers: {
-      Authorization: `key=${fcmServerKey}`,
-      "Content-Type": "application/json",
-    },
-  };
+  if (tokenList.length === 0) return;
 
-  const res = await axios.post(
-    "https://fcm.googleapis.com/fcm/send",
-    { ...data, registration_ids: tokenList },
-    config
-  );
+  const notificationData = {
+    ...data,
+    tokens: tokenList
+  }
+
+  const res = await admin
+    .messaging()
+    .sendMulticast(notificationData);
 
   return res;
 };
@@ -31,7 +50,8 @@ const sendFCMNotification = async (data: any) => {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const { message } = req.body;
-    await sendFCMNotification(message).catch((error) => console.log(error));
+    await sendFCMNotification(message)
+      .catch((error) => console.log(error));
   } else {
     res.status(405).end();
   }

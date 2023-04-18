@@ -2,10 +2,11 @@ import { useState } from "react";
 import { GuestBookPropType } from "../types";
 import Button from "./Button";
 import styles from "./GuestBook.module.scss";
-import * as FB from "../fb";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import Inko from "inko";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../fb";
 
 const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
   const [pwCheck, setPwCheck] = useState<string>("");
@@ -25,7 +26,10 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
       return;
     }
 
-  if (pwCheck !== process.env.REACT_APP_PW && inko.ko2en(pwCheck) !== data.pw) {
+    if (
+      pwCheck !== process.env.REACT_APP_PW &&
+      inko.ko2en(pwCheck) !== data.pw
+    ) {
       window.alert("비밀번호가 일치하지 않습니다.");
       return;
     }
@@ -36,7 +40,7 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
       return;
     }
 
-    await FB.deleteDoc(FB.doc(FB.db, "GuestBook", data.id));
+    await deleteDoc(doc(db, "GuestBook", data.id));
   };
 
   return (

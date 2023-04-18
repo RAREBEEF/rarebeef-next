@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styles from "./CreateGuestBook.module.scss";
-import * as FB from "../fb";
 import Button from "./Button";
 import classNames from "classnames";
 import useInput from "../hooks/useInput";
 import useSendPush from "../hooks/useSendPush";
 import Inko from "inko";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../fb";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const CreateGuestBook = () => {
   const {
@@ -20,7 +22,7 @@ const CreateGuestBook = () => {
   const inko = new Inko();
 
   const upload = async () => {
-    await FB.addDoc(FB.collection(FB.db, "GuestBook"), {
+    await addDoc(collection(db, "GuestBook"), {
       name,
       pw: inko.ko2en(pw),
       content,
@@ -58,12 +60,12 @@ const CreateGuestBook = () => {
 
     setUploading(true);
 
-    const auth = FB.getAuth();
+    const auth = getAuth();
 
     if (auth.currentUser) {
       upload();
     } else {
-      FB.signInAnonymously(auth).then(() => upload());
+      signInAnonymously(auth).then(() => upload());
     }
   };
 
