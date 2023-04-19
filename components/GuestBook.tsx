@@ -26,7 +26,7 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
 
     const auth = getAuth();
 
-    if (checkIsAdmin(auth.currentUser) || inko.ko2en(pwCheck) !== data.pw) {
+    if (checkIsAdmin(auth.currentUser) || inko.ko2en(pwCheck) === data.pw) {
       const ok = window.confirm("삭제하시겠습니까?");
 
       if (ok) {
