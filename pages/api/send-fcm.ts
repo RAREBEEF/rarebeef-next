@@ -15,7 +15,7 @@ interface NotificationData {
 const sendFCMNotification = async (data: NotificationData) => {
   const serviceAccount: ServiceAccount = {
     projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-    privateKey: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY,
+    privateKey: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
     clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
   };
 
