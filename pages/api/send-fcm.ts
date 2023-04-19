@@ -1,7 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../fb";
-import admin from "firebase-admin";
+import admin, { ServiceAccount } from "firebase-admin";
 
 interface NotificationData {
   data: {
@@ -13,10 +13,10 @@ interface NotificationData {
 }
 
 const sendFCMNotification = async (data: NotificationData) => {
-  const serviceAccount: any = {
-    project_id: process.env.NEXT_PUBLIC_PROJECT_ID,
-    private_key: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY,
-    client_email: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+  const serviceAccount: ServiceAccount = {
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    privateKey: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY,
+    clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
   };
 
   // Firebase Admin SDK 초기화
