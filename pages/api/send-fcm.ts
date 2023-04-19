@@ -67,5 +67,5 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 export default handler;
 
 export const config = {
-  type: "experimental-background",
+  type: "experimental",
 };
