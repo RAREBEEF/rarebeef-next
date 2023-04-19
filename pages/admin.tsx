@@ -15,6 +15,7 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import useSendPush from "../hooks/useSendPush";
+import useCheckIsAdmin from "../hooks/useCheckIsAdmin";
 
 const Admin: React.FC<ProfilePropType> = () => {
   const [verified, setVerified] = useState<boolean>(false);
@@ -31,19 +32,18 @@ const Admin: React.FC<ProfilePropType> = () => {
     onChange: onUrlChange,
   } = useInput("https://www.rarebeef.co.kr/");
   const sendPush = useSendPush();
+  const checkIsAdmin = useCheckIsAdmin();
 
   // 최초 관리자 로그인 여부 체크
   useEffect(() => {
     const auth = getAuth();
 
     if (
-      auth.currentUser &&
-      auth.currentUser.uid === process.env.NEXT_PUBLIC_ADMIN_UID &&
-      auth.currentUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL
+      checkIsAdmin(auth.currentUser)
     ) {
       setVerified(true);
     }
-  }, []);
+  }, [checkIsAdmin]);
 
   // 로그인
   const login = async () => {
@@ -54,8 +54,7 @@ const Admin: React.FC<ProfilePropType> = () => {
       .then(async () => {
         return await signInWithPopup(auth, provider).then((credential) => {
           if (
-            credential.user.uid === process.env.NEXT_PUBLIC_ADMIN_UID &&
-            credential.user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL
+            checkIsAdmin(credential.user)
           ) {
             setVerified(true);
           } else {

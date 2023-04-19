@@ -21,7 +21,7 @@ const useSendPush = () => {
 
     axios.request({
       method: "POST",
-      url: "api/send-fcm",
+      url: window?.location?.origin + "/api/send-fcm",
       data: { message },
     });
   };

@@ -7,9 +7,12 @@ import dayjs from "dayjs";
 import Inko from "inko";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../fb";
+import useCheckIsAdmin from "../hooks/useCheckIsAdmin";
+import { getAuth } from "firebase/auth";
 
 const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
   const [pwCheck, setPwCheck] = useState<string>("");
+  const checkIsAdmin = useCheckIsAdmin();
   const inko = new Inko();
 
   const onPwCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,26 +24,21 @@ const GuestBook: React.FC<GuestBookPropType> = ({ data }) => {
   ): Promise<void> => {
     e.preventDefault();
 
-    if (pwCheck.length === 0) {
+    const auth = getAuth();
+
+    if (checkIsAdmin(auth.currentUser) || inko.ko2en(pwCheck) !== data.pw) {
+      const ok = window.confirm("삭제하시겠습니까?");
+
+      if (ok) {
+        await deleteDoc(doc(db, "GuestBook", data.id));
+      }
+    } else if (pwCheck.length === 0) {
       window.alert("비밀번호를 입력해주세요.");
       return;
-    }
-
-    if (
-      pwCheck !== process.env.REACT_APP_PW &&
-      inko.ko2en(pwCheck) !== data.pw
-    ) {
+    } else {
       window.alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-
-    const ok = window.confirm("삭제하시겠습니까?");
-
-    if (!ok) {
-      return;
-    }
-
-    await deleteDoc(doc(db, "GuestBook", data.id));
   };
 
   return (
