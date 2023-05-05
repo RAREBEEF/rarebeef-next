@@ -1,8 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, {
-  ReactElement,
-  useRef,
-} from "react";
+import React, { ReactElement, useRef } from "react";
 import styles from "./Project.module.scss";
 import ProjectHeader from "./ProjectHeader";
 import Skill from "./Skill";
@@ -37,7 +34,7 @@ const Project: React.FC<SectionPropType> = ({
             alt="Screenshot"
             placeholder="blur"
             layout="responsive"
-            priority={i === 0 ? true : false}
+            priority
           />
         </SwiperSlide>
       );

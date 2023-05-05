@@ -5,8 +5,8 @@
     .section {
       .sub-header {
         margin: {
-          // left: 10px;
           top: 10px;
+          bottom: 10px;
         }
         font: {
           size: 20px;
@@ -23,15 +23,3 @@
     }
   }
 }
-
-// @media all and (max-width: 640px) {
-//   .container {
-//     .content {
-//       .section {
-//         .skills__front-end {
-//           justify-content: space-around;
-//         }
-//       }
-//     }
-//   }
-// }

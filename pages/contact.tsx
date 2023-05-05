@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getGuestBookThunk } from "../redux/modules/getGuestBook";
 import Seo from "../components/Seo";
+import Script from "next/script";
+import buttonStyles from "../components/Button.module.scss";
 
 const Contact: React.FC<ContactPropType> = () => {
   const [copyAlert, setCopyAlert] = useState<string>("");
@@ -30,6 +32,11 @@ const Contact: React.FC<ContactPropType> = () => {
         setCopyAlert("복사 실패");
       });
   };
+
+  useEffect(() => {
+    // @ts-ignore
+    if (typeof twttr !== "undefined") twttr.widgets.load();
+  }, []);
 
   return (
     <main className={styles.container}>
@@ -76,6 +83,19 @@ const Contact: React.FC<ContactPropType> = () => {
               text="velog.io/@drrobot409"
             />
           </div>
+        </section>
+        <section className={styles.section}>
+          <h4 className={styles.header}>Twitter</h4>
+          <a
+            id="tweet-container"
+            className={classNames("twitter-timeline", buttonStyles.button)}
+            data-theme="light"
+            data-dnt="true"
+            href="https://twitter.com/dev_rarebeef?ref_src=twsrc%5Etfw"
+          >
+            Tweets by dev_rarebeef
+          </a>
+          <Script async src="https://platform.twitter.com/widgets.js" />
         </section>
         <section className={styles.section}>
           <h4 className={styles.header}>Guest book</h4>
