@@ -5,6 +5,10 @@
   min-width: 350px;
   background-color: white;
   text-align: center;
+  font: {
+    family: "raleway", sans-serif;
+    weight: 500;
+  }
 
   &.init:not(.skiped) {
     height: 500vh;
@@ -147,8 +151,6 @@
       padding: 5px 15px;
       font: {
         size: 35px;
-        family: "raleway", sans-serif;
-        weight: 500;
       }
     }
   }
