@@ -1,14 +1,5 @@
 import styles from "./index.module.scss";
-import NextImage, { StaticImageData } from "next/legacy/image";
-import simpleMemo from "../../public/logos/simple-memo-icon.png";
-import digitalClock from "../../public/logos/clock-icon.png";
-import metaBeef from "../../public/logos/meta-beef-icon.png";
-import memoryTest from "../../public/logos/memory-test-icon.png";
-import reactNative from "../../public/skills/react-native-brands.svg";
-import paletteVault from "../../public/logos/palette-vault-icon.png";
-import diary from "../../public/logos/diary-icon.png";
-import splatoon from "../../public/logos/splatoon-icon.svg";
-import raebef from "../../public/logos/raebef-icon.svg";
+import NextImage from "next/legacy/image";
 import { useEffect, useRef, useState } from "react";
 import useCalcScroll from "../../hooks/useCalcScroll";
 import gsap from "gsap";
@@ -17,18 +8,7 @@ import Footer from "../../components/Footer";
 import Seo from "../../components/Seo";
 import classNames from "classnames";
 import PushRequest from "../../components/PushRequest";
-
-const PROJECT_LIST = {
-  Raebef: { icon: raebef, path: "raebef" },
-  Splatoon3: { icon: splatoon, path: "splatoon3" },
-  Diary: { icon: diary, path: "diary" },
-  "Palette Vault": { icon: paletteVault, path: "palettevault" },
-  "Memory Test": { icon: memoryTest, path: "memorytest" },
-  "To Do, Weather": { icon: reactNative, path: "reactnative" },
-  "Meta Beef": { icon: metaBeef, path: "metabeef" },
-  "Digital Clock": { icon: digitalClock, path: "digitalclock" },
-  "Simple Memo": { icon: simpleMemo, path: "simplememo" },
-};
+import PROJECT_LIST from "../../public/json/projectList.json";
 
 const ProjectList = () => {
   const [startObserve, setStartObserve] = useState<boolean>(false);
@@ -61,7 +41,13 @@ const ProjectList = () => {
       { threshold: 0 }
     );
 
-    cardRefs.current.forEach((card) => scrollTrigger.observe(card));
+    const cards = cardRefs.current;
+
+    cards.forEach((card) => scrollTrigger.observe(card));
+
+    return () => {
+      cards.forEach((card) => scrollTrigger.unobserve(card));
+    };
   }, [startObserve]);
 
   useEffect(() => {
@@ -110,31 +96,35 @@ const ProjectList = () => {
   }, [calcScroll, showModal]);
 
   const projectGenerator = (projectList: {
-    [key in string]: { icon: StaticImageData; path: string };
+    [key in string]: { icon: string; path: string };
   }) => {
-    return Object.entries(projectList).map((project, i) => (
-      <li
-        key={i}
-        ref={(el) => {
-          if (el) cardRefs.current[i] = el;
-        }}
-        className={styles.active}
-      >
-        <Link href={`/projects/${project[1].path}`}>
-          <span className={styles["project-list__item__icon"]}>
-            <NextImage
-              priority
-              src={project[1].icon}
-              layout="responsive"
-              alt={project[1].path}
-            />
-          </span>
-          <span className={styles["project-list__item__title"]}>
-            {project[0]}
-          </span>
-        </Link>
-      </li>
-    ));
+    return Object.entries(projectList).map((project, i) => {
+      // const imgSrc = require(`../../public${project[1].icon}`);
+      return (
+        <li
+          key={i}
+          ref={(el) => {
+            if (el) cardRefs.current[i] = el;
+          }}
+          className={styles.active}
+        >
+          <Link href={`/projects/${project[1].path}`}>
+            <span className={styles["project-list__item__icon-wrapper"]}>
+              <NextImage
+                priority
+                src={project[1].icon}
+                layout="fill"
+                objectFit="contain"
+                alt={project[1].path}
+              />
+            </span>
+            <span className={styles["project-list__item__title"]}>
+              {project[0]}
+            </span>
+          </Link>
+        </li>
+      );
+    });
   };
 
   return (

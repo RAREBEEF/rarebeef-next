@@ -60,8 +60,10 @@
           align-items: center;
           column-gap: 15px;
 
-          .project-list__item__icon {
+          .project-list__item__icon-wrapper {
+            position: relative;
             width: 30%;
+            aspect-ratio: 1/1;
             border-radius: 15px;
             overflow: hidden;
           }

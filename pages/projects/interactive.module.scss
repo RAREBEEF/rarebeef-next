@@ -1,0 +1,11 @@
+.container {
+  width: 100dvw;
+  height: 100dvh;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: fixed;
+  .canvas {
+    background-color: #1b1b1b;
+    touch-action: none;
+  }
+}

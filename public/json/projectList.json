@@ -1,0 +1,27 @@
+{
+  "Interactive": {
+    "icon": "/screenshots/interactive.png",
+    "path": "interactive"
+  },
+  "Raebef": { "icon": "/logos/raebef-icon.svg", "path": "raebef" },
+  "Splatoon3": { "icon": "/logos/splatoon-icon.svg", "path": "splatoon3" },
+  "Diary": { "icon": "/logos/diary-icon.png", "path": "diary" },
+  "Palette Vault": {
+    "icon": "/logos/palette-vault-icon.png",
+    "path": "palettevault"
+  },
+  "Memory Test": {
+    "icon": "/logos/memory-test-icon.png",
+    "path": "memorytest"
+  },
+  "To Do, Weather": {
+    "icon": "/skills/react-native-brands.svg",
+    "path": "reactnative"
+  },
+  "Meta Beef": { "icon": "/logos/meta-beef-icon.png", "path": "metabeef" },
+  "Digital Clock": {
+    "icon": "/logos/clock-icon.png",
+    "path": "digitalclock"
+  },
+  "Simple Memo": { "icon": "/logos/simple-memo-icon.png", "path": "simplememo" }
+}
