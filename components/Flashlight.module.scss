@@ -1,0 +1,26 @@
+.container {
+  background-color: gray;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  position: fixed;
+  transform: translate3d(0, 0, 0);
+  // .projects-btn {
+  //   cursor: pointer;
+  //   background-color: gray;
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   right: 0;
+  //   margin: auto;
+  //   width: fit-content;
+  //   height: fit-content;
+  //   padding: 0;
+  //   border: none;
+  // }
+  .canvas {
+    position: absolute;
+    pointer-events: none;
+  }
+}

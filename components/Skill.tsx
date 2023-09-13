@@ -1,6 +1,6 @@
 import { SkillPropType } from "../types";
 import styles from "./Skill.module.scss";
-import React, { useEffect, useRef } from "react";
+import React, { MouseEvent, useEffect, useRef } from "react";
 import classNames from "classnames";
 import Blender from "../public/skills/blender-brands.svg";
 import Three from "../public/skills/three-brands.svg";
@@ -43,41 +43,32 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
     Vercel,
   };
 
-  useEffect(() => {
-    if (!skillRef.current) return;
+  const skillMouseMoveHandler = (e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
 
-    const skill = skillRef.current;
+    const position = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - position.left - position.width / 2) * 0.3;
+    const y = (e.clientY - position.top - position.height / 2) * 0.3;
 
-    const skillMouseMoveHandler = (e: MouseEvent) => {
-      e.preventDefault();
+    e.currentTarget.style.transform = `translate(${x}px, ${y}px)`;
+    e.currentTarget.style.transition = `all 0s`;
+  };
 
-      const position = skill.getBoundingClientRect();
-      const x = (e.clientX - position.left - position.width / 2) * 0.3;
-      const y = (e.clientY - position.top - position.height / 2) * 0.3;
+  const skillMouseOutHandler = (e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
 
-      skill.style.transform = `translate(${x}px, ${y}px)`;
-      skill.style.transition = `all 0s`;
-    };
-
-    const skillMouseOutHandler = (e: MouseEvent) => {
-      e.preventDefault();
-
-      skill.style.transform = `translate(0px, 0px)`;
-      skill.style.transition = `all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
-    };
-
-    skill.addEventListener("mousemove", skillMouseMoveHandler);
-    skill.addEventListener("mouseout", skillMouseOutHandler);
-
-    return () => {
-      skill.removeEventListener("mousemove", skillMouseMoveHandler);
-      skill.removeEventListener("mouseout", skillMouseOutHandler);
-    };
-  }, []);
+    e.currentTarget.style.transform = `translate(0px, 0px)`;
+    e.currentTarget.style.transition = `all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
+  };
 
   return (
     <li className={styles.container}>
-      <div ref={skillRef} className={styles["skill"]}>
+      <div
+        onMouseMove={skillMouseMoveHandler}
+        onMouseOut={skillMouseOutHandler}
+        ref={skillRef}
+        className={styles["skill"]}
+      >
         <div className={styles["skill__img"]}>
           <Image src={srcs[skill]} alt={skill} layout="responsive" />
         </div>

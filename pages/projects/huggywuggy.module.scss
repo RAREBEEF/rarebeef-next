@@ -1,0 +1,41 @@
+@import "../../components/Project.module.scss";
+
+.container {
+  .content {
+    margin-top: 125px;
+    flex-direction: column;
+    align-items: center;
+
+    .content__left,
+    .content__right {
+      width: auto;
+      height: auto;
+      position: static;
+    }
+    .screenshots {
+      box-shadow: none;
+      background: none;
+      max-height: auto;
+      .swiper__container {
+        max-height: auto;
+        .swiper__item {
+          margin-bottom: auto;
+        }
+      }
+    }
+    .card {
+      width: 90vw;
+      margin: {
+        top: 100px;
+        left: 10px;
+        right: 10px;
+      }
+      &:first-child {
+        margin-top: 50px;
+      }
+      &:last-child {
+        margin-bottom: 250px;
+      }
+    }
+  }
+}

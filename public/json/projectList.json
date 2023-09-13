@@ -1,7 +1,7 @@
 {
-  "Interactive": {
-    "icon": "/screenshots/interactive.png",
-    "path": "interactive"
+  "Huggy Wuggy": {
+    "icon": "/logos/huggy_wuggy.svg",
+    "path": "huggywuggy"
   },
   "Raebef": { "icon": "/logos/raebef-icon.svg", "path": "raebef" },
   "Splatoon3": { "icon": "/logos/splatoon-icon.svg", "path": "splatoon3" },

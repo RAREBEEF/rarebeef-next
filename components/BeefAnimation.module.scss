@@ -11,7 +11,7 @@
   }
 
   &.init:not(.skiped) {
-    height: 500vh;
+    height: 300vh;
   }
 
   &.skiped {
@@ -31,6 +31,7 @@
   }
 
   .loading {
+    transform: translate3d(0, 0, 0);
     position: fixed;
     z-index: 10;
     top: 0;
@@ -104,6 +105,7 @@
   }
 
   .canvas-wrapper {
+    transform: translate3d(0, 0, 0);
     background-color: black;
     position: sticky;
     display: flex;
@@ -114,6 +116,7 @@
     min-width: 350px;
     height: 100vh;
     overflow: visible;
+    background-color: white;
 
     .canvas {
       max-width: 80vw;

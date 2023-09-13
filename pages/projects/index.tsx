@@ -99,7 +99,6 @@ const ProjectList = () => {
     [key in string]: { icon: string; path: string };
   }) => {
     return Object.entries(projectList).map((project, i) => {
-      // const imgSrc = require(`../../public${project[1].icon}`);
       return (
         <li
           key={i}

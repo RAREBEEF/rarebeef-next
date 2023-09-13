@@ -14,7 +14,7 @@
   padding: {
     right: 40px;
     left: 20px;
-    top: 20px;
+    top: 15px;
     bottom: 20px;
   }
   font: {
@@ -24,6 +24,32 @@
 
   &.project {
     top: 60px;
+  }
+
+  .back {
+    font-size: 16px;
+    line-height: 16px;
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+    background: none;
+    color: whitesmoke;
+    border: none;
+    margin-bottom: 5px;
+    font: {
+      family: "raleway", sans-serif;
+      weight: 700;
+    }
+
+    .arrow-wrapper {
+      transition: all 0.3s;
+    }
+
+    &:hover {
+      .arrow-wrapper {
+        transform: translateX(-3px);
+      }
+    }
   }
 
   .title {

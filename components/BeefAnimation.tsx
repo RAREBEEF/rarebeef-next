@@ -147,6 +147,7 @@ const BeefAnimation = () => {
 
     const update = (i: number) => {
       img.src = curFrame(i);
+      // ctx.clearRect(0, 0, 768, 672);
       ctx.drawImage(img, 0, 0);
     };
 
@@ -155,21 +156,21 @@ const BeefAnimation = () => {
         Math.abs(container.getBoundingClientRect().top) /
         (container.clientHeight - window.innerHeight);
 
-      const frame = Math.ceil(scrollProgress * MAX_FRAME);
-
+      const frame = Math.round(scrollProgress * MAX_FRAME);
+ 
       requestAnimationFrame(() => update(frame));
 
-      if (scrollProgress > 0.1) {
-        setShowScrollGuide(false);
-      } else {
-        setShowScrollGuide(true);
-      }
+      // if (scrollProgress > 0.1) {
+      //   setShowScrollGuide(false);
+      // } else {
+      //   setShowScrollGuide(true);
+      // }
 
-      if (scrollProgress < 0.8) {
-        setShowBtn(false);
-      } else {
-        setShowBtn(true);
-      }
+      // if (scrollProgress < 0.8) {
+      //   setShowBtn(false);
+      // } else {
+      //   setShowBtn(true);
+      // }
     };
 
     window.addEventListener("scroll", windowScrollHandler);
