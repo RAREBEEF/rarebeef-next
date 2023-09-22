@@ -11,10 +11,14 @@
 body {
   min-width: 350px;
   max-width: 100vw;
+  max-width: 100dvw;
   overflow-x: hidden;
   background-color: white;
   font: {
     family: "Gowun Dodum", sans-serif;
+  }
+  button {
+    color: #221718;
   }
   a {
     color: #221718;

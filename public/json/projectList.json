@@ -18,6 +18,10 @@
     "icon": "/skills/react-native-brands.svg",
     "path": "reactnative"
   },
+  "Place Review": {
+    "icon": "/logos/place-review-icon.png",
+    "path": "placereview"
+  },
   "Meta Beef": { "icon": "/logos/meta-beef-icon.png", "path": "metabeef" },
   "Digital Clock": {
     "icon": "/logos/clock-icon.png",

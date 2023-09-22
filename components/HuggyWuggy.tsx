@@ -69,8 +69,8 @@ const HuggyWuggy = () => {
   const [quadrants, setQuadrants] = useState<Array<Array<DotDistance>>>([]);
   const [feet, setFeet] = useState<[Dot, Dot, Dot, Dot] | null>(null);
   const [bodyPos, setBodyPos] = useState<[number, number]>([0, 0]);
-  const [cvsSize, setCvsSize] = useState<[number, number]>([10, 10]);
   const [mousePos, setMousePos] = useState<[number, number]>([0, 0]);
+  const [cvsSize, setCvsSize] = useState<[number, number]>([10, 10]);
   const isReady = useMemo(
     () => !!cvs && !!ctx && !!container && !!offscreenCvs && !!offscreenCtx,
     [cvs, ctx, container, offscreenCvs, offscreenCtx]
@@ -86,7 +86,7 @@ const HuggyWuggy = () => {
       BODY_COLOR: "#0d52af",
       FEET_COLOR: "#ffec00",
       LINE_COLOR: "lightgray",
-      DOT_COLOR: "black",
+      DOT_COLOR: "rgba(0, 0, 0, 0.2)",
       BODY_WIDTH: bodyWidth,
       BODY_HEIGHT: bodyWidth * 2.3,
       LIMBS_WIDTH: bodyWidth * 0.8,
@@ -95,7 +95,7 @@ const HuggyWuggy = () => {
 
   const ANIMATION_FRAME_ID = useRef<null | number>(null);
 
-  // 컨테이너와 캔버스 체크 & 상태 저장
+  // 컨테이너와 캔버스 체크 & 상태 저장, 마우스 위치 초기화
   useEffect(() => {
     if (!containerRef.current || !cvsRef.current) return;
     setContainer(containerRef.current);
@@ -105,11 +105,6 @@ const HuggyWuggy = () => {
     const offscreenContext = offscreenCanvas.getContext("2d");
     setOffscreenCvs(offscreenCanvas);
     setOffscreenCtx(offscreenContext);
-    // document.body.style.cursor = "none";
-
-    return () => {
-      document.body.style.cursor = "auto";
-    };
   }, [containerRef, cvsRef]);
 
   // 최초 및 리사이즈 시 영역 구분 및 점 생성
@@ -173,10 +168,12 @@ const HuggyWuggy = () => {
 
       setDots(dots);
     },
-    [isReady, cvs]
+    [isReady, ENV, cvs, offscreenCvs]
   );
 
   useEffect(() => {
+    setMousePos([window.innerWidth / 2 - 50, window.innerHeight / 2 - 50]);
+    setBodyPos([window.innerWidth / 2 - 150, window.innerHeight / 2 - 100]);
     createDots(cvsSize[0], cvsSize[1]);
   }, [createDots, cvsSize]);
 
@@ -191,8 +188,8 @@ const HuggyWuggy = () => {
     e.stopPropagation();
 
     const mousePos: [number, number] = [
-      e.touches[0].clientX,
-      e.touches[0].clientY,
+      e.touches[0].screenX,
+      e.touches[0].screenY,
     ];
 
     setMousePos(mousePos);
@@ -458,6 +455,8 @@ const HuggyWuggy = () => {
       const drawCommands1: Array<(ctx: CanvasRenderingContext2D) => void> = [];
       const drawCommands2: Array<(ctx: CanvasRenderingContext2D) => void> = [];
       const drawCommands3: Array<(ctx: CanvasRenderingContext2D) => void> = [];
+      const drawShadowCommads: Array<(ctx: CanvasRenderingContext2D) => void> =
+        [];
 
       // 팔다리 몸통 그리기
       // 팔다리
@@ -504,6 +503,16 @@ const HuggyWuggy = () => {
               ctx.stroke();
             }
           );
+          // 팔다리 그림자
+          drawShadowCommads.push((ctx: CanvasRenderingContext2D) => {
+            ctx.moveTo(x, y);
+            ctx.quadraticCurveTo(
+              controlX - BODY_WIDTH,
+              controlY + BODY_WIDTH,
+              jointX - BODY_WIDTH,
+              jointY + BODY_WIDTH
+            );
+          });
         }
       }
 
@@ -519,6 +528,12 @@ const HuggyWuggy = () => {
         );
         ctx.closePath();
         ctx.fill();
+      });
+
+      // 몸통 그림자
+      drawShadowCommads.push((ctx: CanvasRenderingContext2D) => {
+        ctx.moveTo(bodyX - BODY_WIDTH, bodyY);
+        ctx.lineTo(bodyX - BODY_WIDTH, bodyY + BODY_HEIGHT - BODY_WIDTH / 2);
       });
 
       // 어깨
@@ -695,48 +710,30 @@ const HuggyWuggy = () => {
         );
       });
 
-      // // 플래시라이트
-      // // 실제 빛을 비추는 느낌을 주기 위해 비추는 위치 따라 사이즈와 각도를 변경
-      // drawCommands.push((ctx: CanvasRenderingContext2D) => {
-      //   const vmax = Math.max(...cvsSize);
-      //   const img = new Image();
-      //   img.src = `/images/flashlight.svg`;
+      drawShadowCommads.push((ctx: CanvasRenderingContext2D) => {
+        ctx.arc(
+          bodyX - BODY_WIDTH,
+          bodyY - BODY_HEIGHT + BODY_WIDTH,
+          LIMBS_WIDTH / 2,
+          Math.PI * 2,
+          0
+        );
+      });
 
-      //   // 캔버스 중앙과 마우스x 사이 거리
-      //   const deltaFromCenterX = cvsWidth / 2 - mouseX;
-      //   // 캔버스 바닥과 마우스y 사이 거리
-      //   const deltaFromBottomY = cvsHeight - mouseY;
-      //   // // deltaFromBottomY 정규화
-      //   const normalizedDeltaY = deltaFromBottomY / cvsHeight;
-
-      //   // 플래시라이트 이미지 너비
-      //   const width = vmax * 5;
-      //   // 플래시라이트 이미지 높이, normalizedDeltaY에 따라 가변.
-      //   const height = vmax * 5 + vmax * normalizedDeltaY * 5;
-      //   // 각도 계산, deltaFromCenterX에 따라 가변.
-      //   const angle =
-      //     -Math.atan2(mouseY - cvsHeight * 1.5, deltaFromCenterX) +
-      //     (-90 * Math.PI) / 180;
-
-      //   // 계산한 각도로 컨텍스트 회전
-      //   ctx.rotate(angle);
-
-      //   // 회전된 좌표계 내에서 마우스 위치 계산
-      //   const rotatedMouseX =
-      //     mouseX * Math.cos(angle) + mouseY * Math.sin(angle);
-      //   const rotatedMouseY =
-      //     -mouseX * Math.sin(angle) + mouseY * Math.cos(angle);
-
-      //   ctx.drawImage(
-      //     img,
-      //     rotatedMouseX - width / 2,
-      //     rotatedMouseY - height / 2,
-      //     width,
-      //     height
-      //   );
-
-      //   ctx.setTransform(1, 0, 0, 1, 0, 0);
-      // });
+      // 그림자 그리기 명령을 drawCommands1으로 합치기
+      drawCommands1.unshift(
+        (ctx: CanvasRenderingContext2D) => {
+          ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+          ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+          ctx.lineCap = "round";
+          ctx.lineWidth = LIMBS_WIDTH * 1.05;
+          ctx.beginPath();
+        },
+        ...drawShadowCommads,
+        (ctx: CanvasRenderingContext2D) => {
+          ctx.stroke();
+        }
+      );
 
       // 캔버스 전체 지우기 및 설정
       drawCommands1.unshift((ctx: CanvasRenderingContext2D) => {

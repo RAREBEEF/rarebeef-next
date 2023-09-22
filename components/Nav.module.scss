@@ -140,10 +140,10 @@
           transition: left 0.3s ease-in-out 0.2s, transform 0.3s ease-in-out,
             opacity 0.3s 0.2s, margin 0.3s;
         }
-        &:last-child {
-          transition: left 0.3s ease-in-out 0.4s, transform 0.3s ease-in-out,
-            opacity 0.3s 0.3s, margin 0.3s;
-        }
+        // &:last-child {
+        //   transition: left 0.3s ease-in-out 0.4s, transform 0.3s ease-in-out,
+        //     opacity 0.3s 0.3s, margin 0.3s;
+        // }
         &:hover:not(.current) {
           .item__text {
             background-color: rgba(0, 0, 0, 0.2);

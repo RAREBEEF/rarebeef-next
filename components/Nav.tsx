@@ -66,7 +66,7 @@ const Nav: React.FC<NavPropType> = (): ReactElement => {
       />
 
       <ul className={classNames(styles["list"], "menu-click-area")}>
-        <Link
+        {/* <Link
           href="/"
           className={classNames(
             styles.item,
@@ -77,13 +77,13 @@ const Nav: React.FC<NavPropType> = (): ReactElement => {
           <li className={classNames(styles["item__text"], "menu-click-area")}>
             Intro
           </li>
-        </Link>
+        </Link> */}
         <Link
-          href="/projects"
+          href="/"
           className={classNames(
             styles.item,
             "menu-click-area",
-            pathname.includes("/projects") && styles.current
+            pathname === "/" && styles.current
           )}
         >
           <li className={classNames(styles["item__text"], "menu-click-area")}>

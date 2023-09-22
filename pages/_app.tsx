@@ -7,8 +7,15 @@ import "swiper/scss/pagination";
 import "swiper/scss/effect-coverflow";
 import Layout from "../components/Layout";
 import Head from "next/head";
+import { useEffect } from "react";
 
 const App = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    return () => {
+      sessionStorage.removeItem("start");
+    };
+  }, []);
+
   return (
     <Provider store={store}>
       <Head>

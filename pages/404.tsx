@@ -13,6 +13,7 @@ const NotFound = () => {
           justify-content: center;
           align-items: center;
           height: 100vh;
+          height: 100dvh;
           row-gap: 20px;
           padding: 10px;
           word-break: keep-all;

@@ -1,71 +1,113 @@
 /* eslint-disable @next/next/no-img-element */
-import { ReactElement, useEffect, useState } from "react";
+import { MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import styles from "./Toolbar.module.scss";
 import { ToolbarPropType } from "../types";
 import classNames from "classnames";
 import _ from "lodash";
+import HuggyWuggy from "./HuggyWuggy";
+import { useRouter } from "next/router";
 
 const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
-  const [show, setShow] = useState<boolean>(false);
+  const { pathname } = useRouter();
+  const [showToTop, setShowToTop] = useState<boolean>(false);
+  const [showMouseEffect, setShowMouseEffect] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (pathname === "/projects/huggywuggy") {
+      setShowMouseEffect(true);
+    }
+  }, [pathname]);
 
   const toTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const onToggleMouseEffect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setShowMouseEffect((prev) => !prev);
+  };
+
   useEffect(() => {
-    const windowScrollHandler = (e: Event) => {
+    const windowScrollHandler = _.throttle((e: Event) => {
       e.preventDefault();
 
       if (window.scrollY >= window.innerHeight * 2) {
-        setShow(true);
+        setShowToTop(true);
       } else {
-        setShow(false);
+        setShowToTop(false);
       }
-    };
+    }, 500);
 
-    window.addEventListener("scroll", _.throttle(windowScrollHandler, 500));
+    window.addEventListener("scroll", windowScrollHandler);
 
     return () => {
-      window.removeEventListener(
-        "scroll",
-        _.throttle(windowScrollHandler, 500)
-      );
+      window.removeEventListener("scroll", windowScrollHandler);
     };
   }, []);
 
   return (
     <div className={classNames(styles.container)}>
-      <a href="https://github.com/RAREBEEF" target={"_blank"} rel="noreferrer">
+      <a
+        href="https://github.com/RAREBEEF"
+        target={"_blank"}
+        rel="noreferrer"
+        className={styles.item}
+      >
         <img
           className={classNames(styles["icon--github"], styles.icon)}
           src="/icons/github-brands.svg"
-          alt="Github"
+          alt="link to github"
         />
+        <p className={styles.tooltip}>Github</p>
       </a>
-      <a href="https://velog.io/@drrobot409" target={"_blank"} rel="noreferrer">
+      <a
+        href="https://velog.io/@drrobot409"
+        target={"_blank"}
+        rel="noreferrer"
+        className={styles.item}
+      >
         <img
           className={classNames(styles["icon--velog"], styles.icon)}
           src="/icons/velog.svg"
-          alt="Velog"
+          alt="link to velog"
         />
+        <p className={styles.tooltip}>Velog</p>
       </a>
-      <a href="mailto:drrobot409@gmail.com?body=-&nbsp;Send from rarebeef's portfolio.">
+      <a
+        href="mailto:drrobot409@gmail.com?body=-&nbsp;Send from rarebeef's portfolio."
+        className={styles.item}
+      >
         <img
           className={classNames(styles["icon--mail"], styles.icon)}
           src="/icons/circle-envelope-regular.svg"
           alt="Send mail"
         />
+        <p className={styles.tooltip}>Mail</p>
       </a>
-      <img
+      <button className={classNames(styles.item)} onClick={onToggleMouseEffect}>
+        <img
+          className={classNames(styles.icon)}
+          src="/icons/huggy-wuggy.svg"
+          alt="Toggle mouse effect"
+        />
+        <p className={styles.tooltip}>Toggle mouse effect</p>
+      </button>
+      <button
         className={classNames(
-          styles["icon--to-top"],
-          styles.icon,
-          show && styles.show
+          styles.item,
+          styles["to-top"],
+          showToTop && styles.show
         )}
-        src="/icons/circle-chevron-up-solid.svg"
-        alt="To top"
-        onClick={toTop}
-      />
+      >
+        <img
+          className={classNames(styles["icon--to-top"], styles.icon)}
+          src="/icons/circle-chevron-up-solid.svg"
+          alt="scroll to top"
+          onClick={toTop}
+        />
+        <p className={styles.tooltip}>Scroll to top</p>
+      </button>
+      {showMouseEffect && <HuggyWuggy />}
     </div>
   );
 };

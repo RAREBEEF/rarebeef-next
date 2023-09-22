@@ -46,11 +46,16 @@ const Project: React.FC<SectionPropType> = (): ReactElement => {
           subTitle={data.header.subTitle}
           classes={data.name}
         />
+        {/* <div className={styles["get-huggy-wrapper"]}>
+          <button className={styles["get-huggy-btn"]}>
+            다른 페이지에서도 효과 켜기
+          </button>
+        </div> */}
         <div className={styles.content}>
           <div className={styles["content__left"]}>
-            <div className={styles["children-wrapper"]} ref={screenshotsRef}>
+            {/* <div className={styles["children-wrapper"]} ref={screenshotsRef}>
               <HuggyWuggy />
-            </div>
+            </div> */}
           </div>
           <div className={styles["content__left"]}></div>
           <div className={styles["content__right"]}>
