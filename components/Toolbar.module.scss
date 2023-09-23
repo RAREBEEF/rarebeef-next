@@ -53,14 +53,14 @@
       background-color: rgb(70, 70, 70);
       color: whitesmoke;
       width: max-content;
-      height: 24px;
-      line-height: 24px;
+      height: 26px;
+      line-height: 26px;
       transition: all 0.3s;
       opacity: 0;
       transform: translateX(30%);
       font: {
         family: "Gowun Dodum", sans-serif;
-        size: 16px;
+        size: 14px;
       }
 
       &::after {
@@ -91,5 +91,13 @@
   .container {
     right: 10px;
     bottom: 20px;
+  }
+}
+
+@media (hover: hover) {
+  .itme {
+    .tooltip {
+      display: none;
+    }
   }
 }

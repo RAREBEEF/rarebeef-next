@@ -8,7 +8,6 @@ import Button from "../../components/Button";
 import { SectionPropType } from "../../types";
 import _ from "lodash";
 import data from "../../projects/huggywuggy";
-import HuggyWuggy from "../../components/HuggyWuggy";
 import Seo from "../../components/Seo";
 import img from "../../public/logos/huggy_wuggy.svg";
 

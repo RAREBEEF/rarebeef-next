@@ -31,7 +31,6 @@ export type Dots = {
 interface Dot {
   x: number;
   y: number;
-  image: HTMLImageElement;
   trackingMouse: boolean;
 }
 
@@ -64,9 +63,9 @@ const HuggyWuggy = () => {
   const [offscreenCtx, setOffscreenCtx] =
     useState<CanvasRenderingContext2D | null>(null);
   const [dots, setDots] = useState<Dots>({});
-  const [nearDots, setNearDots] = useState<NearDots>(null);
-  const [areas, setAreas] = useState<Array<Area>>([]);
-  const [quadrants, setQuadrants] = useState<Array<Array<DotDistance>>>([]);
+  // const [nearDots, setNearDots] = useState<NearDots>(null);
+  // const [areas, setAreas] = useState<Array<Area>>([]);
+  // const [quadrants, setQuadrants] = useState<Array<Array<DotDistance>>>([]);
   const [feet, setFeet] = useState<[Dot, Dot, Dot, Dot] | null>(null);
   const [bodyPos, setBodyPos] = useState<[number, number]>([0, 0]);
   const [mousePos, setMousePos] = useState<[number, number]>([0, 0]);
@@ -143,7 +142,7 @@ const HuggyWuggy = () => {
         }
       }
 
-      setAreas(areas);
+      // setAreas(areas);
 
       // 각 영역당 하나씩 랜덤의 위치에 점 생성
       for (const area of areas) {
@@ -151,15 +150,9 @@ const HuggyWuggy = () => {
         const x = Math.floor(Math.random() * (endX - startX) + startX);
         const y = Math.floor(Math.random() * (endY - startY) + startY);
 
-        // 클라이밍 홀드 이미지 부여
-        const image = new Image();
-        const holdNum = Math.floor(Math.random() * 4) + 1;
-        image.src = `/images/hold${holdNum}.png`;
-
         const dot = {
           x,
           y,
-          image,
           trackingMouse: false,
         };
 
@@ -168,14 +161,42 @@ const HuggyWuggy = () => {
 
       setDots(dots);
     },
-    [isReady, ENV, cvs, offscreenCvs]
+    [isReady, cvs, offscreenCvs] // ENV는 dependency로 등록하지 말 것
+  );
+
+  // 컨테이너 리사이즈 감시
+  const resizeObserver = useMemo(
+    () =>
+      new ResizeObserver(
+        _.debounce((entries) => {
+          for (const entry of entries) {
+            const { inlineSize: width, blockSize: height } =
+              entry.borderBoxSize[0];
+            setCvsSize([width, height]);
+            createDots(width, height);
+            setMousePos([
+              window.innerWidth / 2 - 50,
+              window.innerHeight / 2 - 50,
+            ]);
+            setBodyPos([
+              window.innerWidth / 2 - 150,
+              window.innerHeight / 2 - 100,
+            ]);
+          }
+        }, 100)
+      ),
+    [createDots]
   );
 
   useEffect(() => {
-    setMousePos([window.innerWidth / 2 - 50, window.innerHeight / 2 - 50]);
-    setBodyPos([window.innerWidth / 2 - 150, window.innerHeight / 2 - 100]);
-    createDots(cvsSize[0], cvsSize[1]);
-  }, [createDots, cvsSize]);
+    if (!isReady) return;
+
+    resizeObserver.observe(container as HTMLElement);
+
+    return () => {
+      resizeObserver.unobserve(container as HTMLElement);
+    };
+  }, [container, isReady, resizeObserver]);
 
   // 마우스 무브 핸들러
   const onMouseMove = (e: MouseEvent) => {
@@ -183,31 +204,27 @@ const HuggyWuggy = () => {
 
     setMousePos(mousePos);
   };
+
   // 터치 무브 핸들러
   const onTouchMove = (e: TouchEvent) => {
     e.stopPropagation();
 
     const mousePos: [number, number] = [
-      e.touches[0].screenX,
-      e.touches[0].screenY,
+      e.touches[0].clientX,
+      e.touches[0].clientY,
     ];
 
     setMousePos(mousePos);
   };
 
-  const onResize = () => {
-    const { innerWidth: width, innerHeight: height } = window;
-    setCvsSize([width, height]);
-  };
-
+  // 핸들러 등록
   useEffect(() => {
-    onResize();
-    window.addEventListener("resize", onResize);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("touchmove", onTouchMove);
 
     return () => {
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchmove", onTouchMove);
     };
   }, []);
 
@@ -217,7 +234,7 @@ const HuggyWuggy = () => {
       mousePos,
       bodyPos,
       dots,
-      nearDotSetter,
+      // nearDotSetter,
       feetSetter,
       sortFx,
       env,
@@ -226,7 +243,7 @@ const HuggyWuggy = () => {
       mousePos: [number, number];
       bodyPos: [number, number];
       dots: Dots;
-      nearDotSetter: Dispatch<SetStateAction<NearDots>>;
+      // nearDotSetter: Dispatch<SetStateAction<NearDots>>;
       feetSetter: Dispatch<SetStateAction<Feet>>;
       bodySetter: Dispatch<SetStateAction<[number, number]>>;
       env: ENV;
@@ -319,12 +336,12 @@ const HuggyWuggy = () => {
         sortedQuadrant3 = sortFx(quadrant3),
         sortedQuadrant4 = sortFx(quadrant4);
 
-      setQuadrants([
-        sortedQuadrant1,
-        sortedQuadrant2,
-        sortedQuadrant3,
-        sortedQuadrant4,
-      ]);
+      // setQuadrants([
+      //   sortedQuadrant1,
+      //   sortedQuadrant2,
+      //   sortedQuadrant3,
+      //   sortedQuadrant4,
+      // ]);
 
       const nearDot1 = sortedQuadrant1[0]?.id || sortedQuadrant3[1]?.id,
         nearDot2 = sortedQuadrant2[0]?.id || sortedQuadrant4[1]?.id,
@@ -332,7 +349,7 @@ const HuggyWuggy = () => {
         nearDot4 = sortedQuadrant4[0]?.id || sortedQuadrant2[1]?.id,
         nearDots: NearDots = [nearDot1, nearDot2, nearDot3, nearDot4];
 
-      nearDotSetter(nearDots);
+      // nearDotSetter(nearDots);
 
       feetSetter((prev) => {
         let newFeet: Feet = prev;
@@ -764,7 +781,7 @@ const HuggyWuggy = () => {
         mousePos,
         bodyPos,
         dots,
-        nearDotSetter: setNearDots,
+        // nearDotSetter: setNearDots,
         feetSetter: setFeet,
         bodySetter: setBodyPos,
         sortFx: dotSort,
