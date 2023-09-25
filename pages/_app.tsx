@@ -16,6 +16,13 @@ const App = ({ Component, pageProps }: AppProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (navigator.userAgent.indexOf("KAKAO") !== -1)
+      window.confirm(
+        "인앱 브라우저를 지원하지 않아 정상적인 진행이 어려울 수 있습니다.\n기본 브라우저에서 페이지를 여시겠습니까?"
+      ) && window.open("https://www.rarebeef.co.kr/", "_system");
+  }, []);
+
   return (
     <Provider store={store}>
       <Head>
