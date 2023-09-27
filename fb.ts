@@ -14,7 +14,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 if (typeof window !== "undefined" && typeof window.navigator !== "undefined") {
-  const messaging = getMessaging(app);
+  try {
+    const messaging = getMessaging(app);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export const db = getFirestore(app);
