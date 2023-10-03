@@ -76,12 +76,12 @@ const HuggyWuggy = () => {
   );
 
   const ENV = useMemo(() => {
-    const areaDivide = 10;
-    const bodyWidth = cvsSize[0] / areaDivide / 4;
+    const areaDivide = 20;
+    const bodyWidth = Math.max(...cvsSize) / areaDivide / 3.8;
 
     return {
       AREA_DIVIDE: areaDivide,
-      AREA_GAP: 20,
+      AREA_GAP: 10,
       BODY_COLOR: "#0d52af",
       FEET_COLOR: "#ffec00",
       LINE_COLOR: "lightgray",
@@ -277,7 +277,7 @@ const HuggyWuggy = () => {
 
         // 속도 계산
         const dampingFactor = 0.5; // 감쇠 계수
-        const curSpeed = distance / 10; // 남은 거리에 기반하여 속도 계산
+        const curSpeed = distance / 6; // 남은 거리에 기반하여 속도 계산
         const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
 
         // 현재 속도가 0보다 클 경우
@@ -404,7 +404,7 @@ const HuggyWuggy = () => {
           const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
           const dampingFactor = 0.8; // 감쇠 계수
-          const curSpeed = distance / 5; // 남은 거리에 기반하여 속도 계산
+          const curSpeed = distance / 3; // 남은 거리에 기반하여 속도 계산
           const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
 
           // 현재 속도가 0보다 클 경우
@@ -502,6 +502,7 @@ const HuggyWuggy = () => {
             jointX -= BODY_WIDTH / 2 - LIMBS_WIDTH / 2;
             jointY += BODY_HEIGHT / 2 - LIMBS_WIDTH / 2;
             controlY -= LIMBS_WIDTH;
+
             // 오른 다리
           } else {
             jointX += BODY_WIDTH / 2 - LIMBS_WIDTH / 2;
@@ -520,6 +521,7 @@ const HuggyWuggy = () => {
               ctx.stroke();
             }
           );
+
           // 팔다리 그림자
           drawShadowCommads.push((ctx: CanvasRenderingContext2D) => {
             ctx.moveTo(x, y);
