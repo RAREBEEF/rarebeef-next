@@ -277,7 +277,7 @@ const HuggyWuggy = () => {
 
         // 속도 계산
         const dampingFactor = 0.5; // 감쇠 계수
-        const curSpeed = distance / 6; // 남은 거리에 기반하여 속도 계산
+        const curSpeed = distance / 5; // 남은 거리에 기반하여 속도 계산
         const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
 
         // 현재 속도가 0보다 클 경우
@@ -404,7 +404,7 @@ const HuggyWuggy = () => {
           const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
           const dampingFactor = 0.8; // 감쇠 계수
-          const curSpeed = distance / 3; // 남은 거리에 기반하여 속도 계산
+          const curSpeed = distance / 2.5; // 남은 거리에 기반하여 속도 계산
           const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
 
           // 현재 속도가 0보다 클 경우

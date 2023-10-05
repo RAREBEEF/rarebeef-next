@@ -16,8 +16,13 @@ const app = initializeApp(firebaseConfig);
 if (typeof window !== "undefined" && typeof window.navigator !== "undefined") {
   try {
     const messaging = getMessaging(app);
+
+    if (localStorage.getItem("notificationPermission") === "unsupport") {
+      localStorage.removeItem("notificationPermission");
+    }
   } catch (error) {
     console.error(error);
+    localStorage.setItem("notificationPermission", "unsupport");
   }
 }
 

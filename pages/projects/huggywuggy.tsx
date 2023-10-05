@@ -151,6 +151,18 @@ const Project: React.FC<SectionPropType> = (): ReactElement => {
           </div>
         </div>
       </article>
+      <footer className={styles.footer}>
+        본 컨텐츠는 &quot;Poppy Playtime&quot;의{" "}
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.mobentertainment.com/fan-content"
+        >
+          팬메이드 컨텐츠
+        </a>
+        이며 &quot;Poppy Playtime&quot;과 관련된 모든 캐릭터와 자산은 &quot;Mob
+        Entertainment&quot;의 지적재산권에 속합니다.
+      </footer>
     </main>
   );
 };

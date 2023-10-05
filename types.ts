@@ -89,7 +89,9 @@ export interface ButtonPropType {
   href?: string;
 }
 
-export interface NavPropType {}
+export interface NavPropType {
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+}
 
 export interface ToolbarPropType {}
 

@@ -7,6 +7,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  font-family: "Gowun Dodum" sans-serif;
 
   .icon--menu,
   .icon--menu-close {
@@ -71,14 +72,19 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+
       .item__text {
+        font-family: inherit;
         border-radius: 15px;
+        cursor: pointer;
         background-color: rgba(0, 0, 0, 0.5);
         color: white;
         width: fit-content;
         text-align: center;
+        line-height: 20px;
         font-size: 20px;
         padding: 5px 15px;
+        border: none;
       }
 
       &:not(.current) {
@@ -140,10 +146,10 @@
           transition: left 0.3s ease-in-out 0.2s, transform 0.3s ease-in-out,
             opacity 0.3s 0.2s, margin 0.3s;
         }
-        // &:last-child {
-        //   transition: left 0.3s ease-in-out 0.4s, transform 0.3s ease-in-out,
-        //     opacity 0.3s 0.3s, margin 0.3s;
-        // }
+        &:nth-child(4) {
+          transition: left 0.3s ease-in-out 0.4s, transform 0.3s ease-in-out,
+            opacity 0.3s 0.3s, margin 0.3s;
+        }
         &:hover:not(.current) {
           .item__text {
             background-color: rgba(0, 0, 0, 0.2);

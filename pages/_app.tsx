@@ -12,7 +12,7 @@ import { useEffect } from "react";
 const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     return () => {
-      sessionStorage.removeItem("start");
+      sessionStorage.clear();
     };
   }, []);
 

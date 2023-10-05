@@ -16,8 +16,8 @@ const PushRequest: React.FC<PushRequestPropType> = ({
     const permission = localStorage.getItem("notificationPermission");
     const userAgent = navigator?.userAgent?.toLowerCase();
     const isIos =
-      userAgent.indexOf("iphone") !== -1 || userAgent.indexOf("ipad") !== -1;
-    const isStandalone = window.matchMedia(
+      userAgent?.indexOf("iphone") !== -1 || userAgent?.indexOf("ipad") !== -1;
+    const isStandalone = window?.matchMedia(
       "(display-mode: standalone)"
     ).matches;
 
@@ -32,6 +32,9 @@ const PushRequest: React.FC<PushRequestPropType> = ({
         setShowModal(false);
         break;
       case "false":
+        setShowModal(false);
+        break;
+      case "unsupport":
         setShowModal(false);
         break;
       default:

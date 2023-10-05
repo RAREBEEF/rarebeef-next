@@ -7,13 +7,11 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import classNames from "classnames";
-import PushRequest from "../components/PushRequest";
 import PROJECT_LIST from "../public/json/projectList.json";
 
 const ProjectList = () => {
   const [start, setStart] = useState<boolean>(true);
   const [startObserve, setStartObserve] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(false);
   const stickyRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const containerRef = useRef<HTMLElement>(null);
@@ -62,13 +60,7 @@ const ProjectList = () => {
   }, [startObserve]);
 
   useEffect(() => {
-    if (
-      !stickyRef.current ||
-      !containerRef.current ||
-      !listRef.current ||
-      showModal
-    )
-      return;
+    if (!stickyRef.current || !containerRef.current || !listRef.current) return;
 
     const sticky = stickyRef.current;
     const container = containerRef.current;
@@ -109,7 +101,7 @@ const ProjectList = () => {
     return () => {
       window.removeEventListener("scroll", windowScrollHandler);
     };
-  }, [calcScroll, showModal, start]);
+  }, [calcScroll, start]);
 
   const onStartClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -154,11 +146,7 @@ const ProjectList = () => {
   return (
     <article
       ref={containerRef}
-      className={classNames(
-        styles.container,
-        start && styles.start,
-        showModal && styles["show-modal"]
-      )}
+      className={classNames(styles.container, start && styles.start)}
     >
       <Seo
         description={`현재까지 진행한 프론트엔드 프로젝트를 정리해 둔 포트폴리오입니다. ${Object.keys(
@@ -189,7 +177,6 @@ const ProjectList = () => {
       <div className={styles.footer}>
         <Footer />
       </div>
-      <PushRequest setShowModal={setShowModal} showModal={showModal} />
     </article>
   );
 };

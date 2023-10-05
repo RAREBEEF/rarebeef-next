@@ -39,3 +39,20 @@
     }
   }
 }
+
+.footer {
+  text-align: center;
+  line-height: 16px;
+  word-break: keep-all;
+  padding: {
+    left: 50px;
+    right: 50px;
+    bottom: 30px;
+  }
+  font: {
+    size: 13px;
+  }
+  a {
+    text-decoration: underline;
+  }
+}

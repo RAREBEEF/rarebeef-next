@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { HeaderPropType } from "../types";
 import styles from "./ProjectHeader.module.scss";
 import { useRouter } from "next/router";
@@ -10,10 +10,22 @@ const ProjectHeader: React.FC<HeaderPropType> = ({
   classes,
 }): ReactElement => {
   const router = useRouter();
+  const [navigatingCurApp, setNavigatingCurApp] = useState<boolean>(false);
+
+  useEffect(() => {
+    const navigatingCurApp = sessionStorage.getItem("navigatingCurApp");
+
+    setNavigatingCurApp(navigatingCurApp === "true");
+  }, []);
 
   const onBackButtonClick = () => {
-    router.back();
+    if (navigatingCurApp) {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
+
   return (
     <hgroup
       className={classNames(
@@ -36,7 +48,7 @@ const ProjectHeader: React.FC<HeaderPropType> = ({
             />
           </svg>
         </div>
-        뒤로가기
+        {navigatingCurApp ? "뒤로가기" : "홈으로"}
       </button>
       <h2 className={styles["title"]}>
         {typeof title === "string"
