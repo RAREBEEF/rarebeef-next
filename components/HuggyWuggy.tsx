@@ -53,7 +53,7 @@ interface Area {
 
 const HuggyWuggy = () => {
   const cvsRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const [cvs, setCvs] = useState<HTMLCanvasElement | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
@@ -97,6 +97,7 @@ const HuggyWuggy = () => {
   // 컨테이너와 캔버스 체크 & 상태 저장, 마우스 위치 초기화
   useEffect(() => {
     if (!containerRef.current || !cvsRef.current) return;
+    containerRef.current.style.scale = "0.5";
     setContainer(containerRef.current);
     setCvs(cvsRef.current);
     setCtx(cvsRef.current.getContext("2d"));
@@ -172,11 +173,11 @@ const HuggyWuggy = () => {
           for (const entry of entries) {
             const { inlineSize: width, blockSize: height } =
               entry.borderBoxSize[0];
-            setCvsSize([width, height]);
-            createDots(width, height);
+            setCvsSize([width * 2, height * 2]);
+            createDots(width * 2, height * 2);
             setMousePos([
-              window.innerWidth / 2 - 50,
-              window.innerHeight / 2 - 50,
+              window.innerWidth / 2 - 50 / 2,
+              window.innerHeight / 2 - 50 / 2,
             ]);
             setBodyPos([
               window.innerWidth / 2 - 150,
@@ -200,7 +201,7 @@ const HuggyWuggy = () => {
 
   // 마우스 무브 핸들러
   const onMouseMove = (e: MouseEvent) => {
-    const mousePos: [number, number] = [e.clientX, e.clientY];
+    const mousePos: [number, number] = [e.clientX * 2, e.clientY * 2];
 
     setMousePos(mousePos);
   };
@@ -210,8 +211,8 @@ const HuggyWuggy = () => {
     e.stopPropagation();
 
     const mousePos: [number, number] = [
-      e.touches[0].clientX,
-      e.touches[0].clientY,
+      e.touches[0].clientX * 2,
+      e.touches[0].clientY * 2,
     ];
 
     setMousePos(mousePos);
@@ -716,12 +717,11 @@ const HuggyWuggy = () => {
       }
 
       // 머리
+      const headImg = new Image();
+      headImg.src = `/logos/huggy_wuggy.svg`;
       drawCommands3.push((ctx: CanvasRenderingContext2D) => {
-        const img = new Image();
-        img.src = `/logos/huggy_wuggy.svg`;
-
         ctx.drawImage(
-          img,
+          headImg,
           bodyX - BODY_WIDTH * 1.5,
           bodyY - BODY_HEIGHT * 1.5,
           BODY_WIDTH * 3,
@@ -764,15 +764,17 @@ const HuggyWuggy = () => {
         drawCommands3
       );
 
-      // 모든 그리기 명령 실행
-      for (let i = 0; i < allDrawCommands.length; i++) {
-        const command = allDrawCommands[i];
-        command(offscreenCtx);
-      }
+      headImg.onload = () => {
+        // 모든 그리기 명령 실행
+        for (let i = 0; i < allDrawCommands.length; i++) {
+          const command = allDrawCommands[i];
+          command(offscreenCtx);
+        }
 
-      // 더블 버퍼링
-      ctx.clearRect(0, 0, ...cvsSize);
-      ctx.drawImage(offscreenCvs!, 0, 0);
+        // 더블 버퍼링
+        ctx.clearRect(0, 0, ...cvsSize);
+        ctx.drawImage(offscreenCvs!, 0, 0);
+      };
     },
     []
   );
@@ -830,9 +832,9 @@ const HuggyWuggy = () => {
   }, [isReady, updateAndDraw]);
 
   return (
-    <main ref={containerRef} className={styles.container}>
+    <div ref={containerRef} className={styles.container}>
       <canvas className={styles.canvas} ref={cvsRef} />
-    </main>
+    </div>
   );
 };
 
