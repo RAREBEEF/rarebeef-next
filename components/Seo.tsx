@@ -16,12 +16,24 @@ const Seo: React.FC<Props> = ({
   return (
     <Head>
       <title>{`RAREBEEF${title && " │ " + title}`}</title>
-      <meta name="description" content={description} />
+      <meta
+        name="description"
+        content={
+          description +
+          " / 개발자: RAREBEEF(소고기는레어) / 메일: drrobot409@gmail.com / 깃헙: github.com/RAREBEEF / 블로그: velog.io/@drrobot409"
+        }
+      />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="ko_KR" />
       <meta property="og:site_name" content="RAREBEEF's Portfolio" />
       <meta property="og:title" content={`RAREBEEF${title && " │ " + title}`} />
-      <meta property="og:description" content={description} />
+      <meta
+        property="og:description"
+        content={
+          description +
+          " / 개발자: RAREBEEF(소고기는레어) / 메일: drrobot409@gmail.com / 깃헙: github.com/RAREBEEF / 블로그: velog.io/@drrobot409"
+        }
+      />
       <meta property="og:image" content={img} />
       <meta property="og:url" content={url} />
       <meta property="twitter:card" content="summary" />
@@ -30,7 +42,13 @@ const Seo: React.FC<Props> = ({
         property="twitter:title"
         content={`RAREBEEF${title && " │ " + title}`}
       />
-      <meta property="twitter:description" content={description} />
+      <meta
+        property="twitter:description"
+        content={
+          description +
+          " / 개발자: RAREBEEF(소고기는레어) / 메일: drrobot409@gmail.com / 깃헙: github.com/RAREBEEF / 블로그: velog.io/@drrobot409"
+        }
+      />
       <meta property="twitter:image" content={img} />
     </Head>
   );

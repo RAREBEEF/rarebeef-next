@@ -124,12 +124,18 @@ const HuggyWuggy = () => {
       const areaWidth = (cvsWidth - AREA_GAP * AREA_DIVIDE) / AREA_DIVIDE;
       const areaHeight = (cvsHeight - AREA_GAP * AREA_DIVIDE) / AREA_DIVIDE;
 
-      for (let i = 1; i <= AREA_DIVIDE; i++) {
-        const startY = AREA_GAP / 2 + (areaHeight + AREA_GAP) * (i - 1);
+      for (let i = 1; i <= AREA_DIVIDE + 2; i++) {
+        const startY =
+          AREA_GAP / 2 +
+          (areaHeight + AREA_GAP) * (i - 1) -
+          (areaHeight + AREA_GAP);
         const endY = startY + areaHeight;
 
-        for (let j = 1; j <= AREA_DIVIDE; j++) {
-          const startX = AREA_GAP / 2 + (areaWidth + AREA_GAP) * (j - 1);
+        for (let j = 1; j <= AREA_DIVIDE + 2; j++) {
+          const startX =
+            AREA_GAP / 2 +
+            (areaWidth + AREA_GAP) * (j - 1) -
+            (areaWidth + AREA_GAP);
           const endX = startX + areaWidth;
 
           areas.push({
@@ -264,43 +270,6 @@ const HuggyWuggy = () => {
       const mouseBodyX = mouseX;
       const mouseBodyY = mouseY + BODY_HEIGHT;
 
-      // 몸통 위치
-      bodySetter((prev) => {
-        const [bodyX, bodyY] = prev;
-        let newX = bodyX;
-        let newY = bodyY;
-
-        // 마우스와 몸통 사이의 거리
-        const deltaX = mouseBodyX - bodyX;
-        const deltaY = mouseBodyY - bodyY;
-        // 몸통이 마우스의 정위치로 너무 따라다니지 않고 거리를 유지하며 움직일 수 있도록 거리에서 일정 값을 빼준다.
-        const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2) - BODY_HEIGHT * 2;
-
-        // 속도 계산
-        const dampingFactor = 0.5; // 감쇠 계수
-        const curSpeed = distance / 5; // 남은 거리에 기반하여 속도 계산
-        const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
-
-        // 현재 속도가 0보다 클 경우
-        // 속력을 계산해 위치를 업데이트한다.
-        if (SPEED > 0) {
-          // 현재 몸통 위치에서 목표 위치를 바라보는 라디안 각도
-          const angle = Math.atan2(deltaY, deltaX);
-          // 속도와 각도를 통해 각 방향의 속력 구하기
-          const velocityX = SPEED * Math.cos(angle);
-          const velocityY = SPEED * Math.sin(angle);
-          // 새로운 x,y 좌표 계산
-          newX += velocityX;
-          newY += velocityY;
-          // 현재 속도가 0보다 작거나 같을 경우
-          // 움직이지 않는다.
-        } else {
-          return [bodyX, bodyY];
-        }
-
-        return [newX, newY];
-      });
-
       const quadrant1: Array<DotDistance> = [],
         quadrant2: Array<DotDistance> = [],
         quadrant3: Array<DotDistance> = [],
@@ -337,18 +306,17 @@ const HuggyWuggy = () => {
         sortedQuadrant3 = sortFx(quadrant3),
         sortedQuadrant4 = sortFx(quadrant4);
 
-      // setQuadrants([
-      //   sortedQuadrant1,
-      //   sortedQuadrant2,
-      //   sortedQuadrant3,
-      //   sortedQuadrant4,
-      // ]);
-
-      const nearDot1 = sortedQuadrant1[0]?.id || sortedQuadrant3[1]?.id,
-        nearDot2 = sortedQuadrant2[0]?.id || sortedQuadrant4[1]?.id,
-        nearDot3 = sortedQuadrant3[0]?.id || sortedQuadrant1[1]?.id,
-        nearDot4 = sortedQuadrant4[0]?.id || sortedQuadrant2[1]?.id,
-        nearDots: NearDots = [nearDot1, nearDot2, nearDot3, nearDot4];
+      const nearDot1 = sortedQuadrant1[0]?.id,
+        nearDot2 = sortedQuadrant2[0]?.id,
+        nearDot3 =
+          dots[sortedQuadrant3[0]?.id]?.y > bodyY + BODY_HEIGHT * 0.3
+            ? sortedQuadrant3[0]?.id
+            : sortedQuadrant3[1]?.id,
+        nearDot4 =
+          dots[sortedQuadrant4[0]?.id]?.y > bodyY + BODY_HEIGHT * 0.3
+            ? sortedQuadrant4[0]?.id
+            : sortedQuadrant4[1]?.id,
+        nearDots = [nearDot1, nearDot2, nearDot3, nearDot4];
 
       // nearDotSetter(nearDots);
 
@@ -390,6 +358,23 @@ const HuggyWuggy = () => {
                   Math.sign(bodyX - mouseX) * LIMBS_WIDTH * 2) /
                   (LIMBS_WIDTH * 4));
             targetY = mouseY + Math.sign(bodyY - mouseY) * LIMBS_WIDTH * 1.5;
+
+            const deltaX = targetX - footX; // 현재 x와 타겟 x의 거리
+            const deltaY = targetY - footY; // 현재 y와 타겟 y의 거리
+            // 현재 점과 타겟 점 사이의 거리(유클리드 거리 공식)
+            const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+
+            if (distance >= BODY_HEIGHT * 3) {
+              const directionX = mouseX - bodyX;
+              const directionY = mouseY - bodyY;
+              const length = Math.sqrt(
+                directionX * directionX + directionY * directionY
+              );
+              const unitDirectionX = directionX / length;
+              const unitDirectionY = directionY / length;
+              targetX = bodyX + unitDirectionX * BODY_HEIGHT * 3;
+              targetY = bodyY + unitDirectionY * BODY_HEIGHT * 3;
+            }
           } else {
             targetX = dots[nearDot]?.x;
             targetY = dots[nearDot]?.y;
@@ -397,7 +382,7 @@ const HuggyWuggy = () => {
 
           if (!targetX || !targetY) continue;
 
-          let newX, newY: number;
+          let newFootX, newFootY: number;
 
           const deltaX = targetX - footX; // 현재 x와 타겟 x의 거리
           const deltaY = targetY - footY; // 현재 y와 타겟 y의 거리
@@ -417,22 +402,82 @@ const HuggyWuggy = () => {
             const velocityX = SPEED * Math.cos(angle);
             const velocityY = SPEED * Math.sin(angle);
             // 새로운 x,y 좌표 계산
-            newX = footX + velocityX;
-            newY = footY + velocityY;
+            newFootX = footX + velocityX;
+            newFootY = footY + velocityY;
             // 현재 속도가 0보다 작거나 같을 경우
             // 타겟 위치로 바로 이동한다.
           } else {
-            newX = targetX;
-            newY = targetY;
+            newFootX = targetX;
+            newFootY = targetY;
           }
 
           newFeet[i] = {
             ...newFeet[i],
-            x: newX,
-            y: newY,
+            x: newFootX,
+            y: newFootY,
             trackingMouse: isTrackingMouse,
           };
         }
+
+        // 마우스와 팔다리 위치를 기반으로 몸통 위치 계산
+        bodySetter((prev) => {
+          const [bodyX, bodyY] = prev;
+          let newBodyX = bodyX;
+          let newBodyY = bodyY;
+
+          // 마우스와 몸통 사이의 거리
+          let deltaX = mouseBodyX - bodyX;
+          let deltaY = mouseBodyY - bodyY;
+          // 몸통이 마우스의 정위치로 너무 따라다니지 않고 거리를 유지하며 움직일 수 있도록 거리에서 일정 값을 빼준다.
+          let distance = Math.sqrt(deltaX ** 2 + deltaY ** 2) - BODY_HEIGHT * 2;
+
+          const isNearPointer = distance <= BODY_HEIGHT * 2 && !!newFeet;
+
+          if (isNearPointer) {
+            const centerFeetX =
+              (newFeet!.reduce(
+                (acc, cur, i) => (cur.trackingMouse ? acc : acc + cur.x),
+                0
+              ) +
+                mouseX) /
+                4 || 0;
+            const centerFeetY =
+              (newFeet!.reduce(
+                (acc, cur, i) => (cur.trackingMouse ? acc : acc + cur.y),
+                0
+              ) +
+                mouseY) /
+                4 || 0;
+            deltaX = centerFeetX - bodyX;
+            deltaY = centerFeetY - bodyY;
+            // 몸통이 마우스 정위치로 움직이고 싶다면 아래 값으로 사용
+            distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+          }
+
+          // 속도 계산
+          const dampingFactor = 0.5; // 감쇠 계수
+          const curSpeed = distance / (isNearPointer ? 2.5 : 5); // 남은 거리에 기반하여 속도 계산
+          const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
+
+          // 현재 속도가 0보다 클 경우
+          // 속력을 계산해 위치를 업데이트한다.
+          if (SPEED > 0) {
+            // 현재 몸통 위치에서 목표 위치를 바라보는 라디안 각도
+            const angle = Math.atan2(deltaY, deltaX);
+            // 속도와 각도를 통해 각 방향의 속력 구하기
+            const velocityX = SPEED * Math.cos(angle);
+            const velocityY = SPEED * Math.sin(angle);
+            // 새로운 x,y 좌표 계산
+            newBodyX += velocityX;
+            newBodyY += velocityY;
+            // 현재 속도가 0보다 작거나 같을 경우
+            // 움직이지 않는다.
+          } else {
+            return [bodyX, bodyY];
+          }
+
+          return [newBodyX, newBodyY];
+        });
 
         return newFeet;
       });

@@ -112,7 +112,7 @@ const ReactNative = (): ReactElement => {
             <Skill skill="Three.js" />
           </ul>
         </div>
-        <div className={classNames(styles.update, styles.card)}>
+        {/* <div className={classNames(styles.update, styles.card)}>
           <hgroup>
             <h3 className={styles["card__title"]}>Latest update</h3>
             <h4
@@ -140,7 +140,7 @@ const ReactNative = (): ReactElement => {
           ) : (
             <p>알 수 없음</p>
           )}
-        </div>
+        </div> */}
         <div className={classNames(styles.links, styles.card)}>
           <h3 className={styles["card__title"]}>Links</h3>
           <div className={classNames(styles["card__content"])}>
