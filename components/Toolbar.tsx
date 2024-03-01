@@ -6,6 +6,7 @@ import classNames from "classnames";
 import _ from "lodash";
 import HuggyWuggy from "./HuggyWuggy";
 import { useRouter } from "next/router";
+import StrangeAstronaut from "./StrangeAstronaut";
 
 const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
   const { pathname } = useRouter();
@@ -107,7 +108,8 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
         />
         <p className={styles.tooltip}>Scroll to top</p>
       </button>
-      {showMouseEffect && <HuggyWuggy />}
+      {showMouseEffect && <StrangeAstronaut />}
+      {/* {showMouseEffect && <HuggyWuggy />} */}
     </div>
   );
 };
