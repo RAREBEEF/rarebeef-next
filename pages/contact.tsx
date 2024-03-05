@@ -40,10 +40,7 @@ const Contact: React.FC<ContactPropType> = () => {
 
   return (
     <main className={styles.container}>
-      <Seo
-        title="CONTACT"
-        description="방명록을 작성해 보세요."
-      />
+      <Seo title="CONTACT" description="방명록을 작성해 보세요." />
       <ProjectHeader
         title={["Contact"]}
         subTitle={["Welcome feedback"]}

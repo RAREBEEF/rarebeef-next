@@ -5,15 +5,15 @@
   min-height: 100dvh;
   position: relative;
   background-color: white;
-  animation: fadeIn 1s forwards;
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
+  // animation: fadeIn 1s forwards;
+  // @keyframes fadeIn {
+  //   0% {
+  //     opacity: 0;
+  //   }
+  //   100% {
+  //     opacity: 1;
+  //   }
+  // }
 
   .content {
     align-self: center;

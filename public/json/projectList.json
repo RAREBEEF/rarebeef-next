@@ -1,4 +1,8 @@
 {
+  "Strange Astronaut": {
+    "icon": "/logos/strange-astronaut.png",
+    "path": "strangeastronaut"
+  },
   "Raebef": { "icon": "/logos/raebef-icon.svg", "path": "raebef" },
   "Splatoon3": { "icon": "/logos/splatoon-icon.svg", "path": "splatoon3" },
   "Diary": { "icon": "/logos/diary-icon.png", "path": "diary" },

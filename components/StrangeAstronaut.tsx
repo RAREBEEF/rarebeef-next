@@ -235,10 +235,8 @@ const skin: any = {
   },
 };
 
-const StrangeAstronaut = () => {
+const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
   const cvsRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [container, setContainer] = useState<HTMLElement | null>(null);
   const [cvs, setCvs] = useState<HTMLCanvasElement | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [offscreenCvs, setOffscreenCvs] = useState<HTMLCanvasElement | null>(
@@ -255,8 +253,8 @@ const StrangeAstronaut = () => {
   const [mousePos, setMousePos] = useState<[number, number] | null>(null);
   const [cvsSize, setCvsSize] = useState<[number, number]>([10, 10]);
   const isReady = useMemo(
-    () => !!cvs && !!ctx && !!container && !!offscreenCvs && !!offscreenCtx,
-    [cvs, ctx, container, offscreenCvs, offscreenCtx]
+    () => !!cvs && !!ctx && !!offscreenCvs && !!offscreenCtx,
+    [cvs, ctx, offscreenCvs, offscreenCtx]
   );
 
   const [headToRight, setHeadToRight] = useState<boolean>(true);
@@ -281,16 +279,14 @@ const StrangeAstronaut = () => {
 
   // 컨테이너와 캔버스 체크 & 상태 저장, 마우스 위치 초기화
   useEffect(() => {
-    if (!containerRef.current || !cvsRef.current) return;
-    containerRef.current.style.scale = "0.5";
-    setContainer(containerRef.current);
+    if (!cvsRef.current) return;
     setCvs(cvsRef.current);
     setCtx(cvsRef.current.getContext("2d"));
     const offscreenCanvas = document.createElement("canvas");
     const offscreenContext = offscreenCanvas.getContext("2d");
     setOffscreenCvs(offscreenCanvas);
     setOffscreenCtx(offscreenContext);
-  }, [containerRef, cvsRef]);
+  }, [cvsRef]);
 
   // 최초 및 리사이즈 시 영역 구분 및 점 생성
   const createDots = useCallback(
@@ -357,32 +353,6 @@ const StrangeAstronaut = () => {
     [isReady, cvs, offscreenCvs] // ENV는 dependency로 등록하지 말 것
   );
 
-  // 컨테이너 리사이즈 감시
-  const resizeObserver = useMemo(
-    () =>
-      new ResizeObserver(
-        _.debounce((entries) => {
-          for (const entry of entries) {
-            const { inlineSize: width, blockSize: height } =
-              entry.borderBoxSize[0];
-            setCvsSize([width * 2, height * 2]);
-            createDots(width * 2, height * 2);
-          }
-        }, 100)
-      ),
-    [createDots]
-  );
-
-  useEffect(() => {
-    if (!isReady) return;
-
-    resizeObserver.observe(container as HTMLElement);
-
-    return () => {
-      resizeObserver.unobserve(container as HTMLElement);
-    };
-  }, [container, isReady, resizeObserver]);
-
   // 마우스 무브 핸들러
   const onMouseMove = (e: MouseEvent) => {
     const mousePos: [number, number] = [e.clientX * 2, e.clientY * 2];
@@ -401,16 +371,25 @@ const StrangeAstronaut = () => {
     setMousePos(mousePos);
   };
 
+  const onResize = useCallback(() => {
+    const { innerWidth, innerHeight } = window;
+    setCvsSize([innerWidth * 2, innerHeight * 2]);
+    createDots(innerWidth * 2, innerHeight * 2);
+  }, [createDots]);
+
   // 핸들러 등록
   useEffect(() => {
+    onResize();
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("touchmove", onTouchMove);
+    window.addEventListener("resize", onResize);
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [onResize]);
 
   // 팔다리 위치 계산
   const updateFeet = useCallback(
@@ -697,7 +676,7 @@ const StrangeAstronaut = () => {
       const { LIMBS_WIDTH, BODY_HEIGHT, BODY_WIDTH } = env;
       const [bodyX, bodyY] = bodyPos;
       const [mouseX, mouseY] = mousePos;
-      const isGlitch = skin.current === "glitch";
+      const isGlitch = currentSkin === "glitch";
       let glitchRandomValue = 0;
       if (isGlitch) {
         skin.glitch.randomize();
@@ -760,7 +739,7 @@ const StrangeAstronaut = () => {
 
           // 팔다리
           (i <= 1 ? drawCommands3 : drawCommands2).push((ctx) => {
-            ctx.strokeStyle = skin[skin.current].color.body;
+            ctx.strokeStyle = skin[currentSkin].color.body;
             ctx.lineCap = "round";
             ctx.lineWidth = LIMBS_WIDTH;
             ctx.beginPath();
@@ -895,7 +874,7 @@ const StrangeAstronaut = () => {
       });
       // 몸통
       drawCommands2.push((ctx) => {
-        ctx.fillStyle = skin[skin.current].color.body;
+        ctx.fillStyle = skin[currentSkin].color.body;
         ctx.beginPath();
         ctx.rect(
           bodyX - BODY_WIDTH / 2,
@@ -915,7 +894,7 @@ const StrangeAstronaut = () => {
 
       // 어깨
       drawCommands2.push((ctx) => {
-        ctx.fillStyle = skin[skin.current].color.body;
+        ctx.fillStyle = skin[currentSkin].color.body;
         ctx.beginPath();
         ctx.arc(
           bodyX,
@@ -945,7 +924,7 @@ const StrangeAstronaut = () => {
 
       // 엉덩이
       drawCommands2.push((ctx) => {
-        ctx.fillStyle = skin[skin.current].color.body;
+        ctx.fillStyle = skin[currentSkin].color.body;
         ctx.beginPath();
         ctx.arc(
           bodyX,
@@ -971,7 +950,7 @@ const StrangeAstronaut = () => {
           if (i === 0) {
             if (trackingMouse) {
               const img = new Image();
-              img.src = skin[skin.current].image.finger.right;
+              img.src = skin[currentSkin].image.finger.right;
 
               drawCommands3.unshift((ctx) => {
                 // 계산한 각도로 컨텍스트 회전
@@ -993,7 +972,7 @@ const StrangeAstronaut = () => {
               });
             } else {
               drawCommands2.unshift((ctx) => {
-                ctx.fillStyle = skin[skin.current].color.feet;
+                ctx.fillStyle = skin[currentSkin].color.feet;
                 ctx.beginPath();
                 ctx.ellipse(
                   x,
@@ -1021,7 +1000,7 @@ const StrangeAstronaut = () => {
           } else if (i === 1) {
             if (trackingMouse) {
               const img = new Image();
-              img.src = skin[skin.current].image.finger.left;
+              img.src = skin[currentSkin].image.finger.left;
 
               drawCommands3.unshift((ctx) => {
                 // 계산한 각도로 컨텍스트 회전
@@ -1043,7 +1022,7 @@ const StrangeAstronaut = () => {
               });
             } else {
               drawCommands2.unshift((ctx) => {
-                ctx.fillStyle = skin[skin.current].color.feet;
+                ctx.fillStyle = skin[currentSkin].color.feet;
                 ctx.beginPath();
                 ctx.ellipse(
                   x,
@@ -1070,7 +1049,7 @@ const StrangeAstronaut = () => {
             // 발
           } else {
             drawCommands2.unshift((ctx) => {
-              ctx.fillStyle = skin[skin.current].color.feet;
+              ctx.fillStyle = skin[currentSkin].color.feet;
               ctx.beginPath();
               ctx.ellipse(
                 x,
@@ -1091,8 +1070,8 @@ const StrangeAstronaut = () => {
       // // 머리 및 타이머
       const headImg = new Image();
       headImg.src = headToRight
-        ? skin[skin.current].image.head.right
-        : skin[skin.current].image.head.left;
+        ? skin[currentSkin].image.head.right
+        : skin[currentSkin].image.head.left;
 
       drawCommands3.push((ctx) => {
         ctx.drawImage(
@@ -1153,7 +1132,7 @@ const StrangeAstronaut = () => {
         ctx.drawImage(offscreenCvs, 0, 0);
       };
     },
-    [headToRight]
+    [currentSkin, headToRight]
   );
 
   const updateAndDraw = useCallback(() => {
@@ -1209,11 +1188,7 @@ const StrangeAstronaut = () => {
     };
   }, [isReady, updateAndDraw]);
 
-  return (
-    <div ref={containerRef} className={styles.container}>
-      <canvas className={styles.canvas} ref={cvsRef} />
-    </div>
-  );
+  return <canvas className={styles.canvas} ref={cvsRef} />;
 };
 
 export default StrangeAstronaut;

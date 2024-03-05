@@ -304,6 +304,16 @@ const Project: React.FC<SectionPropType> = ({
                     />
                   </li>
                 )}
+                {data.links.others &&
+                  data.links.others.map((el, i) => (
+                    <li key={i}>
+                      <Button
+                        icon={el.icon}
+                        href={el.href}
+                        classes={["Home__project-link"]}
+                      />
+                    </li>
+                  ))}
               </ul>
               {data.testAccount && (
                 <div className={styles["test-account"]}>

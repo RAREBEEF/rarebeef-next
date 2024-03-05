@@ -27,9 +27,10 @@ export interface projectDataType {
   description: string;
   skills: Array<skillType>;
   links: {
-    github: string;
+    github?: string;
     velog?: string;
     project?: { icon: string; href: string };
+    others?: Array<{ icon: string; href: string }>;
   };
   testAccount?: {
     id: string;

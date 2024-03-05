@@ -36,6 +36,7 @@ const data: projectDataType = {
       icon: "/logos/raebef-icon.svg",
       href: "https://raebef.vercel.app/",
     },
+    others: [],
   },
   testAccount: {
     id: "test@test.com",

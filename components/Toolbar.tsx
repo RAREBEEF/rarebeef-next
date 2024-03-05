@@ -4,20 +4,28 @@ import styles from "./Toolbar.module.scss";
 import { ToolbarPropType } from "../types";
 import classNames from "classnames";
 import _ from "lodash";
-import HuggyWuggy from "./HuggyWuggy";
 import { useRouter } from "next/router";
 import StrangeAstronaut from "./StrangeAstronaut";
 
 const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
-  const { pathname } = useRouter();
+  const { query } = useRouter();
   const [showToTop, setShowToTop] = useState<boolean>(false);
   const [showMouseEffect, setShowMouseEffect] = useState<boolean>(false);
+  const [skin, setSkin] = useState<string>("default");
 
+  // 저장된 스킨 불러오기
   useEffect(() => {
-    if (pathname === "/projects/huggywuggy") {
+    const storedSkin = window.localStorage.getItem("skin") || "default";
+    setSkin(storedSkin);
+  }, []);
+
+  // 쿼리스트링에서 선택한 스킨 불러오기
+  useEffect(() => {
+    if (query.id === "strangeastronaut") {
       setShowMouseEffect(true);
+      query.skin && setSkin(query.skin as string);
     }
-  }, [pathname]);
+  }, [query]);
 
   const toTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -88,10 +96,10 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
       <button className={classNames(styles.item)} onClick={onToggleMouseEffect}>
         <img
           className={classNames(styles.icon)}
-          src="/icons/huggy-wuggy.svg"
-          alt="Toggle mouse effect"
+          src="/icons/strange-astronaut.svg"
+          alt="Toggle Strange Astronaut"
         />
-        <p className={styles.tooltip}>Toggle mouse effect</p>
+        <p className={styles.tooltip}>Toggle Strange Astronaut</p>
       </button>
       <button
         className={classNames(
@@ -108,8 +116,7 @@ const Toolbar: React.FC<ToolbarPropType> = (): ReactElement => {
         />
         <p className={styles.tooltip}>Scroll to top</p>
       </button>
-      {showMouseEffect && <StrangeAstronaut />}
-      {/* {showMouseEffect && <HuggyWuggy />} */}
+      {showMouseEffect && <StrangeAstronaut currentSkin={skin} />}
     </div>
   );
 };

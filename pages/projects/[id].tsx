@@ -1,5 +1,6 @@
 import palettevault from "../../projects/palettevault";
 import raebef from "../../projects/raebef";
+import strangeastronaut from "../../projects/strangeastronaut";
 import splatoon from "../../projects/splatoon3";
 import diary from "../../projects/diary";
 import placereview from "../../projects/placereview";
@@ -15,6 +16,7 @@ import { useRouter } from "next/router";
 import { projectDataType } from "../../types";
 import ClockApp from "../../components/ClockApp";
 import MemoryTestApp from "../../components/MemoryTestApp";
+import StrangeAstronautConsole from "../../components/StrangeAstronautConsole";
 
 const Projects = (projectData: projectDataType) => {
   const { query } = useRouter();
@@ -35,6 +37,10 @@ const Projects = (projectData: projectDataType) => {
         <Project data={projectData}>
           <MemoryTestApp />
         </Project>
+      ) : query.id === "strangeastronaut" ? (
+        <Project data={projectData}>
+          <StrangeAstronautConsole />
+        </Project>
       ) : (
         <Project data={projectData} />
       )}
@@ -49,6 +55,10 @@ export async function getStaticProps({ params }: any) {
   const { id } = params;
 
   switch (id) {
+    case "strangeastronaut":
+      return {
+        props: strangeastronaut,
+      };
     case "raebef":
       return {
         props: raebef,
@@ -94,6 +104,7 @@ export async function getStaticProps({ params }: any) {
 
 export async function getStaticPaths() {
   const paths: Array<{ params: { id: string } }> = [
+    { params: { id: "strangeastronaut" } },
     { params: { id: "raebef" } },
     { params: { id: "splatoon3" } },
     { params: { id: "diary" } },

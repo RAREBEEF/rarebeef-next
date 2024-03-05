@@ -74,7 +74,6 @@ const About: React.FC<ProfilePropType> = () => {
               <h5 className={styles["sub-header"]}>Design</h5>
               <ul className={styles["skills__design"]}>
                 <Skill skill="Illustrator" />
-                {/* <Skill skill="Blender" /> */}
               </ul>
             </li>
           </ul>
