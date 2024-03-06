@@ -47,3 +47,10 @@
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .skill {
+    background-color: whitesmoke;
+    border-radius: 15px;
+  }
+}

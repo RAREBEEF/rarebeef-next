@@ -97,3 +97,26 @@
     width: 90vw;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #3b3b3b;
+    box-shadow: 5px 5px 5px black;
+
+    h3 {
+    }
+
+    .skin-list {
+      .skin-card {
+        background: #181818;
+        border: 2px solid gray;
+      }
+    }
+
+    .loading {
+      .loading-text {
+        color: white;
+      }
+    }
+  }
+}

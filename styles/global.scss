@@ -14,14 +14,15 @@ body {
   max-width: 100dvw;
   overflow-x: hidden;
   background-color: white;
+  color: #221718;
   font: {
     family: "Gowun Dodum", sans-serif;
   }
-  button {
+  button,
+  a {
     color: #221718;
   }
   a {
-    color: #221718;
     text-decoration: none;
   }
 }
@@ -29,5 +30,16 @@ body {
 @media (max-width: 350px) {
   body {
     overflow-x: scroll;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #181818;
+    color: whitesmoke;
+    button,
+    a {
+      color: whitesmoke;
+    }
   }
 }

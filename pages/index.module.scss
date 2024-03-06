@@ -4,7 +4,6 @@
   height: 100dvh;
   width: 100vw;
   min-width: 350px;
-  background-color: white;
   min-height: 500px;
 
   &.start {
@@ -320,6 +319,43 @@
           &:hover {
             transform: translateX(15px) translateY(-15px);
             box-shadow: -25px 25px 30px #666666;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (hover: hover) and (prefers-color-scheme: dark) {
+  .container {
+    .list-wrapper {
+      .list {
+        li {
+          &:hover {
+            transform: translateX(15px) translateY(-15px);
+            box-shadow: -25px 25px 30px #000000;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    .list-wrapper {
+      .list {
+        li {
+          background-color: #3b3b3b;
+          box-shadow: -5px 5px 10px #000000;
+
+          a {
+            .project-list__item__icon-wrapper {
+            }
+
+            .project-list__item__title {
+              color: whitesmoke;
+            }
           }
         }
       }

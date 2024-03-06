@@ -1,6 +1,5 @@
 .container {
   z-index: 1;
-  background-color: white;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -524,6 +523,120 @@
               & > p {
                 margin-left: 0;
               }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    .content {
+      .content__left {
+      }
+
+      .content__right {
+      }
+
+      .children-wrapper {
+      }
+
+      .screenshots {
+        box-shadow: 5px 5px 5px rgb(0, 0, 0);
+        background-color: #3b3b3b;
+      }
+
+      .swiper__navigation-wrapper {
+        .swiper__navigation {
+          box-shadow: 0px 0px 5px white;
+          filter: invert(1);
+          background-color: black;
+        }
+      }
+
+      .swiper__container {
+        .swiper__item {
+        }
+      }
+    }
+
+    .card {
+      box-shadow: 5px 5px 5px black;
+      background-color: #3b3b3b;
+
+      .card__title {
+      }
+
+      .card__content {
+      }
+
+      &.summary {
+        .card__title {
+        }
+
+        .summary-wrapper {
+        }
+
+        .summary__sub-title {
+        }
+
+        .summary__text {
+          color: rgb(230, 230, 230);
+        }
+      }
+
+      &.description {
+        .card__content {
+        }
+      }
+
+      &.skills {
+        .card__title {
+        }
+        .card__content {
+        }
+      }
+
+      &.update {
+        hgroup {
+          .card__title {
+          }
+          .update__date-diff {
+            color: gray;
+          }
+        }
+        .card__content {
+          a {
+            border-bottom: 1px solid lightgray;
+            &:hover {
+              background-color: lightgray;
+            }
+
+            .update__message {
+              color: #221718;
+            }
+
+            .update__date {
+              color: gray;
+            }
+          }
+        }
+      }
+
+      &.links {
+        .card__content {
+          .link__list {
+          }
+
+          .test-account {
+            .links__sub-title {
+            }
+            .test-account__list {
+            }
+            & > p {
+              color: gray;
             }
           }
         }

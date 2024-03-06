@@ -71,3 +71,25 @@
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #3b3b3b;
+
+    .text {
+      &.name {
+        color: rgb(118, 118, 118);
+      }
+
+      &.date {
+        color: rgb(118, 118, 118);
+      }
+    }
+
+    .form {
+      .input--check-pw {
+        border: 1px solid rgb(121, 121, 121);
+      }
+    }
+  }
+}

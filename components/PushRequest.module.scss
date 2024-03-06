@@ -37,3 +37,12 @@
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .request-permission {
+    background-color: rgba(0, 0, 0, 0.3);
+    .request-permission__modal {
+      background-color: #3b3b3b;
+    }
+  }
+}
