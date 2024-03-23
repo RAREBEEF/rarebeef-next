@@ -20,6 +20,17 @@ const App = ({ Component, pageProps }: AppProps) => {
     <Provider store={store}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="dark light" />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="white"
+        />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="#181818"
+        />
       </Head>
       <Layout>
         <Component {...pageProps} />
