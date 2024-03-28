@@ -396,9 +396,12 @@
         position: static;
       }
       .screenshots {
+        min-width: 300px;
+        width: 90vw;
         box-shadow: none;
         background: none;
         max-height: auto;
+
         .swiper__container {
           max-height: auto;
           .swiper__item {
@@ -466,13 +469,13 @@
           text-align: center;
         }
         .card__content {
-          text-align: center;
-          margin: 0;
+          // text-align: center;
+          padding-left: 10px;
         }
 
         &.summary {
           .summary__sub-title {
-            text-align: center;
+            // text-align: center;
             margin: {
               left: 0;
             }

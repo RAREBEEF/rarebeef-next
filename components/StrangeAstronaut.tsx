@@ -9,38 +9,25 @@ import {
 } from "react";
 import styles from "./HuggyWuggy.module.scss";
 import _ from "lodash";
-import generateId from "../tools/generateId";
-import dotSort from "../tools/dotSort";
 
 export interface ENV {
-  AREA_DIVIDE: number;
-  AREA_GAP: number;
   BODY_COLOR: string;
   FEET_COLOR: string;
   LINE_COLOR: string;
-  DOT_COLOR: string;
   BODY_WIDTH: number;
   BODY_HEIGHT: number;
   LIMBS_WIDTH: number;
 }
 
-export type Dots = {
-  [key in string]: Dot;
-};
-
-interface Dot {
+interface Foot {
   x: number;
   y: number;
-  trackingMouse: boolean;
+  targetX: number | null;
+  targetY: number | null;
+  trackingMouse?: boolean;
 }
 
-interface DotDistance {
-  id: string;
-  distance: number;
-}
-
-export type Feet = [Dot, Dot, Dot, Dot] | null;
-export type NearDots = [string, string, string, string] | null;
+export type Feet = [Foot, Foot, Foot, Foot] | null;
 
 interface Area {
   startX: number;
@@ -244,31 +231,26 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
   );
   const [offscreenCtx, setOffscreenCtx] =
     useState<CanvasRenderingContext2D | null>(null);
-  const [dots, setDots] = useState<Dots>({});
-  // const [nearDots, setNearDots] = useState<NearDots>(null);
-  // const [areas, setAreas] = useState<Array<Area>>([]);
-  // const [quadrants, setQuadrants] = useState<Array<Array<DotDistance>>>([]);
-  const [feet, setFeet] = useState<[Dot, Dot, Dot, Dot] | null>(null);
-  const [bodyPos, setBodyPos] = useState<[number, number] | null>(null);
+
+  const [feet, setFeet] = useState<[Foot, Foot, Foot, Foot] | null>(null);
+  const [currentMoving, setCurrentMoving] = useState<0 | 1 | 2 | 3>(0);
+  const [mode, setMode] = useState<"moving" | "pointing">("moving");
+  const [headToRight, setHeadToRight] = useState<boolean>(true);
   const [mousePos, setMousePos] = useState<[number, number] | null>(null);
+  const [bodyPos, setBodyPos] = useState<[number, number] | null>(null);
   const [cvsSize, setCvsSize] = useState<[number, number]>([10, 10]);
   const isReady = useMemo(
     () => !!cvs && !!ctx && !!offscreenCvs && !!offscreenCtx,
     [cvs, ctx, offscreenCvs, offscreenCtx]
   );
 
-  const [headToRight, setHeadToRight] = useState<boolean>(true);
   const ENV = useMemo(() => {
-    const areaDivide = 20;
-    const BODY_WIDTH = Math.max(...cvsSize) / areaDivide / 3.8;
+    const BODY_WIDTH = Math.max(...cvsSize) * 0.01;
 
     return {
-      AREA_DIVIDE: areaDivide,
-      AREA_GAP: 10,
       BODY_COLOR: "#0d52af",
       FEET_COLOR: "#ffec00",
       LINE_COLOR: "lightgray",
-      DOT_COLOR: "rgba(0, 0, 0, 0.2)",
       BODY_WIDTH: BODY_WIDTH,
       BODY_HEIGHT: BODY_WIDTH * 2.3,
       LIMBS_WIDTH: BODY_WIDTH * 0.8,
@@ -287,71 +269,6 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
     setOffscreenCvs(offscreenCanvas);
     setOffscreenCtx(offscreenContext);
   }, [cvsRef]);
-
-  // 최초 및 리사이즈 시 영역 구분 및 점 생성
-  const createDots = useCallback(
-    (cvsWidth: number, cvsHeight: number) => {
-      if (!isReady) return;
-      const { AREA_GAP, AREA_DIVIDE } = ENV;
-      const dots: Dots = {};
-
-      cvs!.width = cvsWidth;
-      cvs!.height = cvsHeight;
-      offscreenCvs!.width = cvsWidth;
-      offscreenCvs!.height = cvsHeight;
-
-      // 영역 구분
-      const areas: Array<Area> = [];
-      const areaWidth = (cvsWidth - AREA_GAP * AREA_DIVIDE) / AREA_DIVIDE;
-      const areaHeight = (cvsHeight - AREA_GAP * AREA_DIVIDE) / AREA_DIVIDE;
-
-      for (let i = 1; i <= AREA_DIVIDE + 2; i++) {
-        const startY =
-          AREA_GAP / 2 +
-          (areaHeight + AREA_GAP) * (i - 1) -
-          (areaHeight + AREA_GAP);
-        const endY = startY + areaHeight;
-
-        for (let j = 1; j <= AREA_DIVIDE + 2; j++) {
-          const startX =
-            AREA_GAP / 2 +
-            (areaWidth + AREA_GAP) * (j - 1) -
-            (areaWidth + AREA_GAP);
-          const endX = startX + areaWidth;
-
-          areas.push({
-            startX,
-            startY,
-            endX,
-            endY,
-            width: areaWidth,
-            height: areaHeight,
-          });
-        }
-      }
-
-      // setAreas(areas);
-
-      // 각 영역당 하나씩 랜덤의 위치에 점 생성
-      for (const area of areas) {
-        const { startX, endX, startY, endY } = area;
-        const x = Math.floor(Math.random() * (endX - startX) + startX);
-        const y = Math.floor(Math.random() * (endY - startY) + startY);
-
-        const dot = {
-          x,
-          y,
-          trackingMouse: false,
-        };
-
-        dots[generateId()] = dot;
-      }
-
-      setDots(dots);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isReady, cvs, offscreenCvs] // ENV는 dependency로 등록하지 말 것
-  );
 
   // 마우스 무브 핸들러
   const onMouseMove = (e: MouseEvent) => {
@@ -372,10 +289,16 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
   };
 
   const onResize = useCallback(() => {
+    if (!cvs || !offscreenCvs) return;
     const { innerWidth, innerHeight } = window;
-    setCvsSize([innerWidth * 2, innerHeight * 2]);
-    createDots(innerWidth * 2, innerHeight * 2);
-  }, [createDots]);
+    const width = innerWidth * 2,
+      height = innerHeight * 2;
+    cvs!.width = width;
+    cvs!.height = height;
+    offscreenCvs!.width = width;
+    offscreenCvs!.height = height;
+    setCvsSize([width, height]);
+  }, [cvs, offscreenCvs]);
 
   // 핸들러 등록
   useEffect(() => {
@@ -391,261 +314,249 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
     };
   }, [onResize]);
 
+  /**
+   * 팔다리의 랜덤위치를 반환하는 함수*/
+  const getRandomFeetPos = useCallback(
+    (
+      currentMoving: 0 | 1 | 2 | 3,
+      directionX: number,
+      directionY: number
+    ): { x: number; y: number } => {
+      const { BODY_HEIGHT } = ENV;
+      const [bodyX, bodyY] = bodyPos ?? (mousePos || [0, 0]);
+      const range = BODY_HEIGHT * 2;
+
+      let xMin: number = 0;
+      let xMax: number = 0;
+      let yMax: number = 0;
+      let yMin: number = 0;
+
+      // 오른손
+      if (currentMoving === 0) {
+        xMin = bodyX + directionX * BODY_HEIGHT;
+        xMax = bodyX + range + directionX * BODY_HEIGHT;
+        yMin = bodyY - range + directionY * BODY_HEIGHT;
+        yMax = bodyY + directionY * BODY_HEIGHT;
+        // 왼손
+      } else if (currentMoving === 1) {
+        xMin = bodyX - range + directionX * BODY_HEIGHT;
+        xMax = bodyX + directionX * BODY_HEIGHT;
+        yMin = bodyY - range + directionY * BODY_HEIGHT;
+        yMax = bodyY + directionY * BODY_HEIGHT;
+        //왼다리
+      } else if (currentMoving === 2) {
+        xMin = bodyX - range + directionX * BODY_HEIGHT;
+        xMax = bodyX + directionX * BODY_HEIGHT;
+        yMin = BODY_HEIGHT / 2 + bodyY + directionY * BODY_HEIGHT;
+        yMax = BODY_HEIGHT / 2 + bodyY + range + directionY * BODY_HEIGHT;
+        //오른다리
+      } else if (currentMoving === 3) {
+        xMin = bodyX + directionX * BODY_HEIGHT;
+        xMax = bodyX + range + directionX * BODY_HEIGHT;
+        yMin = BODY_HEIGHT / 2 + bodyY + directionY * BODY_HEIGHT;
+        yMax = BODY_HEIGHT / 2 + bodyY + range + directionY * BODY_HEIGHT;
+      }
+
+      const x = Math.random() * (xMax - xMin) + xMin;
+      const y = Math.random() * (yMax - yMin) + yMin;
+
+      return { x, y };
+    },
+    [ENV, bodyPos, mousePos]
+  );
+
   // 팔다리 위치 계산
   const updateFeet = useCallback(
     ({
       mousePos,
       bodyPos,
-      dots,
-      // nearDotSetter,
-      feetSetter,
-      sortFx,
+      mode,
+      currentMoving,
       env,
-      bodySetter,
     }: {
       mousePos: [number, number] | null;
       bodyPos: [number, number] | null;
-      dots: Dots;
-      // nearDotSetter: Dispatch<SetStateAction<NearDots>>;
-      feetSetter: Dispatch<SetStateAction<Feet>>;
-      bodySetter: Dispatch<SetStateAction<[number, number] | null>>;
+      mode: "moving" | "pointing";
+      currentMoving: 0 | 1 | 2 | 3;
       env: ENV;
-      sortFx: (
-        dots: Array<{
-          id: string;
-          distance: number;
-        }>
-      ) => Array<{
-        id: string;
-        distance: number;
-      }>;
     }) => {
       if (!mousePos) return;
 
       const { BODY_HEIGHT, LIMBS_WIDTH } = env;
       const [mouseX, mouseY] = mousePos;
-      const mouseBodyX = mouseX;
-      const mouseBodyY = mouseY + BODY_HEIGHT;
       const [bodyX, bodyY] = bodyPos ?? mousePos;
 
-      feetSetter((prev) => {
-        let newFeet: Feet = prev;
+      // 마우스와 몸통 사이 거리
+      const mouseBodyDeltaX = mouseX - bodyX;
+      const mouseBodyDeltaY = mouseY - bodyY;
+      const mouseBodyDistance = Math.sqrt(
+        mouseBodyDeltaX ** 2 + mouseBodyDeltaY ** 2
+      );
+      // 몸통 기준 마우스 방향
+      const directionX = Math.sign(mouseBodyDeltaX); // 몸통 기준 마우스가 우측이면 +, 좌측이면 -
+      const directionY = Math.sign(mouseBodyDeltaY); // 몸통 기준 마우스가 위면 -, 아래면 +
 
-        // 마우스와 팔다리 위치를 기반으로 몸통 위치 계산
-        bodySetter(() => {
+      setFeet((prev) => {
+        let newFeet = prev ?? [
+          {
+            ...getRandomFeetPos(0, 1, 1),
+            targetX: null,
+            targetY: null,
+            trackingMouse: false,
+          },
+          {
+            ...getRandomFeetPos(1, 1, 1),
+            targetX: null,
+            targetY: null,
+            trackingMouse: false,
+          },
+          { ...getRandomFeetPos(2, 1, 1), targetX: null, targetY: null },
+          { ...getRandomFeetPos(3, 1, 1), targetX: null, targetY: null },
+        ];
+
+        setBodyPos(() => {
           let newBodyX = bodyX;
           let newBodyY = bodyY;
 
-          // 마우스와 몸통 사이의 거리
-          let deltaX = mouseBodyX - bodyX;
-          let deltaY = mouseBodyY - bodyY;
-          // 몸통이 마우스의 정위치로 너무 따라다니지 않고 거리를 유지하며 움직일 수 있도록 거리에서 일정 값을 빼준다.
-          let distance = Math.sqrt(deltaX ** 2 + deltaY ** 2) - BODY_HEIGHT * 2;
+          // 몸통 좌표 계산
+          const targetBodyX = newFeet.reduce((acc, cur) => acc + cur.x, 0) / 4;
+          const targetBodyY = newFeet.reduce((acc, cur) => acc + cur.y, 0) / 4;
 
-          const isNearPointer = distance <= BODY_HEIGHT * 2 && !!newFeet;
+          const bodyDeltaX = targetBodyX - bodyX;
+          const bodyDeltaY = targetBodyY - bodyY;
+          const distance = Math.sqrt(bodyDeltaX ** 2 + bodyDeltaY ** 2);
 
-          if (isNearPointer) {
-            const centerFeetX =
-              (newFeet!.reduce(
-                (acc, cur, i) => (cur.trackingMouse ? acc : acc + cur.x),
-                0
-              ) +
-                mouseX) /
-                4 || 0;
-            const centerFeetY =
-              (newFeet!.reduce(
-                (acc, cur, i) => (cur.trackingMouse ? acc : acc + cur.y),
-                0
-              ) +
-                mouseY) /
-                4 || 0;
-            deltaX = centerFeetX - bodyX;
-            deltaY = centerFeetY - bodyY;
-            // 몸통이 마우스 정위치로 움직이고 싶다면 아래 값으로 사용
-            distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+          const dampingFactor = 0.8;
+          const curSpeed = distance / 4;
+          const SPEED = curSpeed * dampingFactor;
+
+          const angle = Math.atan2(bodyDeltaY, bodyDeltaX);
+          const velocityX = SPEED * Math.cos(angle);
+          const velocityY = SPEED * Math.sin(angle);
+
+          // 마우스가 몸통 근처에서 벗어났으면 이동모드로 변경
+          if (mouseBodyDistance >= BODY_HEIGHT * 3.5) {
+            newFeet[0].trackingMouse = false;
+            newFeet[1].trackingMouse = false;
+            setMode("moving");
           }
 
-          // 속도 계산
-          const dampingFactor = 0.5; // 감쇠 계수
-          const curSpeed = distance / (isNearPointer ? 2.5 : 5); // 남은 거리에 기반하여 속도 계산
-          const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
-
-          // 현재 속도가 0보다 클 경우
-          // 속력을 계산해 위치를 업데이트한다.
-          if (SPEED > 0) {
-            // 현재 몸통 위치에서 목표 위치를 바라보는 라디안 각도
-            const angle = Math.atan2(deltaY, deltaX);
-            // 속도와 각도를 통해 각 방향의 속력 구하기
-            const velocityX = SPEED * Math.cos(angle);
-            const velocityY = SPEED * Math.sin(angle);
-            // 새로운 x,y 좌표 계산
-            newBodyX += velocityX;
-            newBodyY += velocityY;
-            // 현재 속도가 0보다 작거나 같을 경우
-            // 움직이지 않는다.
-          } else {
-            return [bodyX, bodyY];
-          }
-
-          return [newBodyX, newBodyY];
+          return [newBodyX + velocityX, newBodyY + velocityY];
         });
 
-        const quadrant1: Array<DotDistance> = [],
-          quadrant2: Array<DotDistance> = [],
-          quadrant3: Array<DotDistance> = [],
-          quadrant4: Array<DotDistance> = [];
+        // 이동모드(마우스를 향해서 움직이는 중)
+        if (mode === "moving") {
+          // 커서 방향에 따라 머리 방향 변경
+          // 이동 시에는 수직으로 움직일 때 움직임을 완화하기 위한 데드존 설정
+          if (Math.abs(bodyX - mouseX) >= BODY_HEIGHT) {
+            setHeadToRight(directionX > 0);
+          }
+          // 계산할 팔다리의 데이터
+          const {
+            x: feetX,
+            y: feetY,
+            targetX,
+            targetY,
+          } = newFeet[currentMoving];
 
-        // 각 점과 마우스 사이 거리 계산 후 사분면으로 나눠서 저장
-        for (const [id, dot] of Object.entries(dots)) {
-          const { x: dotX, y: dotY } = dot;
-          const deltaX = bodyX - dotX;
-          const deltaY = bodyY - dotY;
-          const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
-          const dotDistance = { id, distance };
+          // 아직 타겟이 없으면 새로운 타겟 좌표 계산
+          if (!targetX || !targetY) {
+            // 이동범위 계산
 
-          if (dotX <= bodyX) {
-            if (dotY <= bodyY) {
-              quadrant2.push(dotDistance);
-            } else {
-              quadrant3.push(dotDistance);
-            }
+            const { x: newTargetX, y: newTargetY } = getRandomFeetPos(
+              currentMoving,
+              directionX,
+              directionY
+            );
+
+            newFeet[currentMoving] = {
+              ...newFeet[currentMoving],
+              targetX: newTargetX,
+              targetY: newTargetY,
+            };
           } else {
-            if (dotY <= bodyY) {
-              quadrant1.push(dotDistance);
-            } else {
-              quadrant4.push(dotDistance);
-            }
-          }
-        }
-
-        // 각 사분면의 점들을 마우스 거리 가까운 순으로 정렬
-        const sortedQuadrant1 = sortFx(quadrant1),
-          sortedQuadrant2 = sortFx(quadrant2),
-          sortedQuadrant3 = sortFx(quadrant3),
-          sortedQuadrant4 = sortFx(quadrant4);
-
-        const nearDot1 = sortedQuadrant1[0]?.id,
-          nearDot2 = sortedQuadrant2[0]?.id,
-          nearDot3 =
-            dots[sortedQuadrant3[0]?.id]?.y > bodyY + BODY_HEIGHT * 0.3
-              ? sortedQuadrant3[0]?.id
-              : sortedQuadrant3[1]?.id,
-          nearDot4 =
-            dots[sortedQuadrant4[0]?.id]?.y > bodyY + BODY_HEIGHT * 0.3
-              ? sortedQuadrant4[0]?.id
-              : sortedQuadrant4[1]?.id,
-          nearDots = [nearDot1, nearDot2, nearDot3, nearDot4];
-
-        // nearDotSetter(nearDots);
-
-        if (
-          !prev &&
-          (!dots[nearDot1] ||
-            !dots[nearDot2] ||
-            !dots[nearDot3] ||
-            !dots[nearDot4])
-        )
-          return null;
-
-        newFeet ??= [
-          dots[nearDot1],
-          dots[nearDot2],
-          dots[nearDot3],
-          dots[nearDot4],
-        ];
-
-        for (let i = 0; i < newFeet.length; i++) {
-          const foot = newFeet[i];
-          const { x: footX, y: footY } = foot;
-          const nearDot = nearDots[i];
-          let targetX, targetY: number | null;
-
-          // 타겟 설정.
-          // 활성화된 손은 마우스 위치를 따라가고 그 외는 인접한 점으로 이동
-          const isTrackingMouse =
-            (i === 0 && bodyX <= mouseBodyX) || (i === 1 && bodyX > mouseBodyX);
-
-          // 마우스 방향따라 머리 방향 지정
-          if (i === 0 && isTrackingMouse) {
-            setHeadToRight(true);
-          } else if (i === 1 && isTrackingMouse) {
-            setHeadToRight(false);
-          }
-
-          if (isTrackingMouse) {
-            targetX =
-              mouseX +
-              LIMBS_WIDTH *
-                ((bodyX -
-                  mouseX -
-                  Math.sign(bodyX - mouseX) * LIMBS_WIDTH * 2) /
-                  (LIMBS_WIDTH * 4));
-            targetY = mouseY + Math.sign(bodyY - mouseY) * LIMBS_WIDTH * 1.5;
-
-            const deltaX = targetX - footX; // 현재 x와 타겟 x의 거리
-            const deltaY = targetY - footY; // 현재 y와 타겟 y의 거리
-            // 현재 점과 타겟 점 사이의 거리(유클리드 거리 공식)
+            // 타겟이 있으면 속력 계산 및 이동
+            const deltaX = targetX - feetX;
+            const deltaY = targetY - feetY;
             const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
-            if (distance >= BODY_HEIGHT * 3) {
-              const directionX = mouseX - bodyX;
-              const directionY = mouseY - bodyY;
-              const length = Math.sqrt(
-                directionX * directionX + directionY * directionY
-              );
-              const unitDirectionX = directionX / length;
-              const unitDirectionY = directionY / length;
-              targetX = bodyX + unitDirectionX * BODY_HEIGHT * 3;
-              targetY = bodyY + unitDirectionY * BODY_HEIGHT * 3;
+            const dampingFactor = 0.6;
+            const curSpeed = distance / 3;
+            const SPEED =
+              curSpeed < BODY_HEIGHT / 5 ? 0 : curSpeed * dampingFactor;
+
+            if (SPEED > 0) {
+              const angle = Math.atan2(deltaY, deltaX);
+              const velocityX = SPEED * Math.cos(angle);
+              const velocityY = SPEED * Math.sin(angle);
+              newFeet[currentMoving].x = feetX + velocityX;
+              newFeet[currentMoving].y = feetY + velocityY;
+            } else {
+              newFeet[currentMoving].x = targetX;
+              newFeet[currentMoving].y = targetY;
             }
-          } else {
-            targetX = dots[nearDot]?.x;
-            targetY = dots[nearDot]?.y;
           }
 
-          if (!targetX || !targetY) continue;
+          // 팔다리가 목표 위치에 도달하면 다음 팔다리로 바톤터치
+          if (feetX === targetX && feetY === targetY) {
+            switch (currentMoving) {
+              case 0:
+                setCurrentMoving(2);
+                break;
+              case 1:
+                setCurrentMoving(3);
+                break;
+              case 2:
+                setCurrentMoving(1);
+                break;
+              case 3:
+                setCurrentMoving(0);
+                break;
+            }
+            newFeet[currentMoving].targetX = null;
+            newFeet[currentMoving].targetY = null;
 
-          let newFootX, newFootY: number;
+            // 현재 팔다리가 목표 위치에 도달했고 몸통도 마우스에 인접했다면 포인팅모드로 변경
+            if (mouseBodyDistance < BODY_HEIGHT * 2.5) setMode("pointing");
+          }
+        } else {
+          // 포인팅모드(위치는 고정하고 커서를 가리기는 모드), 커서가 우측이면 오른손, 좌측이면 왼손으로
+          const pointingHand = 0 <= mouseX - bodyX ? 0 : 1;
+          newFeet[pointingHand].trackingMouse = true;
+          newFeet[1 - pointingHand].trackingMouse = false;
 
-          const deltaX = targetX - footX; // 현재 x와 타겟 x의 거리
-          const deltaY = targetY - footY; // 현재 y와 타겟 y의 거리
-          // 현재 점과 타겟 점 사이의 거리(유클리드 거리 공식)
+          // 커서 방향에 따라 머리 방향 설정, 이동모드와 다르게 포인팅모드에는 데드존이 없다.
+          setHeadToRight(directionX > 0);
+
+          // 포인팅 중인 손의 데이터
+          const { x, y } = newFeet[pointingHand];
+
+          // 포인팅 중인 손의 위치 업데이트
+          const targetX =
+            mouseX +
+            LIMBS_WIDTH *
+              ((bodyX - mouseX + Math.sign(mouseX - bodyX) * LIMBS_WIDTH * 2) /
+                (LIMBS_WIDTH * 4));
+          const targetY =
+            mouseY - Math.sign(mouseY - bodyY) * LIMBS_WIDTH * 1.5;
+          const deltaX = targetX - x;
+          const deltaY = targetY - y;
           const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
-          const dampingFactor = 0.8; // 감쇠 계수
-          const curSpeed = distance / 2.5; // 남은 거리에 기반하여 속도 계산
-          const SPEED = curSpeed < 0.01 ? 0 : curSpeed * dampingFactor; // 감쇠 계수를 적용한 속도
+          const dampingFactor = 0.8;
+          const curSpeed = distance / 5;
+          const SPEED = curSpeed * dampingFactor;
 
-          // 현재 속도가 0보다 클 경우
-          // 속력을 계산해 위치를 업데이트한다.
-          if (SPEED > 0) {
-            // 현재 점(foot[x, y])에서 타겟 점(nearDot[x, y])을 바라보는 라디안 각도
-            const angle = Math.atan2(deltaY, deltaX);
-            // 속도와 각도를 통해 각 방향의 속력 구하기
-            const velocityX = SPEED * Math.cos(angle);
-            const velocityY = SPEED * Math.sin(angle);
-            // 새로운 x,y 좌표 계산
-            newFootX = footX + velocityX;
-            newFootY = footY + velocityY;
-            // 현재 속도가 0보다 작거나 같을 경우
-            // 타겟 위치로 바로 이동한다.
-          } else {
-            newFootX = targetX;
-            newFootY = targetY;
-          }
-
-          newFeet[i] = {
-            ...newFeet[i],
-            x: newFootX,
-            y: newFootY,
-            trackingMouse: isTrackingMouse,
-          };
+          const angle = Math.atan2(deltaY, deltaX);
+          const velocityX = SPEED * Math.cos(angle);
+          const velocityY = SPEED * Math.sin(angle);
+          newFeet[pointingHand].x = x + velocityX;
+          newFeet[pointingHand].y = y + velocityY;
         }
-
         return newFeet;
       });
     },
-    []
+    [getRandomFeetPos]
   );
 
   // 그리기
@@ -655,7 +566,6 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
       bodyPos,
       cvsSize,
       feet,
-      dots,
       env,
       offscreenCtx,
       offscreenCvs,
@@ -665,7 +575,6 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
       bodyPos: [number, number] | null;
       cvsSize: [number, number];
       feet: Feet;
-      dots: Dots;
       env: ENV;
       ctx: CanvasRenderingContext2D;
       offscreenCtx: CanvasRenderingContext2D;
@@ -1141,11 +1050,8 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
       updateFeet({
         mousePos,
         bodyPos,
-        dots,
-        // nearDotSetter: setNearDots,
-        feetSetter: setFeet,
-        bodySetter: setBodyPos,
-        sortFx: dotSort,
+        mode,
+        currentMoving,
         env: ENV,
       });
 
@@ -1154,7 +1060,6 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
         bodyPos,
         cvsSize,
         feet,
-        dots,
         env: ENV,
         ctx: ctx as CanvasRenderingContext2D,
         offscreenCtx: offscreenCtx as CanvasRenderingContext2D,
@@ -1164,14 +1069,15 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
       updateAndDraw();
     });
   }, [
-    updateFeet,
     mousePos,
+    updateFeet,
     bodyPos,
-    dots,
+    mode,
+    currentMoving,
+    ENV,
     draw,
     cvsSize,
     feet,
-    ENV,
     ctx,
     offscreenCtx,
     offscreenCvs,
