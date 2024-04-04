@@ -322,36 +322,36 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
       directionX: number,
       directionY: number
     ): { x: number; y: number } => {
-      const { BODY_HEIGHT } = ENV;
+      const { BODY_HEIGHT, BODY_WIDTH } = ENV;
       const [bodyX, bodyY] = bodyPos ?? (mousePos || [0, 0]);
       const range = BODY_HEIGHT * 2;
 
-      let xMin: number = 0;
-      let xMax: number = 0;
-      let yMax: number = 0;
-      let yMin: number = 0;
+      let xMin: number = bodyX;
+      let xMax: number = bodyX;
+      let yMin: number = bodyY;
+      let yMax: number = bodyY;
 
       // 오른손
       if (currentMoving === 0) {
-        xMin = bodyX + directionX * BODY_HEIGHT;
+        xMin = Math.max(bodyX + directionX * BODY_HEIGHT, bodyX - BODY_WIDTH);
         xMax = bodyX + range + directionX * BODY_HEIGHT;
         yMin = bodyY - range + directionY * BODY_HEIGHT;
         yMax = bodyY + directionY * BODY_HEIGHT;
         // 왼손
       } else if (currentMoving === 1) {
         xMin = bodyX - range + directionX * BODY_HEIGHT;
-        xMax = bodyX + directionX * BODY_HEIGHT;
+        xMax = Math.min(bodyX + directionX * BODY_HEIGHT, bodyX + BODY_WIDTH);
         yMin = bodyY - range + directionY * BODY_HEIGHT;
         yMax = bodyY + directionY * BODY_HEIGHT;
         //왼다리
       } else if (currentMoving === 2) {
         xMin = bodyX - range + directionX * BODY_HEIGHT;
-        xMax = bodyX + directionX * BODY_HEIGHT;
+        xMax = Math.min(bodyX + directionX * BODY_HEIGHT, bodyX);
         yMin = BODY_HEIGHT / 2 + bodyY + directionY * BODY_HEIGHT;
         yMax = BODY_HEIGHT / 2 + bodyY + range + directionY * BODY_HEIGHT;
         //오른다리
       } else if (currentMoving === 3) {
-        xMin = bodyX + directionX * BODY_HEIGHT;
+        xMin = Math.max(bodyX + directionX * BODY_HEIGHT, bodyX);
         xMax = bodyX + range + directionX * BODY_HEIGHT;
         yMin = BODY_HEIGHT / 2 + bodyY + directionY * BODY_HEIGHT;
         yMax = BODY_HEIGHT / 2 + bodyY + range + directionY * BODY_HEIGHT;
@@ -399,19 +399,19 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
       setFeet((prev) => {
         let newFeet = prev ?? [
           {
-            ...getRandomFeetPos(0, 1, 1),
+            ...getRandomFeetPos(0, -1, 0),
             targetX: null,
             targetY: null,
             trackingMouse: false,
           },
           {
-            ...getRandomFeetPos(1, 1, 1),
+            ...getRandomFeetPos(1, -1, 0),
             targetX: null,
             targetY: null,
             trackingMouse: false,
           },
-          { ...getRandomFeetPos(2, 1, 1), targetX: null, targetY: null },
-          { ...getRandomFeetPos(3, 1, 1), targetX: null, targetY: null },
+          { ...getRandomFeetPos(2, -1, 0), targetX: null, targetY: null },
+          { ...getRandomFeetPos(3, -1, 0), targetX: null, targetY: null },
         ];
 
         setBodyPos(() => {
