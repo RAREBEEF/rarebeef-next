@@ -56,11 +56,11 @@ const Contact: React.FC<ContactPropType> = () => {
           </div>
           <div className={styles["btn-group"]}>
             <Button text="drrobot409@gmail.com" onClick={onCopyClick} />
-            <Button
+            {/* <Button
               href="mailto:drrobot409@gmail.com?body=-&nbsp;Send from rarebeef's portfolio."
               icon="/icons/paper-plane-thin.svg"
               classes={["Contact__send-mail"]}
-            />
+            /> */}
           </div>
         </section>
         <section className={styles.section}>

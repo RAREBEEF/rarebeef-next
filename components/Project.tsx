@@ -142,10 +142,7 @@ const Project: React.FC<SectionPropType> = ({
                         height="50px"
                         style={{ transform: "rotate(-90deg)" }}
                       >
-                        <path
-                          fill="#fefefe"
-                          d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 310.6c-12.5 12.5-32.75 12.5-45.25 0L256 221.3L166.6 310.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l112-112C239.6 147.1 247.8 144 256 144s16.38 3.125 22.62 9.375l112 112C403.1 277.9 403.1 298.1 390.6 310.6z"
-                        />
+                        <path d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 310.6c-12.5 12.5-32.75 12.5-45.25 0L256 221.3L166.6 310.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l112-112C239.6 147.1 247.8 144 256 144s16.38 3.125 22.62 9.375l112 112C403.1 277.9 403.1 298.1 390.6 310.6z" />
                       </svg>
                     </div>
                   </div>
@@ -163,10 +160,7 @@ const Project: React.FC<SectionPropType> = ({
                         height="50px"
                         style={{ transform: "rotate(-90deg)" }}
                       >
-                        <path
-                          fill="#fefefe"
-                          d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 310.6c-12.5 12.5-32.75 12.5-45.25 0L256 221.3L166.6 310.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l112-112C239.6 147.1 247.8 144 256 144s16.38 3.125 22.62 9.375l112 112C403.1 277.9 403.1 298.1 390.6 310.6z"
-                        />
+                        <path d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM390.6 310.6c-12.5 12.5-32.75 12.5-45.25 0L256 221.3L166.6 310.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l112-112C239.6 147.1 247.8 144 256 144s16.38 3.125 22.62 9.375l112 112C403.1 277.9 403.1 298.1 390.6 310.6z" />
                       </svg>
                     </div>
                   </div>
@@ -239,40 +233,6 @@ const Project: React.FC<SectionPropType> = ({
               {skillGeneroator()}
             </ul>
           </div>
-          {/* <div className={classNames(styles.update, styles.card)}>
-            <hgroup>
-              <h3 className={styles["card__title"]}>Latest update</h3>
-              <h4
-                className={classNames(
-                  styles["update__date-diff"],
-                  styles["card__title"]
-                )}
-              >
-                {calcDateDiff() + " 마지막 커밋"}
-              </h4>
-            </hgroup>
-            {data.latestCommit ? (
-              <ul className={classNames(styles["card__content"])}>
-                <a
-                  href={data.latestCommit.html_url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <h5 className={styles["update__message"]}>
-                    {data.latestCommit.commit.message}
-                  </h5>
-                  <span className={styles["update__date"]}>
-                    {dayjs(data.latestCommit.commit.committer.date).format(
-                      "YYYY.MM.DD HH:mm"
-                    )}
-                  </span>
-                </a>
-              </ul>
-            ) : (
-              <p>알 수 없음</p>
-            )}
-          </div> */}
-
           <div className={classNames(styles.links, styles.card)}>
             <h3 className={styles["card__title"]}>Links</h3>
             <div className={styles["card__content"]}>
