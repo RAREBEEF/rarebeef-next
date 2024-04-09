@@ -103,7 +103,7 @@ const ProjectList = () => {
     };
   }, [calcScroll, start]);
 
-  const onStartClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const onStartClick = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     setStart((prev) => {
@@ -147,6 +147,7 @@ const ProjectList = () => {
     <article
       ref={containerRef}
       className={classNames(styles.container, start && styles.start)}
+      onClick={!start ? onStartClick : () => null}
     >
       <Seo
         description={`현재까지 진행한 프론트엔드 프로젝트를 정리해 둔 포트폴리오입니다. ${Object.keys(
@@ -159,7 +160,9 @@ const ProjectList = () => {
         <h1 className={styles["title_main"]}>
           <span className={styles.frontend}>FRONT-END</span> PORTFOLIO
         </h1>
-        <button onClick={onStartClick}>CLICK TO CONTINUE</button>
+        <button onClick={start ? onStartClick : () => null}>
+          CLICK TO CONTINUE
+        </button>
       </div>
       <div ref={stickyRef} className={styles["list-wrapper"]}>
         <ul

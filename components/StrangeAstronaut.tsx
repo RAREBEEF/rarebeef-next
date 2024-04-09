@@ -317,48 +317,64 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
   /**
    * 팔다리의 랜덤위치를 반환하는 함수*/
   const getRandomFeetPos = useCallback(
-    (
-      currentMoving: 0 | 1 | 2 | 3,
-      directionX: number,
-      directionY: number
-    ): { x: number; y: number } => {
-      const { BODY_HEIGHT, BODY_WIDTH } = ENV;
+    (currentMoving: 0 | 1 | 2 | 3, deltaX: number, deltaY: number) => {
+      const { BODY_HEIGHT } = ENV;
       const [bodyX, bodyY] = bodyPos ?? (mousePos || [0, 0]);
-      const range = BODY_HEIGHT * 2;
+      const directionX = Math.sign(deltaX); // 몸통 기준 마우스가 우측이면 +, 좌측이면 -
+      const directionY = Math.sign(deltaY); // 몸통 기준 마우스가 위면 -, 아래면 +
 
-      let xMin: number = bodyX;
-      let xMax: number = bodyX;
-      let yMin: number = bodyY;
-      let yMax: number = bodyY;
+      const totalDelta = Math.abs(deltaX) + Math.abs(deltaY);
+      const ratioX = Math.max(
+        Math.min(Math.abs(deltaX) / totalDelta, 0.8),
+        0.2
+      );
+      const ratioY = Math.max(
+        Math.min(Math.abs(deltaY) / totalDelta, 0.8),
+        0.2
+      );
+
+      const rangeX = BODY_HEIGHT * 3 * ratioX;
+      const rangeY = BODY_HEIGHT * 3 * ratioY;
+
+      const directionControlX = directionX * BODY_HEIGHT * 3 * ratioX;
+      const directionControlY = directionY * BODY_HEIGHT * 3 * ratioY;
+
+      let xMin = bodyX;
+      let xMax = bodyX;
+      let yMin = bodyY;
+      let yMax = bodyY;
 
       // 오른손
       if (currentMoving === 0) {
-        xMin = Math.max(bodyX + directionX * BODY_HEIGHT, bodyX - BODY_WIDTH);
-        xMax = bodyX + range + directionX * BODY_HEIGHT;
-        yMin = bodyY - range + directionY * BODY_HEIGHT;
-        yMax = bodyY + directionY * BODY_HEIGHT;
+        xMin = bodyX + directionControlX;
+        xMax = bodyX + rangeX + directionControlX;
+        yMin = bodyY - rangeY + directionControlY;
+        yMax = bodyY + directionControlY;
+
         // 왼손
       } else if (currentMoving === 1) {
-        xMin = bodyX - range + directionX * BODY_HEIGHT;
-        xMax = Math.min(bodyX + directionX * BODY_HEIGHT, bodyX + BODY_WIDTH);
-        yMin = bodyY - range + directionY * BODY_HEIGHT;
-        yMax = bodyY + directionY * BODY_HEIGHT;
+        xMin = bodyX - rangeX + directionControlX;
+        xMax = bodyX + directionControlX;
+        yMin = bodyY - rangeY + directionControlY;
+        yMax = bodyY + directionControlY;
         //왼다리
       } else if (currentMoving === 2) {
-        xMin = bodyX - range + directionX * BODY_HEIGHT;
-        xMax = Math.min(bodyX + directionX * BODY_HEIGHT, bodyX);
-        yMin = BODY_HEIGHT / 2 + bodyY + directionY * BODY_HEIGHT;
-        yMax = BODY_HEIGHT / 2 + bodyY + range + directionY * BODY_HEIGHT;
+        xMin = bodyX - rangeX + directionControlX;
+        xMax = bodyX + directionControlX;
+        yMin = BODY_HEIGHT / 2 + bodyY + directionControlY;
+        yMax = BODY_HEIGHT / 2 + bodyY + rangeY + directionControlY;
         //오른다리
       } else if (currentMoving === 3) {
-        xMin = Math.max(bodyX + directionX * BODY_HEIGHT, bodyX);
-        xMax = bodyX + range + directionX * BODY_HEIGHT;
-        yMin = BODY_HEIGHT / 2 + bodyY + directionY * BODY_HEIGHT;
-        yMax = BODY_HEIGHT / 2 + bodyY + range + directionY * BODY_HEIGHT;
+        xMin = bodyX + directionControlX;
+        xMax = bodyX + rangeX + directionControlX;
+        yMin = BODY_HEIGHT / 2 + bodyY + directionControlY;
+        yMax = BODY_HEIGHT / 2 + bodyY + rangeY + directionControlY;
       }
 
       const x = Math.random() * (xMax - xMin) + xMin;
       const y = Math.random() * (yMax - yMin) + yMin;
+
+      // feetRanges[currentMoving] = [xMin, xMax, yMin, yMax];
 
       return { x, y };
     },
@@ -465,8 +481,8 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
 
             const { x: newTargetX, y: newTargetY } = getRandomFeetPos(
               currentMoving,
-              directionX,
-              directionY
+              mouseBodyDeltaX,
+              mouseBodyDeltaY
             );
 
             newFeet[currentMoving] = {
@@ -481,9 +497,9 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
             const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
             const dampingFactor = 0.6;
-            const curSpeed = distance / 3;
+            const curSpeed = distance / 6;
             const SPEED =
-              curSpeed < BODY_HEIGHT / 5 ? 0 : curSpeed * dampingFactor;
+              curSpeed < BODY_HEIGHT / 10 ? 0 : curSpeed * dampingFactor;
 
             if (SPEED > 0) {
               const angle = Math.atan2(deltaY, deltaX);

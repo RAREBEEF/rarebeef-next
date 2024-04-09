@@ -38,7 +38,6 @@ const StrangeAstronautConsole = () => {
         {skins.map((skin, i) => (
           <li key={i} className={styles["skin-card"]}>
             <label>
-              {/* <div className={styles["skin-img-wrapper"]}> */}
               <Image
                 src={`/images/astronauts/${skin}_character_right${
                   skin === "glitch" ? "_1" : ""
@@ -47,7 +46,6 @@ const StrangeAstronautConsole = () => {
                 width="80"
                 height="80"
               />
-              {/* </div> */}
               <div className={styles["skin-name"]}>{skin.toUpperCase()}</div>
               <input
                 type="radio"

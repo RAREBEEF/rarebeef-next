@@ -98,6 +98,14 @@
   }
 }
 
+@media (max-width: 500px) {
+  .container {
+    width: 100vw;
+    border-radius: 0;
+    min-width: 350px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .container {
     background: #3b3b3b;
