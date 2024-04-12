@@ -318,7 +318,7 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
    * 팔다리의 랜덤위치를 반환하는 함수*/
   const getRandomFeetPos = useCallback(
     (currentMoving: 0 | 1 | 2 | 3, deltaX: number, deltaY: number) => {
-      const { BODY_HEIGHT } = ENV;
+      const { BODY_HEIGHT, BODY_WIDTH } = ENV;
       const [bodyX, bodyY] = bodyPos ?? (mousePos || [0, 0]);
       const directionX = Math.sign(deltaX); // 몸통 기준 마우스가 우측이면 +, 좌측이면 -
       const directionY = Math.sign(deltaY); // 몸통 기준 마우스가 위면 -, 아래면 +
@@ -333,8 +333,8 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
         0.2
       );
 
-      const rangeX = BODY_HEIGHT * 3 * ratioX;
-      const rangeY = BODY_HEIGHT * 3 * ratioY;
+      const rangeX = BODY_HEIGHT * 2 * ratioX;
+      const rangeY = BODY_HEIGHT * 2 * ratioY;
 
       const directionControlX = directionX * BODY_HEIGHT * 3 * ratioX;
       const directionControlY = directionY * BODY_HEIGHT * 3 * ratioY;
@@ -346,7 +346,7 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
 
       // 오른손
       if (currentMoving === 0) {
-        xMin = bodyX + directionControlX;
+        xMin = Math.max(bodyX + directionControlX, bodyX + BODY_WIDTH);
         xMax = bodyX + rangeX + directionControlX;
         yMin = bodyY - rangeY + directionControlY;
         yMax = bodyY + directionControlY;
@@ -354,21 +354,21 @@ const StrangeAstronaut = ({ currentSkin }: { currentSkin: string }) => {
         // 왼손
       } else if (currentMoving === 1) {
         xMin = bodyX - rangeX + directionControlX;
-        xMax = bodyX + directionControlX;
+        xMax = Math.min(bodyX + directionControlX, bodyX - BODY_WIDTH);
         yMin = bodyY - rangeY + directionControlY;
         yMax = bodyY + directionControlY;
         //왼다리
       } else if (currentMoving === 2) {
         xMin = bodyX - rangeX + directionControlX;
-        xMax = bodyX + directionControlX;
-        yMin = BODY_HEIGHT / 2 + bodyY + directionControlY;
-        yMax = BODY_HEIGHT / 2 + bodyY + rangeY + directionControlY;
+        xMax = Math.min(bodyX + directionControlX, bodyX - BODY_WIDTH);
+        yMin = BODY_HEIGHT + bodyY + directionControlY;
+        yMax = bodyY + rangeY + directionControlY;
         //오른다리
       } else if (currentMoving === 3) {
-        xMin = bodyX + directionControlX;
+        xMin = Math.max(bodyX + directionControlX, bodyX + BODY_WIDTH);
         xMax = bodyX + rangeX + directionControlX;
-        yMin = BODY_HEIGHT / 2 + bodyY + directionControlY;
-        yMax = BODY_HEIGHT / 2 + bodyY + rangeY + directionControlY;
+        yMin = BODY_HEIGHT + bodyY + directionControlY;
+        yMax = bodyY + rangeY + directionControlY;
       }
 
       const x = Math.random() * (xMax - xMin) + xMin;
