@@ -99,6 +99,31 @@
       gap: 25px;
 
       li {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        &:nth-child(odd) {
+          .project-list__item {
+            align-self: flex-end;
+            transform: translateX(200%);
+          }
+        }
+
+        &.active {
+          .project-list__item {
+            transform: translateX(0);
+            // transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+          }
+          &:nth-child(odd) {
+            .project-list__item {
+              transform: translateX(0);
+            }
+          }
+        }
+      }
+
+      .project-list__item {
         width: 70%;
         max-width: 400px;
         min-width: 200px;
@@ -106,18 +131,8 @@
         border-radius: 15px;
         background-color: whitesmoke;
         box-shadow: -5px 5px 10px #666666;
-        align-self: start;
-        transition: all 0.3s ease-in-out;
-        transform: translateX(-100%);
-
-        &:nth-child(odd) {
-          align-self: flex-end;
-          transform: translateX(100%);
-        }
-
-        &.active {
-          transform: translateX(0);
-        }
+        transition: all 0.5s ease-in-out;
+        transform: translateX(-200%);
 
         a {
           height: 100%;
@@ -251,7 +266,7 @@
   .container {
     .list-wrapper {
       .list {
-        li {
+        .project-list__item {
           a {
             .project-list__item__title {
               font: {
@@ -297,7 +312,7 @@
   .container {
     .list-wrapper {
       .list {
-        li {
+        .project-list__item {
           a {
             .project-list__item__title {
               font: {
@@ -316,9 +331,14 @@
     .list-wrapper {
       .list {
         li {
-          &:hover {
-            transform: translateX(15px) translateY(-15px);
-            box-shadow: -25px 25px 30px #666666;
+          &.active {
+            .project-list__item {
+              &:hover {
+                transition-duration: 0.3s;
+                transform: translateX(15px) translateY(-15px);
+                box-shadow: -25px 25px 30px #666666;
+              }
+            }
           }
         }
       }
@@ -331,9 +351,14 @@
     .list-wrapper {
       .list {
         li {
-          &:hover {
-            transform: translateX(15px) translateY(-15px);
-            box-shadow: -25px 25px 30px #000000;
+          &.active {
+            .project-list__item {
+              &:hover {
+                transition-duration: 0.3s;
+                transform: translateX(15px) translateY(-15px);
+                box-shadow: -25px 25px 30px #000000;
+              }
+            }
           }
         }
       }
@@ -345,7 +370,7 @@
   .container {
     .list-wrapper {
       .list {
-        li {
+        .project-list__item {
           background-color: #3b3b3b;
           box-shadow: -5px 5px 10px #000000;
 

@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import Seo from "../components/Seo";
 import classNames from "classnames";
 import PROJECT_LIST from "../public/json/projectList.json";
+import _ from "lodash";
 
 const ProjectList = () => {
   const [start, setStart] = useState<boolean>(true);
@@ -17,6 +18,9 @@ const ProjectList = () => {
   const containerRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<Array<HTMLElement>>([]);
   const calcScroll = useCalcScroll();
+  const [activeList, setActiveList] = useState<Array<boolean>>(
+    new Array(Object.keys(PROJECT_LIST).length).fill(true)
+  );
 
   useEffect(() => {
     const item = sessionStorage.getItem("start");
@@ -33,21 +37,30 @@ const ProjectList = () => {
       !stickyRef.current ||
       !containerRef.current ||
       !listRef.current ||
-      !startObserve
+      !startObserve ||
+      !start
     )
       return;
 
     const scrollTrigger = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles["active"]);
-          } else {
-            entry.target.classList.remove(styles["active"]);
-          }
+        entries.forEach((entry, i) => {
+          const targetIndex = parseInt(entry.target.id);
+
+          setActiveList((prev) => {
+            const newList = _.cloneDeep(prev);
+
+            if (entry.isIntersecting) {
+              newList[targetIndex] = true;
+            } else if (!entry.isIntersecting) {
+              newList[targetIndex] = false;
+            }
+
+            return newList;
+          });
         });
       },
-      { threshold: 0 }
+      { threshold: 0.3 }
     );
 
     const cards = cardRefs.current;
@@ -57,7 +70,7 @@ const ProjectList = () => {
     return () => {
       cards.forEach((card) => scrollTrigger.unobserve(card));
     };
-  }, [startObserve]);
+  }, [start, startObserve]);
 
   useEffect(() => {
     if (!stickyRef.current || !containerRef.current || !listRef.current) return;
@@ -108,6 +121,7 @@ const ProjectList = () => {
 
     setStart((prev) => {
       sessionStorage.setItem("start", JSON.stringify(!prev));
+
       return !prev;
     });
   };
@@ -122,22 +136,25 @@ const ProjectList = () => {
           ref={(el) => {
             if (el) cardRefs.current[i] = el;
           }}
-          className={styles.active}
+          id={`${i}`}
+          className={activeList[i] ? styles.active : ""}
         >
-          <Link href={`/projects/${project[1].path}`}>
-            <span className={styles["project-list__item__icon-wrapper"]}>
-              <NextImage
-                priority
-                src={project[1].icon}
-                layout="fill"
-                objectFit="contain"
-                alt={project[1].path}
-              />
-            </span>
-            <span className={styles["project-list__item__title"]}>
-              {project[0]}
-            </span>
-          </Link>
+          <div className={styles["project-list__item"]}>
+            <Link href={`/projects/${project[1].path}`}>
+              <span className={styles["project-list__item__icon-wrapper"]}>
+                <NextImage
+                  priority
+                  src={project[1].icon}
+                  layout="fill"
+                  objectFit="contain"
+                  alt={project[1].path}
+                />
+              </span>
+              <span className={styles["project-list__item__title"]}>
+                {project[0]}
+              </span>
+            </Link>
+          </div>
         </li>
       );
     });
