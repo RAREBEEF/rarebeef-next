@@ -38,8 +38,7 @@ const About: React.FC<ProfilePropType> = () => {
         <section className={styles.section} id="name">
           <h4 className={styles.header}>Name</h4>
           <span className={styles.text}>
-            <span onClick={() => push("/admin")}>소고기는레어</span>{" "}
-            <span>(본명 : 송의영)</span>
+            <span>소고기는레어</span> <span>(본명 : 송의영)</span>
           </span>
         </section>
         <section className={styles.section} id="birth-date">

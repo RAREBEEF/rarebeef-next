@@ -469,7 +469,6 @@
         border-radius: 0;
       }
       .card {
-        width: 100vw;
         border-radius: 0;
         margin-left: 0;
         margin-right: 0;
@@ -545,113 +544,113 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .container {
-    .content {
-      .content__left {
-      }
+// @media (prefers-color-scheme: dark) {
+//   .container {
+//     .content {
+//       .content__left {
+//       }
 
-      .content__right {
-      }
+//       .content__right {
+//       }
 
-      .children-wrapper {
-      }
+//       .children-wrapper {
+//       }
 
-      .screenshots {
-        box-shadow: 5px 5px 5px rgb(0, 0, 0);
-        background-color: #3b3b3b;
-      }
+//       .screenshots {
+//         box-shadow: 5px 5px 5px rgb(0, 0, 0);
+//         background-color: #3b3b3b;
+//       }
 
-      .swiper__navigation-wrapper {
-        .swiper__navigation {
-        }
-      }
+//       .swiper__navigation-wrapper {
+//         .swiper__navigation {
+//         }
+//       }
 
-      .swiper__container {
-        .swiper__item {
-        }
-      }
-    }
+//       .swiper__container {
+//         .swiper__item {
+//         }
+//       }
+//     }
 
-    .card {
-      box-shadow: 5px 5px 5px black;
-      background-color: #3b3b3b;
+//     .card {
+//       box-shadow: 5px 5px 5px black;
+//       background-color: #3b3b3b;
 
-      .card__title {
-      }
+//       .card__title {
+//       }
 
-      .card__content {
-      }
+//       .card__content {
+//       }
 
-      &.summary {
-        .card__title {
-        }
+//       &.summary {
+//         .card__title {
+//         }
 
-        .summary-wrapper {
-        }
+//         .summary-wrapper {
+//         }
 
-        .summary__sub-title {
-        }
+//         .summary__sub-title {
+//         }
 
-        .summary__text {
-          color: rgb(230, 230, 230);
-        }
-      }
+//         .summary__text {
+//           color: rgb(230, 230, 230);
+//         }
+//       }
 
-      &.description {
-        .card__content {
-        }
-      }
+//       &.description {
+//         .card__content {
+//         }
+//       }
 
-      &.skills {
-        .card__title {
-        }
-        .card__content {
-        }
-      }
+//       &.skills {
+//         .card__title {
+//         }
+//         .card__content {
+//         }
+//       }
 
-      &.update {
-        hgroup {
-          .card__title {
-          }
-          .update__date-diff {
-            color: gray;
-          }
-        }
-        .card__content {
-          a {
-            border-bottom: 1px solid lightgray;
-            &:hover {
-              background-color: lightgray;
-            }
+//       &.update {
+//         hgroup {
+//           .card__title {
+//           }
+//           .update__date-diff {
+//             color: gray;
+//           }
+//         }
+//         .card__content {
+//           a {
+//             border-bottom: 1px solid lightgray;
+//             &:hover {
+//               background-color: lightgray;
+//             }
 
-            .update__message {
-              color: #221718;
-            }
+//             .update__message {
+//               color: #221718;
+//             }
 
-            .update__date {
-              color: gray;
-            }
-          }
-        }
-      }
+//             .update__date {
+//               color: gray;
+//             }
+//           }
+//         }
+//       }
 
-      &.links {
-        .card__content {
-          .link__list {
-          }
+//       &.links {
+//         .card__content {
+//           .link__list {
+//           }
 
-          .test-account {
-            .links__sub-title {
-            }
-            .test-account__list {
-            }
-            & > p {
-              color: gray;
-            }
-          }
-        }
-      }
-    }
-  }
-}
+//           .test-account {
+//             .links__sub-title {
+//             }
+//             .test-account__list {
+//             }
+//             & > p {
+//               color: gray;
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

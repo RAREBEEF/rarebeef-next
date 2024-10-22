@@ -1,0 +1,19 @@
+.canvas {
+  z-index: -1;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  transform: scale(2);
+  transform-origin: top left;
+  pointer-events: all;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}

@@ -121,6 +121,10 @@ const Document = () => {
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
         <base href="/" />
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-1836657352810397"
+        ></meta>
       </Head>
       <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>

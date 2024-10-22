@@ -110,26 +110,26 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .container {
-    .form {
-      .top-wrapper {
-        .top__input-wrapper {
-          .input--name,
-          .input--pw {
-            border: 1px solid #888888;
-            background-color: #3b3b3b;
-            color: whitesmoke;
-          }
-        }
-      }
-      .bottom-wrapper {
-        .input--content {
-          color: whitesmoke;
-          border: 1px solid #888888;
-          background-color: #3b3b3b;
-        }
-      }
-    }
-  }
-}
+// @media (prefers-color-scheme: dark) {
+//   .container {
+//     .form {
+//       .top-wrapper {
+//         .top__input-wrapper {
+//           .input--name,
+//           .input--pw {
+//             border: 1px solid #888888;
+//             background-color: #3b3b3b;
+//             color: whitesmoke;
+//           }
+//         }
+//       }
+//       .bottom-wrapper {
+//         .input--content {
+//           color: whitesmoke;
+//           border: 1px solid #888888;
+//           background-color: #3b3b3b;
+//         }
+//       }
+//     }
+//   }
+// }
