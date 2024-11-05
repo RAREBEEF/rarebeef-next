@@ -19,6 +19,7 @@ import Illustrator from "../public/skills/ai-brands.svg";
 import Tailwindcss from "../public/skills/tailwindcss-brands.svg";
 import reactQuery from "../public/skills/react-query-brands.svg";
 import Vercel from "../public/skills/vercel-brands.svg";
+import Recoil from "../public/skills/recoil-brands.svg";
 import Image from "next/image";
 
 const Skill: React.FC<SkillPropType> = ({ skill }) => {
@@ -41,6 +42,7 @@ const Skill: React.FC<SkillPropType> = ({ skill }) => {
     Illustrator,
     Tailwindcss,
     Vercel,
+    Recoil,
   };
 
   const skillMouseMoveHandler = (e: MouseEvent<HTMLDivElement>) => {

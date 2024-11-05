@@ -115,7 +115,8 @@ export type skillType =
   | "Blender"
   | "Tailwindcss"
   | "Vercel"
-  | "React Query";
+  | "React Query"
+  | "Recoil";
 
 export interface SkillPropType {
   skill: skillType;

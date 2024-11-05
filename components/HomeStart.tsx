@@ -116,7 +116,7 @@ const HomeStart = () => {
 
       <div ref={stickyItemRef} className={classNames(styles["sticky-item"])}>
         {/* <HomeCanvas entered={entered} scrollProgress={scrollProgress} /> */}
-        {/* <HomeScreenshots scrollProgress={scrollProgress} entered={entered} /> */}
+        <HomeScreenshots scrollProgress={scrollProgress} entered={entered} />
       </div>
     </section>
   );

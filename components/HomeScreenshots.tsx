@@ -1,16 +1,17 @@
 import NextImage from "next/image";
 import styles from "./HomeScreenshots.module.scss";
-import screenshot0 from "../public/screenshots/intro-project0.png";
-import screenshot10 from "../public/screenshots/intro-project10.png";
-import screenshot1 from "../public/screenshots/intro-project1.png";
-import screenshot2 from "../public/screenshots/intro-project2.png";
-import screenshot3 from "../public/screenshots/intro-project3.png";
-import screenshot4 from "../public/screenshots/intro-project4.png";
-import screenshot5 from "../public/screenshots/intro-project5.png";
-import screenshot6 from "../public/screenshots/intro-project6.png";
-import screenshot7 from "../public/screenshots/intro-project7.png";
-import screenshot8 from "../public/screenshots/intro-project8.png";
-import screenshot9 from "../public/screenshots/intro-project9.png";
+import screenshot1 from "../public/screenshots/intro-screenshot-1.png";
+import screenshot2 from "../public/screenshots/intro-screenshot-2.png";
+import screenshot3 from "../public/screenshots/intro-screenshot-3.png";
+import screenshot4 from "../public/screenshots/intro-screenshot-4.png";
+import screenshot5 from "../public/screenshots/intro-screenshot-5.png";
+import screenshot6 from "../public/screenshots/intro-screenshot-6.png";
+import screenshot7 from "../public/screenshots/intro-screenshot-7.png";
+import screenshot8 from "../public/screenshots/intro-screenshot-8.png";
+import screenshot9 from "../public/screenshots/intro-screenshot-9.png";
+import screenshot10 from "../public/screenshots/intro-screenshot-10.png";
+import screenshot11 from "../public/screenshots/intro-screenshot-11.png";
+import screenshot12 from "../public/screenshots/intro-screenshot-12.png";
 import { MouseEvent, useEffect, useState } from "react";
 import gsap from "gsap";
 import classNames from "classnames";
@@ -50,29 +51,25 @@ const HomeScreenshots = ({
 
   // 이미지 마우스 반응 애니메이션
   const onMouseMove = (e: MouseEvent<HTMLElement>) => {
-    if (!entered) return;
-
-    const imageFromTop = e.currentTarget.getBoundingClientRect().top;
-
-    const mouseXFromCenter =
-      (e.clientX -
-        e.currentTarget.getBoundingClientRect().left -
-        e.currentTarget.clientWidth / 2) /
-      (e.currentTarget.clientWidth / 2);
-    const mouseYFromCenter =
-      (e.clientY -
-        e.currentTarget.getBoundingClientRect().top -
-        e.currentTarget.clientHeight / 2) /
-      (e.currentTarget.clientHeight / 2);
-
-    const moveX = -mouseXFromCenter * 2;
-    const moveY = -mouseYFromCenter * 2;
-
-    gsap.to(e.currentTarget.childNodes[0], {
-      transform: `translateX(${-50 + moveX}%) translateY(${
-        -50 - ((imageFromTop / window.innerHeight) * 50 - 25 - moveY)
-      }%) scale(1.2)`,
-    });
+    // if (!entered) return;
+    // const imageFromTop = e.currentTarget.getBoundingClientRect().top;
+    // const mouseXFromCenter =
+    //   (e.clientX -
+    //     e.currentTarget.getBoundingClientRect().left -
+    //     e.currentTarget.clientWidth / 2) /
+    //   (e.currentTarget.clientWidth / 2);
+    // const mouseYFromCenter =
+    //   (e.clientY -
+    //     e.currentTarget.getBoundingClientRect().top -
+    //     e.currentTarget.clientHeight / 2) /
+    //   (e.currentTarget.clientHeight / 2);
+    // const moveX = -mouseXFromCenter * 2;
+    // const moveY = -mouseYFromCenter * 2;
+    // gsap.to(e.currentTarget.childNodes[0], {
+    //   transform: `translateX(${-50 + moveX}%) translateY(${
+    //     -50 - ((imageFromTop / window.innerHeight) * 50 - 25 - moveY)
+    //   }%) scale(1.2)`,
+    // });
   };
 
   // 스크롤 시 이미지 애니메이션
@@ -99,7 +96,7 @@ const HomeScreenshots = ({
     rows.forEach((row, i) => {
       const slidePageWidth = row.getBoundingClientRect().width;
       const padding = viewportSize.width * 0.05;
-      const itemWidth = row.children[0].getBoundingClientRect().width;
+      const itemWidth = row.children[0]?.getBoundingClientRect().width;
 
       const items = Array.from(row.children);
       items.forEach((item) => {
@@ -202,16 +199,9 @@ const HomeScreenshots = ({
         >
           <NextImage
             className={classNames("inner-screenshot")}
-            src={screenshot0}
+            src={screenshot1}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
         </div>
         <div
           onMouseMove={onMouseMove}
@@ -222,13 +212,16 @@ const HomeScreenshots = ({
             src={screenshot2}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
+        </div>
+        <div
+          onMouseMove={onMouseMove}
+          className={classNames(styles["img-wrapper"])}
+        >
+          <NextImage
+            className={classNames("inner-screenshot")}
+            src={screenshot3}
+            alt="project screenshot"
+          />
         </div>
         <div
           onMouseMove={onMouseMove}
@@ -239,13 +232,20 @@ const HomeScreenshots = ({
             src={screenshot4}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
+        </div>
+      </div>
+      {/*  */}
+      {/*  */}
+      <div className={styles.row}>
+        <div
+          onMouseMove={onMouseMove}
+          className={classNames(styles["img-wrapper"])}
+        >
+          <NextImage
+            className={classNames("inner-screenshot")}
+            src={screenshot5}
+            alt="project screenshot"
+          />
         </div>
         <div
           onMouseMove={onMouseMove}
@@ -256,13 +256,26 @@ const HomeScreenshots = ({
             src={screenshot6}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
+        </div>
+        <div
+          onMouseMove={onMouseMove}
+          className={classNames(styles["img-wrapper"])}
+        >
+          <NextImage
+            className={classNames("inner-screenshot")}
+            src={screenshot7}
+            alt="project screenshot"
+          />
+        </div>
+        <div
+          onMouseMove={onMouseMove}
+          className={classNames(styles["img-wrapper"])}
+        >
+          <NextImage
+            className={classNames("inner-screenshot")}
+            src={screenshot8}
+            alt="project screenshot"
+          />
         </div>
       </div>
       {/*  */}
@@ -274,16 +287,9 @@ const HomeScreenshots = ({
         >
           <NextImage
             className={classNames("inner-screenshot")}
-            src={screenshot1}
+            src={screenshot9}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
         </div>
         <div
           onMouseMove={onMouseMove}
@@ -291,16 +297,9 @@ const HomeScreenshots = ({
         >
           <NextImage
             className={classNames("inner-screenshot")}
-            src={screenshot3}
+            src={screenshot10}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
         </div>
         <div
           onMouseMove={onMouseMove}
@@ -308,16 +307,9 @@ const HomeScreenshots = ({
         >
           <NextImage
             className={classNames("inner-screenshot")}
-            src={screenshot5}
+            src={screenshot11}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
         </div>
         <div
           onMouseMove={onMouseMove}
@@ -325,86 +317,9 @@ const HomeScreenshots = ({
         >
           <NextImage
             className={classNames("inner-screenshot")}
-            src={screenshot7}
+            src={screenshot12}
             alt="project screenshot"
           />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
-        </div>
-      </div>
-      <div className={styles.row}>
-        <div
-          onMouseMove={onMouseMove}
-          className={classNames(styles["img-wrapper"])}
-        >
-          <NextImage
-            className={classNames("inner-screenshot")}
-            src={screenshot1}
-            alt="project screenshot"
-          />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
-        </div>
-        <div
-          onMouseMove={onMouseMove}
-          className={classNames(styles["img-wrapper"])}
-        >
-          <NextImage
-            className={classNames("inner-screenshot")}
-            src={screenshot3}
-            alt="project screenshot"
-          />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
-        </div>
-        <div
-          onMouseMove={onMouseMove}
-          className={classNames(styles["img-wrapper"])}
-        >
-          <NextImage
-            className={classNames("inner-screenshot")}
-            src={screenshot5}
-            alt="project screenshot"
-          />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
-        </div>
-        <div
-          onMouseMove={onMouseMove}
-          className={classNames(styles["img-wrapper"])}
-        >
-          <NextImage
-            className={classNames("inner-screenshot")}
-            src={screenshot7}
-            alt="project screenshot"
-          />
-          <Link
-            className={styles["btn--visit"]}
-            href="https://folio-jpeg.rarebeef.co.kr"
-            target="_blank"
-          >
-            Visit
-          </Link>
         </div>
       </div>
     </div>

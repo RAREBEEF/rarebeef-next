@@ -158,8 +158,6 @@ const ProjectList = () => {
         setHeaderAway(false);
       }
 
-      console.log(scrollProgress);
-
       if (scrollProgress < 0) {
         gsap.to(stickyContainer, {
           translateY: `${-100 * scrollProgress}vh`,

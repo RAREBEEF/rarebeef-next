@@ -5,7 +5,7 @@
   justify-content: flex-start;
   pointer-events: all;
   height: fit-content;
-  min-height: 150vh;
+  min-height: 100vh;
   gap: 50px;
   padding: 100px 5vw;
   margin-top: 200px;
@@ -27,102 +27,113 @@
     width: 30vw;
     min-width: 200px;
 
+    img {
+      transition: filter 0.3s;
+      filter: grayscale(1);
+    }
+
     &:hover {
       img {
-        @keyframes img-hover--img {
-          0% {
-            filter: blur(0px) grayscale(1) brightness(0.7);
-            margin: 0;
-          }
-          5% {
-            margin: -2px -2px 1px -2px;
-          }
-          15% {
-            margin: 1px 2px -3px -2px;
-            filter: blur(0px) grayscale(1) brightness(0.7);
-          }
-          25% {
-            filter: blur(5px) grayscale(1) brightness(0.7);
-            margin: 3px 2px -2px -2px;
-          }
-          100% {
-            filter: blur(0px) grayscale(0) brightness(1);
-            margin: 0;
-          }
-        }
-        animation: img-hover--img 0.7s forwards;
-      }
-
-      .btn--visit {
-        @keyframes img-hover--btn {
-          0% {
-            transform: translate(-1px, 2px);
-          }
-          5% {
-            transform: translate(2px, -1px);
-          }
-          15% {
-            transform: translate(0px, 1px);
-          }
-          25% {
-            transform: translate(1px, -2px);
-          }
-          100% {
-            transform: translate(0px, 0px);
-            filter: blur(0px);
-          }
-        }
-        animation: img-hover--btn 0.7s forwards;
+        filter: grayscale(0);
       }
     }
 
-    &:not(:hover) {
-      img {
-        @keyframes img-hover-end--img {
-          0% {
-            filter: none;
-            margin: 0;
-          }
-          5% {
-            margin: 2px 2px -1px 2px;
-          }
-          15% {
-            margin: -1px -2px 3px 2px;
-          }
-          25% {
-            margin: -3px -2px 2px 2px;
-          }
-          100% {
-            filter: grayscale(1) brightness(0.7);
-            margin: 0;
-          }
-        }
-        animation: img-hover-end--img 0.7s forwards;
-      }
+    // &:hover {
+    //   img {
+    //     @keyframes img-hover--img {
+    //       0% {
+    //         filter: blur(0px) grayscale(1) brightness(0.7);
+    //         margin: 0;
+    //       }
+    //       5% {
+    //         margin: -2px -2px 1px -2px;
+    //       }
+    //       15% {
+    //         margin: 1px 2px -3px -2px;
+    //         filter: blur(0px) grayscale(1) brightness(0.7);
+    //       }
+    //       25% {
+    //         filter: blur(5px) grayscale(1) brightness(0.7);
+    //         margin: 3px 2px -2px -2px;
+    //       }
+    //       100% {
+    //         filter: blur(0px) grayscale(0) brightness(1);
+    //         margin: 0;
+    //       }
+    //     }
+    //     animation: img-hover--img 0.7s forwards;
+    //   }
 
-      .btn--visit {
-        @keyframes img-hover-end--btn {
-          0% {
-            transform: translate(1px, -2px);
-            filter: blur(0px);
-          }
-          5% {
-            transform: translate(-2px, 1px);
-          }
-          15% {
-            transform: translate(0px, -1px);
-          }
-          25% {
-            transform: translate(-1px, 2px);
-          }
-          100% {
-            transform: translate(0px, 0px);
-            filter: blur(5px);
-          }
-        }
-        animation: img-hover-end--btn 0.7s forwards;
-      }
-    }
+    //   .btn--visit {
+    //     @keyframes img-hover--btn {
+    //       0% {
+    //         transform: translate(-1px, 2px);
+    //       }
+    //       5% {
+    //         transform: translate(2px, -1px);
+    //       }
+    //       15% {
+    //         transform: translate(0px, 1px);
+    //       }
+    //       25% {
+    //         transform: translate(1px, -2px);
+    //       }
+    //       100% {
+    //         transform: translate(0px, 0px);
+    //         filter: blur(0px);
+    //       }
+    //     }
+    //     animation: img-hover--btn 0.7s forwards;
+    //   }
+    // }
+
+    // &:not(:hover) {
+    //   img {
+    //     @keyframes img-hover-end--img {
+    //       0% {
+    //         filter: none;
+    //         margin: 0;
+    //       }
+    //       5% {
+    //         margin: 2px 2px -1px 2px;
+    //       }
+    //       15% {
+    //         margin: -1px -2px 3px 2px;
+    //       }
+    //       25% {
+    //         margin: -3px -2px 2px 2px;
+    //       }
+    //       100% {
+    //         filter: grayscale(1) brightness(0.7);
+    //         margin: 0;
+    //       }
+    //     }
+    //     animation: img-hover-end--img 0.7s forwards;
+    //   }
+
+    //   .btn--visit {
+    //     @keyframes img-hover-end--btn {
+    //       0% {
+    //         transform: translate(1px, -2px);
+    //         filter: blur(0px);
+    //       }
+    //       5% {
+    //         transform: translate(-2px, 1px);
+    //       }
+    //       15% {
+    //         transform: translate(0px, -1px);
+    //       }
+    //       25% {
+    //         transform: translate(-1px, 2px);
+    //       }
+    //       100% {
+    //         transform: translate(0px, 0px);
+    //         filter: blur(5px);
+    //       }
+    //     }
+    //     animation: img-hover-end--btn 0.7s forwards;
+    // }
+    // }
 
     img {
       position: absolute;
