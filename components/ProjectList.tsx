@@ -256,7 +256,7 @@ const ProjectList = () => {
         device === "mobile" && styles.mobile
       )}
     >
-      {/* <div className={styles.hook}>
+      <div className={styles.hook}>
         <div className={styles.white}></div>
 
         <NextImage src={hookImage} height={50} width={50} alt="fishing hook" />
@@ -268,7 +268,7 @@ const ProjectList = () => {
             alt="fishing hook"
           />
         </div>
-      </div> */}
+      </div>
       <div className={styles.title}>
         {/* <div className={styles["title_author"]}>RAREBEEF&apos;s</div> */}
         <h1 className={styles["title_main"]}>

@@ -53,7 +53,7 @@ const HomeStart = () => {
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.intersectionRatio === 0) {
+        if (entry.intersectionRatio <= 0) {
           setEntered(false);
         } else {
           setEntered(true);
@@ -115,7 +115,7 @@ const HomeStart = () => {
       </div>
 
       <div ref={stickyItemRef} className={classNames(styles["sticky-item"])}>
-        {/* <HomeCanvas entered={entered} scrollProgress={scrollProgress} /> */}
+        <HomeCanvas entered={entered} scrollProgress={scrollProgress} />
         <HomeScreenshots scrollProgress={scrollProgress} entered={entered} />
       </div>
     </section>

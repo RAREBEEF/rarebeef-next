@@ -1,10 +1,27 @@
 .footer {
+  position: relative;
+  // height: 170px;
+  // background-color: black;
+  // color: white;
   text-align: center;
   padding: {
-    // top: 100px;
-    bottom: 30px;
+    top: 20px;
+    bottom: 20px;
   }
   font: {
     size: 13px;
+  }
+
+  .hooked-beef-wrapper {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 5px;
   }
 }

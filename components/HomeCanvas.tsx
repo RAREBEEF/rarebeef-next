@@ -27,42 +27,43 @@ const HomeCanvas = ({
 
   useEffect(() => {
     const windowResizeHandler = () => {
-      setCpx([window.innerWidth / 2, window.innerWidth / 2]);
+      const width = Math.max(window.innerWidth, 350);
+      setCpx([width / 2, width / 2]);
       setKeyframes([
         {
           progress: 0,
-          x: window.innerWidth / 2,
+          x: width / 2,
           y: -60,
-          cpx1: window.innerWidth / 2,
+          cpx1: width / 2,
           cpy1: 0,
-          cpx2: window.innerWidth / 2,
+          cpx2: width / 2,
           cpy2: 0,
         },
         {
           progress: 0.5,
-          x: window.innerWidth / 2,
+          x: width / 2,
           y: window.innerHeight * 0.5,
-          cpx1: window.innerWidth / 2 - 20,
+          cpx1: width / 2 - 20,
           cpy1: window.innerHeight * 0.15,
-          cpx2: window.innerWidth / 2 + 40,
+          cpx2: width / 2 + 40,
           cpy2: window.innerHeight * 0.3,
         },
         {
           progress: 0.75,
-          x: window.innerWidth / 2,
+          x: width / 2,
           y: window.innerHeight * 0.75,
-          cpx1: window.innerWidth / 2 + 10,
+          cpx1: width / 2 + 10,
           cpy1: window.innerHeight * 0.25,
-          cpx2: window.innerWidth / 2 - 10,
+          cpx2: width / 2 - 10,
           cpy2: window.innerHeight * 0.5,
         },
         {
           progress: 1,
-          x: window.innerWidth / 2,
+          x: width / 2,
           y: window.innerHeight,
-          cpx1: window.innerWidth / 2,
+          cpx1: width / 2,
           cpy1: window.innerHeight * 0.5,
-          cpx2: window.innerWidth / 2,
+          cpx2: width / 2,
           cpy2: window.innerHeight,
         },
       ]);
@@ -212,15 +213,18 @@ const HomeCanvas = ({
 
   const animate = useCallback(() => {
     if (!cvs || !ctx || !entered || !offscreenCvs || !offscreenCtx) return;
+
+    const width = Math.max(window.innerWidth, 350);
     const dpr = window.devicePixelRatio || 1;
     // CSS 크기 설정
     cvs.style.width = "100vw";
+    cvs.style.minWidth = "350px";
     cvs.style.height = "100vh";
 
     // 실제 캔버스 크기를 dpr을 고려해 설정
-    cvs.width = window.innerWidth * dpr * 2;
+    cvs.width = width * dpr * 2;
     cvs.height = window.innerHeight * dpr * 2;
-    offscreenCvs!.width = window.innerWidth * dpr * 2;
+    offscreenCvs!.width = width * dpr * 2;
     offscreenCvs!.height = window.innerHeight * dpr * 2;
 
     // 컨텍스트 스케일 조정
@@ -229,7 +233,7 @@ const HomeCanvas = ({
     // const [mouseX, mouseY] = mousePos;
 
     const { x, y, cpy1, cpy2 } = getInterpolatedPosition(scrollProgress);
-    const viewportCenter = window.innerWidth / 2;
+    const viewportCenter = width / 2;
 
     offscreenCtx.clearRect(0, 0, cvs.width, cvs.height);
     offscreenCtx.beginPath();
@@ -295,7 +299,9 @@ const HomeCanvas = ({
     };
   }, [scrollProgress, cvs, ctx, getInterpolatedPosition, entered, animate]);
 
-  return <canvas ref={cvsRef} className={styles["canvas"]}></canvas>;
+  return entered ? (
+    <canvas ref={cvsRef} className={styles["canvas"]}></canvas>
+  ) : null;
   // return (
   //   <div ref={cvsRef} id="matter-container" className={styles.container}></div>
   // );
