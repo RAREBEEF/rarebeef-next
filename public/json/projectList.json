@@ -3,6 +3,10 @@
     "icon": "/logos/folio-jpeg.png",
     "path": "foliojpeg"
   },
+  "Instagram Followback Scanner": {
+    "icon": "/logos/instagram-followback-scanner.png",
+    "path": "instagramfollowbackscanner"
+  },
   "Strange Astronaut": {
     "icon": "/logos/strange-astronaut.png",
     "path": "strangeastronaut"

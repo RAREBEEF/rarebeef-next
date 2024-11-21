@@ -1,6 +1,7 @@
 import palettevault from "../../projects/palettevault";
 import raebef from "../../projects/raebef";
 import foliojpeg from "../../projects/foliojpeg";
+import instagramfollowbackscanner from "../../projects/instagramfollowbackscanner";
 import strangeastronaut from "../../projects/strangeastronaut";
 import splatoon from "../../projects/splatoon3";
 import diary from "../../projects/diary";
@@ -60,6 +61,10 @@ export async function getStaticProps({ params }: any) {
       return {
         props: foliojpeg,
       };
+    case "instagramfollowbackscanner":
+      return {
+        props: instagramfollowbackscanner,
+      };
     case "strangeastronaut":
       return {
         props: strangeastronaut,
@@ -110,6 +115,7 @@ export async function getStaticProps({ params }: any) {
 export async function getStaticPaths() {
   const paths: Array<{ params: { id: string } }> = [
     { params: { id: "foliojpeg" } },
+    { params: { id: "instagramfollowbackscanner" } },
     { params: { id: "strangeastronaut" } },
     { params: { id: "raebef" } },
     { params: { id: "splatoon3" } },

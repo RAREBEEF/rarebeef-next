@@ -4,7 +4,7 @@ const data: projectDataType = {
   name: ["StrangeAstronaut"],
   header: {
     title: ["Strange", "Astronaut"],
-    subTitle: ["Chrome extension"],
+    subTitle: ["Chrome Extension"],
   },
   summary: {
     name: "Strange Astronaut",
